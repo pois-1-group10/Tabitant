@@ -4,7 +4,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import Card from "../common/Card";
 import TagChoices from "./TagChoices";
-import TagChip from "./TagChip";
+import TagChip from "../common/TagChip";
 import BackButton from "../common/BackButton";
 
 export default function PostPage() {
