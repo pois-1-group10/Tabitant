@@ -116,8 +116,8 @@ function Signin() {
         <button type='submit' css={okButtonStyle}>ログイン</button>
       </form>
       <div css={navigateLinkStyle}>
-        <Link to='/Login?signup'>新規登録</Link>
-        <Link to='/Login?reset'>パスワードを忘れた方はこちら</Link>
+        <Link to='/login?signup'>新規登録</Link>
+        <Link to='/login?reset'>パスワードを忘れた方はこちら</Link>
       </div>
     </>
   )
@@ -208,7 +208,7 @@ function Signup() {
         <button type='submit' css={okButtonStyle}>登録</button>
       </form>
       <div css={navigateLinkStyle}>
-        <Link to='/Login?signin'>ログイン</Link>
+        <Link to='/login?signin'>ログイン</Link>
       </div>
     </>
   )
@@ -226,8 +226,8 @@ function Reset() {
 function Select() {
   return (
     <div css={selectLinkStyle}>
-      <Link css={selectLoginLinkStyle} to='/Login?signin'>ログイン</Link>
-      <Link to='/Login?signup'>新規登録</Link>
+      <Link css={selectLoginLinkStyle} to='/login?signin'>ログイン</Link>
+      <Link to='/login?signup'>新規登録</Link>
     </div>
   )
 }
