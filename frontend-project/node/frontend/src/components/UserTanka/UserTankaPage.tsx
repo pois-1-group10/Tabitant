@@ -4,12 +4,14 @@ import React from "react";
 import { css } from "@emotion/react";
 import BackButton from "../common/BackButton";
 import TankaList from "../common/TankaList";
+import SortButton from "../common/SortButton";
 
 export default function UserTankaPage() {
   return (
     <div css={backgroundStyle}>
       <div css={buttonWrapperStyle}>
         <BackButton />
+        <SortButton onClick={() => null}/>
       </div>
       <div css={sectionTitleStyle}>短歌一覧</div>
       <TankaList />
