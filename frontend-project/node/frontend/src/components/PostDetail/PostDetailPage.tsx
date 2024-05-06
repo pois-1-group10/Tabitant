@@ -5,12 +5,12 @@ import { css } from "@emotion/react";
 import { useParams } from "react-router-dom";
 import BackButton from "../common/BackButton";
 import Card from "../common/Card";
-import TagChip from "../common/TagChip";
 
 import thumbUpIcon from "../../img/thumb_up.svg";
 import thumbDownIcon from "../../img/thumb_down.svg";
 import CommentInput from "./CommentInput";
 import CommentItem from "./CommentItem";
+import TankaCard from "../common/TankaCard";
 
 export default function PostDetailPage() {
 	const params = useParams();
@@ -18,30 +18,10 @@ export default function PostDetailPage() {
 	return (
 		<div css={backgroundStyle}>
 			<BackButton />
-			<Card style={cardStyle}>
-        <div css={postCardHeaderStyle}>
-          <img src="" alt="icon" css={iconStyle} />
-          <div css={postCardHeaderContentStyle}>
-            <div css={tagsWrapperStyle}>
-              <TagChip name="日常" />
-              <TagChip name="自然" />
-            </div>
-            <div css={areaPositionWrapperStyle}>
-              <div css={areaPositionTextStyle}>
-                <div className="area">エリア</div>
-                <div className="position">詳細位置</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div css={mainTextWrapperStyle}>
-					<p>ああ</p>
-					<p>あああ</p>
-					<p></p>
-					<p></p>
-					<p></p>
-				</div>
+			<TankaCard 
+				icon={<img src="" alt="" css={iconStyle} />}
+				style={cardStyle}
+			>
 				<div css={reactionButtonWrapperStyle}>
 					<div>
 						<img src={thumbUpIcon} alt="" />
@@ -56,7 +36,7 @@ export default function PostDetailPage() {
 					<img src="" alt="icon" css={selfIconStyle} />
 					<CommentInput />
 				</div>
-      </Card>
+      </TankaCard>
 			<Card style={cardStyle}>
 				<div css={commentTitleStyle}>コメント</div>
 				<CommentItem />
@@ -80,19 +60,6 @@ const cardStyle = css`
   margin-top: 24px;
 `;
 
-const postCardHeaderStyle = css`
-  width: 100%;
-  display: flex;
-  gap: 4px;
-`;
-
-const tagsWrapperStyle = css`
-	display: flex;
-	gap: 8px;
-	align-items: center;
-	height: 32px;
-`;
-
 const iconStyle = css`
   height: 40px;
   width: 40px;
@@ -105,44 +72,6 @@ const selfIconStyle = css`
   width: 32px;
   border-radius: 16px;
   border: 1px solid #303030;
-`;
-
-const postCardHeaderContentStyle = css`
-  display: flex;
-  flex-flow: column;
-  flex-grow: 1;
-  gap: 8px;
-`;
-
-const mainTextWrapperStyle = css`
-  writing-mode: vertical-rl;
-  border: none;
-  width: 100%;
-	text-align: left;
-	overflow: scroll;
-  line-height: 40px;
-  letter-spacing: 8px;
-  font-size: 24px;
-	p {
-		margin: 0 20px;
-		white-space: nowrap;
-	}
-`;
-
-const areaPositionWrapperStyle = css`
-  width: 100%;
-`;
-
-const areaPositionTextStyle = css`
-  width: 80%;
-  text-align: left;
-  .area {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  .position {
-    font-size: 14px;
-  }
 `;
 
 const reactionButtonWrapperStyle = css`
