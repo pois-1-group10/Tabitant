@@ -25,6 +25,7 @@ const outerframeStyle = css`
   box-sizing: border-box;
   border-radius: 4px;
   border: 2px solid #ff981f;
+  background-color: #fff;
   font-size: 12px;
   font-weight: bold;
   line-height: 12px;
