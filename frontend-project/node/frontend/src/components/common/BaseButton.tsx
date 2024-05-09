@@ -12,7 +12,7 @@ interface Props {
 export default function BaseButton(props: Props) {
 	const { iconPath, style, onClick } = props;
 	return (
-		<div css={[style, buttonStyle]} onClick={onClick}>
+		<div css={[buttonStyle, style]} onClick={onClick}>
 			<img src={iconPath} alt="" css={iconStyle} />
 		</div>
 	);
