@@ -136,6 +136,7 @@ const navigatingBlockStyle = css`
 
 const hamburgerButtonStyle = css`
   position: absolute;
+	left: initial;
   right: 20px;
   top: 20px;
 `;

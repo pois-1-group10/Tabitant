@@ -9,10 +9,8 @@ import SortButton from "../common/SortButton";
 export default function UserTankaPage() {
   return (
     <div css={backgroundStyle}>
-      <div css={buttonWrapperStyle}>
-        <BackButton />
-        <SortButton onClick={() => null}/>
-      </div>
+      <BackButton />
+      <SortButton style={sortButtonStyle} onClick={() => null}/>
       <div css={sectionTitleStyle}>短歌一覧</div>
       <TankaList />
     </div>
@@ -27,14 +25,13 @@ const backgroundStyle = css`
   overflow: scroll;
 `;
 
-const buttonWrapperStyle = css`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 16px;
-`;
-
 const sectionTitleStyle = css`
+  margin-top: 60px;
 	font-size: 24px;
 	text-align: left;
+`;
+
+const sortButtonStyle = css`
+  left: initial;
+  right: 20px;
 `;

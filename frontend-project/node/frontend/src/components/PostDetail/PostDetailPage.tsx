@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React from "react";
+import React, { FC } from "react";
 import { css } from "@emotion/react";
 import { useParams } from "react-router-dom";
 import BackButton from "../common/BackButton";
@@ -31,6 +31,7 @@ export default function PostDetailPage() {
 						<img src={thumbDownIcon} alt="" />
 						<div css={thumbCountStyle}>0</div>
 					</div>
+					<FollowButton onClick={() => null}/>
 				</div>
 				<div css={commentInputWrapperStyle}>
 					<img src="" alt="icon" css={selfIconStyle} />
@@ -47,6 +48,18 @@ export default function PostDetailPage() {
 	)
 }
 
+interface ButtonProps {
+  onClick: (event: React.MouseEvent) => void;
+};
+
+const FollowButton: FC<ButtonProps> = ({ onClick }) => {
+  return (
+    <button onClick={onClick} css={followButtonStyle}>
+      投稿者をフォロー
+    </button>
+  )
+};
+
 const backgroundStyle = css`
   background: linear-gradient(to bottom, #ffffff, #ff981f 50%);
   padding: 24px;
@@ -58,6 +71,9 @@ const backgroundStyle = css`
 const cardStyle = css`
   width: 100%;
   margin-top: 24px;
+	&:first-of-type {
+		margin-top: 60px;
+	}
 `;
 
 const iconStyle = css`
@@ -78,7 +94,9 @@ const reactionButtonWrapperStyle = css`
 	margin-top: 40px;
 	display: flex;
 	justify-content: space-evenly;
+	align-items: center;
 	height: 32px;
+	text-align: center;
 	img {
 		height: 24px;
 		width: 24px;
@@ -102,3 +120,16 @@ const commentTitleStyle = css`
 	padding: 0 4px;
 	color: #767878;
 `;
+
+const followButtonStyle = css`
+  outline: none;
+  appearance: none;
+  height: 32px;
+  width: 128px;
+  background-color: #ff981f;
+  border: 1px solid #303030;
+  border-radius: 16px;
+  font-size: 14px;
+  color: #fff;
+`;
+

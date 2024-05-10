@@ -52,6 +52,7 @@ const shadowStyle = css`
 
 const cancelButtonStyle = css`
   position: absolute;
+	left: initial;
   top: 20px;
   right: 20px;
 `;
