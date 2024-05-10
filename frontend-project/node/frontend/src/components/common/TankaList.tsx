@@ -6,6 +6,7 @@ import { css } from "@emotion/react";
 import thumbUpIcon from "../../img/thumb_up.svg";
 import thumbDownIcon from "../../img/thumb_down.svg";
 import Card from "./Card";
+import { Link } from "react-router-dom";
 
 export default function TankaList() {
   return (
@@ -20,7 +21,7 @@ export default function TankaList() {
 
 const TankaItem: FC = () => {
 	return (
-		<div css={tankaItemStyle}>
+		<Link to="/post_detail/1/" css={tankaItemStyle}>
 			<div css={tankaContentStyle}>雨の日の 下校のときに 見た枝は</div>
 			<div css={tankaInfoStyle}>
 				<div css={reactionWrapperStyle}>
@@ -35,7 +36,7 @@ const TankaItem: FC = () => {
 				</div>
 				<span css={dateStyle}>2001-09-09</span>
  			</div>
-		</div>
+		</Link>
 	);
 }
 
@@ -54,9 +55,12 @@ const lineStyle = css`
 `;
 
 const tankaItemStyle = css`
+	display: block;
+	text-decoration: none;
+	color: initial;
 	height: 40px;
 	width: 95%;
-	margin: 0 auto;
+	margin: 4px auto;
 `;
 
 const tankaContentStyle = css`

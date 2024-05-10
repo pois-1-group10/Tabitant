@@ -18,7 +18,7 @@ export default function TankaCard(props: Props) {
 		${style}
 	`;
   return (
-    <Card style={concatenatedStyle}>
+    <Card style={concatenatedStyle} to={"/post_detail/1/"}>
       <div css={postCardHeaderStyle}>
         {icon}
         <div css={postCardHeaderContentStyle}>

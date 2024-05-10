@@ -6,9 +6,12 @@ import Card from "../common/Card";
 import TankaCard from "../common/TankaCard";
 import HamburgerButton from "../common/HamburgerButton";
 import Sidebar from "./Sidebar";
+import { Link, useParams } from "react-router-dom";
 
 export default function UserProfilePage() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
+  const params = useParams();
+  const userId = params.id;
 
   const backgroundStyle = css`
     position: relative;
@@ -31,18 +34,18 @@ export default function UserProfilePage() {
         <div css={userInfoStyle}>
           <div className="user-name">ユーザー　ネームああ</div>
           <div css={followDataStyle}>
-            <div>
+            <Link to="followee/" css={navigatingBlockStyle}>
               <div className="number">1000</div>
               <div className="type">フォロー</div>
-            </div>
-            <div>
+            </Link>
+            <Link to="follower/" css={navigatingBlockStyle}>
               <div className="number">100</div>
               <div className="type">フォロワー</div>
-            </div>
-            <div>
+            </Link>
+            <Link to={`/favorite/${userId}`} css={navigatingBlockStyle}>
               <div className="number">1000</div>
               <div className="type">いいね</div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -123,6 +126,12 @@ const awardCardStyle = css`
   background-color: rgba(255, 255, 255, 0.5);
   width: 100%;
   min-height: 120px;
+`;
+
+const navigatingBlockStyle = css`
+  display: block;
+  text-decoration: none;
+  color: initial;
 `;
 
 const hamburgerButtonStyle = css`

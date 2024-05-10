@@ -3,6 +3,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import CancelButton from "../common/CancelButton";
+import { Link, useParams } from "react-router-dom";
 
 interface Props {
   setSidebarIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,6 +11,8 @@ interface Props {
 
 export default function Sidebar(props: Props) {
   const { setSidebarIsOpen } = props;
+	const params = useParams();
+	const userId = params.id;
 
   return (
     <div css={shadowStyle}>
@@ -19,11 +22,11 @@ export default function Sidebar(props: Props) {
       />
       <div css={sidebarBackgroundStyle}>
         <div css={linkWrapperStyle}>
-          <div css={linkButtonStyle}>プロフィール編集</div>
+          <Link to="edit/" css={linkButtonStyle}>プロフィール編集</Link>
           <div css={breakLineStyle} />
-          <div css={linkButtonStyle}>短歌一覧</div>
+          <Link to={`/user_tanka/${userId}`} css={linkButtonStyle}>短歌一覧</Link>
           <div css={breakLineStyle} />
-          <div css={linkButtonStyle}>いいねした作品</div>
+          <Link to={`/favorite/${userId}`} css={linkButtonStyle}>いいねした作品</Link>
           <div css={breakLineStyle} />
           <div css={linkButtonStyle}>パスワード変更</div>
           <div css={breakLineStyle} />
@@ -68,6 +71,10 @@ const linkWrapperStyle = css`
 `;
 
 const linkButtonStyle = css`
+	display: block;
+	text-decoration: none;
+	cursor: default;
+	color: black;
   height: 40px;
   width: 168px;
   line-height: 40px;
