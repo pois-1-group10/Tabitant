@@ -9,6 +9,7 @@ import UserTankaPage from "./components/UserTanka/UserTankaPage";
 import FavoritesPage from "./components/Favorites/FavoritesPage";
 import FollowUserListPage from "./components/UserProfile/FollowUserListPage";
 import FollowerListPage from "./components/UserProfile/FollowerListPage";
+import UserProfileEditPage from "./components/UserProfile/UserProfileEditPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="post_detail/:id/" element={<PostDetailPage />} />
         <Route path="user_profile/:id/" element={<Outlet />}>
           <Route path="" element={<UserProfilePage />} />
+          <Route path="edit/" element={<UserProfileEditPage />} />
           <Route path="followee/" element={<FollowUserListPage />} />
           <Route path="follower/" element={<FollowerListPage />} />
         </Route>
