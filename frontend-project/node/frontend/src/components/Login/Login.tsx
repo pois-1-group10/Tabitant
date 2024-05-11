@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Controller, FieldErrors, useForm } from 'react-hook-form';
-import { Box, Button, Container, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Box, Button, IconButton, InputAdornment, TextField } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { Theme, css, keyframes } from '@emotion/react'
 import axios from 'axios';
@@ -248,9 +248,9 @@ export default function Login() {
 
   return (
     <Box css={backStyle}>
-      <Container css={containerStyle}>
+      <div css={containerStyle}>
         {comp}
-      </Container>
+      </div>
     </Box>
   );
 }
@@ -274,6 +274,10 @@ const containerStyle = css`
   width: 80%;
   max-width: 600px;
   text-align: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
 `
 
 const fadeUpAnime = keyframes`
