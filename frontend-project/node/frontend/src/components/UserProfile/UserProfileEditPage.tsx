@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import imageCompression from "browser-image-compression";
-import React, { useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
@@ -11,11 +11,14 @@ import Card from "../common/Card";
 import CheckButton from "../common/CheckButton";
 import EditButton from "../common/EditButton";
 import { useNavigate, useParams } from "react-router-dom";
+import { PostListContext } from "../../providers/PostListProvider";
+import { Post } from "../../types/post";
+import { Tanka } from "../../models";
 
 type Input = {
   username?: string;
   bio?: string;
-  tankaId: string;
+  tankaId: number;
 };
 
 const rules = {
@@ -38,6 +41,7 @@ const rules = {
 
 export default function UserProfileEditPage() {
   const [photo, setPhoto] = useState<File>();
+  const [selectingPost, setSelectingPost] = useState<Post>();
   const {
     control,
     handleSubmit,
@@ -48,17 +52,20 @@ export default function UserProfileEditPage() {
       bio: "",
     },
   });
-	const navigate = useNavigate();
-	const params = useParams();
-	const id = params.id;
+  const { posts, fetchPosts } = useContext(PostListContext);
+
+  const navigate = useNavigate();
+  const params = useParams();
+  const id = params.id;
 
   const onSubmit: SubmitHandler<Input> = (data) => {
     const formData = new FormData();
     formData.append("username", data.username ?? "");
     formData.append("bio", data.bio ?? "");
+    formData.append("post_id", data.tankaId?.toString() ?? "");
     photo && formData.append("icon", photo);
     console.log(formData.get("icon"));
-		navigate(`/user_profile/${id}/`);
+    navigate(`/user_profile/${id}/`);
   };
 
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,14 +78,18 @@ export default function UserProfileEditPage() {
     const compressedFile = await imageCompression(file, {
       maxWidthOrHeight: 560,
     });
-		console.log("compressed file size: " + compressedFile.size.toString());
+    console.log("compressed file size: " + compressedFile.size.toString());
     setPhoto(compressedFile);
   };
 
+  useEffect(() => {
+    fetchPosts({});
+  }, []);
+
   return (
     <div css={backgroundStyle}>
-			<BackButton />
-			<CheckButton style={submitButtonStyle} onClick={handleSubmit(onSubmit)} />
+      <BackButton />
+      <CheckButton style={submitButtonStyle} onClick={handleSubmit(onSubmit)} />
       <div css={imagePreviewStyle}>
         <EditButton
           style={editButtonStyle}
@@ -133,11 +144,72 @@ export default function UserProfileEditPage() {
               />
             )}
           />
+          <div css={tankaLabelStyle}>短歌選択</div>
+          {selectingPost ? (
+            <div css={selectingTankaStyle}>
+              {selectingPost.content_1 +
+                " " +
+                selectingPost.content_2 +
+                " " +
+                selectingPost.content_3 +
+                " " +
+                selectingPost.content_4 +
+                " " +
+                selectingPost.content_5}
+            </div>
+          ) : (
+            <div css={selectingTankaStyle}>未選択</div>
+          )}
+          <div css={tankaListWrapperStyle}>
+            {posts.map((post) => (
+              <SelectTankaItem
+                key={post.id}
+                post={post}
+                isSelected={post.id === selectingPost?.id}
+								setPost={setSelectingPost}
+              />
+            ))}
+          </div>
         </form>
       </Card>
     </div>
   );
 }
+
+type TankaItemProps = {
+  post: Post;
+  isSelected: boolean;
+	setPost: React.Dispatch<React.SetStateAction<Post|undefined>>;
+};
+
+const SelectTankaItem: FC<TankaItemProps> = (params: TankaItemProps) => {
+  const { post, isSelected, setPost } = params;
+  const tankaItemStyle = css`
+    padding: 8px;
+		font-size: 14px;
+    background-color: ${isSelected ? "rgba(255, 152, 31, 0.5)" : "initial"};
+  `;
+
+	const postTimeStyle = css`
+		font-size: 10px;
+		color: #767878;
+	`;
+
+  return (
+    <div css={tankaItemStyle} onClick={() => setPost(post)}>
+      <div>{post.content_1 +
+        " " +
+        post.content_2 +
+        " " +
+        post.content_3 +
+        " " +
+        post.content_4 +
+        " " +
+        post.content_5}</div>
+			<div css={postTimeStyle}>{post.created_at.toLocaleString()}</div>
+    </div>
+  );
+};
 
 const backgroundStyle = css`
   display: flex;
@@ -151,8 +223,8 @@ const backgroundStyle = css`
 `;
 
 const submitButtonStyle = css`
-	left: initial;
-	right: 20px;
+  left: initial;
+  right: 20px;
 `;
 
 const imagePreviewStyle = css`
@@ -163,6 +235,7 @@ const imagePreviewStyle = css`
   border: 1px solid #303030;
   border-radius: 156px;
   background-color: #fff;
+	flex-shrink: 0;
 `;
 
 const imageStyle = css`
@@ -175,8 +248,8 @@ const imageStyle = css`
 
 const editButtonStyle = css`
   position: absolute;
-	top: initial;
-	left: initial;
+  top: initial;
+  left: initial;
   bottom: 16px;
   right: 16px;
   height: 64px;
@@ -199,4 +272,25 @@ const cardTitleStyle = css`
 const textareaStyle = css`
   margin-top: 16px;
   width: 100%;
+`;
+
+const tankaLabelStyle = css`
+	margin-top: 16px;
+  font-size: 12px;
+  color: #767878;
+`;
+
+const selectingTankaStyle = css`
+	margin: 4px 4px 16px;
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const tankaListWrapperStyle = css`
+  max-height: 240px;
+  width: 98%;
+  margin: 8px auto;
+  border-radius: 8px;
+  border: 1px solid #767878;
+	overflow: scroll;
 `;
