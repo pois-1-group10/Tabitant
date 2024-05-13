@@ -19,7 +19,9 @@ export default function BaseButton(props: Props) {
 }
 
 const buttonStyle = css`
-	position: relative;
+	position: fixed;
+	top: 20px;
+	left: 20px;
 	width: 48px;
 	height: 48px;
 	border-radius: 24px;

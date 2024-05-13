@@ -77,10 +77,8 @@ export default function UserProfileEditPage() {
 
   return (
     <div css={backgroundStyle}>
-      <div css={buttonsWrapperStyle}>
-        <BackButton />
-        <CheckButton onClick={handleSubmit(onSubmit)} />
-      </div>
+			<BackButton />
+			<CheckButton style={submitButtonStyle} onClick={handleSubmit(onSubmit)} />
       <div css={imagePreviewStyle}>
         <EditButton
           style={editButtonStyle}
@@ -152,9 +150,14 @@ const backgroundStyle = css`
   overflow: scroll;
 `;
 
+const submitButtonStyle = css`
+	left: initial;
+	right: 20px;
+`;
+
 const imagePreviewStyle = css`
   position: relative;
-  margin: 0 auto 16px;
+  margin: 60px auto 16px;
   height: 280px;
   width: 280px;
   border: 1px solid #303030;
@@ -172,6 +175,8 @@ const imageStyle = css`
 
 const editButtonStyle = css`
   position: absolute;
+	top: initial;
+	left: initial;
   bottom: 16px;
   right: 16px;
   height: 64px;
@@ -194,10 +199,4 @@ const cardTitleStyle = css`
 const textareaStyle = css`
   margin-top: 16px;
   width: 100%;
-`;
-
-const buttonsWrapperStyle = css`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;

@@ -9,11 +9,9 @@ import UserList from "../common/UserList";
 export default function FollowerListPage() {
 	return (
 		<div css={backgroundStyle}>
-			<div css={buttonsWrapperStyle}>
-				<BackButton />
-				<div css={pageTitleStyle}>フォロワー</div>
-				<SortButton onClick={() => null}/>
-			</div>
+			<BackButton />
+			<SortButton style={sortButtonStyle} onClick={() => null}/>
+			<div css={pageTitleStyle}>フォロワー</div>
 			<div css={userListWrapperStyle}>
       	<UserList />
 			</div>
@@ -33,17 +31,19 @@ const backgroundStyle = css`
 `;
 
 const pageTitleStyle = css`
+	margin-top: 40px;
+	text-align: center;
   font-size: 18px;
   font-weight: bold;
-`;
-
-const buttonsWrapperStyle = css`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 `;
 
 const userListWrapperStyle = css`
 	flex-grow: 1;
 	overflow: scroll;
 `;
+
+const sortButtonStyle = css`
+  left: initial;
+  right: 20px;
+`;
+
