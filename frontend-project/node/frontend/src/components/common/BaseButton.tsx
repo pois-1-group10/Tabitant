@@ -27,6 +27,7 @@ const buttonStyle = css`
 	border-radius: 24px;
 	background-color: #ff981f;
 	box-shadow: 1px 3px 4px 0 rgba(0, 0, 0, 0.4);
+	z-index: 100;
 `;
 
 const iconStyle = css`

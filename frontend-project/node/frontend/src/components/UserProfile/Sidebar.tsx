@@ -47,7 +47,7 @@ const shadowStyle = css`
   background-color: rgba(0, 0, 0, 0.5);
   height: 100vh;
   width: 100vw;
-  z-index: 10;
+  z-index: 1000;
 `;
 
 const cancelButtonStyle = css`
@@ -55,6 +55,7 @@ const cancelButtonStyle = css`
 	left: initial;
   top: 20px;
   right: 20px;
+	z-index: 2000;
 `;
 
 const sidebarBackgroundStyle = css`
