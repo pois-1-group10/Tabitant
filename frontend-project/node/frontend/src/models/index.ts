@@ -1,3 +1,4 @@
+export * from "./common/LatLng"
 export * from "./Post"
 export * from "./Tanka"
 export * from "./Tag"

@@ -3,23 +3,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from '@react-google-maps/api';
 import { css } from '@emotion/react'
-import { Post, User, Tanka } from '../../models';
+import { Post, User, Tanka, LatLng } from '../../models';
 import Marker from './Marker'
+import { getDummyPosts, getDummyUsers } from '../../util';
 
-const users: User[] = [
-    new User("1", "ユーザー1", null),
-    new User("2", "ユーザー2", null),
-    new User("3", "ユーザー3", null),
-];
+const users = getDummyUsers();
 
 async function getPosts(position: google.maps.LatLng): Promise<Post[]> {
     // 周辺の投稿を取得する
-    return [
-        new Post("1", users[0], new Tanka(["雨の日の", "下校のときに", "見た枝は", "くもの巣さえも", "美しきかな"]),
-            new google.maps.LatLng(35.026244, 135.780822)),
-        new Post("2", users[1], new Tanka(["また今日も", "いつものように", "けんかだね", "姉妹みたいだ", "母と私と"]),
-            new google.maps.LatLng(35.025254, 135.781832)),
-    ]
+    return getDummyPosts({ users: users, center: new LatLng(position.lat(), position.lng()) });
 }
 
 function Map(center: google.maps.LatLngLiteral) {

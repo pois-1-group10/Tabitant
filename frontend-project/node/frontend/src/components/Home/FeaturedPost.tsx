@@ -3,19 +3,16 @@
 import { useEffect, useState } from 'react'
 import { Theme, css } from '@emotion/react'
 import WhatshotIcon from '@mui/icons-material/Whatshot';
-import { Post, User, Tanka } from '../../models';
+import { Post, User, Tanka, LatLng } from '../../models';
 import TankaContent from '../common/TankaContent';
 import UserIcon from '../common/UserIcon';
+import { getDummyUsers } from '../../util';
 
-const users: User[] = [
-    new User("1", "ユーザー1", null),
-    new User("2", "ユーザー2", null),
-    new User("3", "ユーザー3", null),
-];
+const users = getDummyUsers(1);
 
 async function getPost(): Promise<Post> {
     return new Post("1", users[0], new Tanka(["雨の日の", "下校のときに", "見た枝は", "くもの巣さえも", "美しきかな"]),
-        new google.maps.LatLng(35.026244, 135.780822));
+        new LatLng(35.026244, 135.780822));
 }
 
 export default function FeaturedPost() {

@@ -11,6 +11,7 @@ import FollowUserListPage from "./components/UserProfile/FollowUserListPage";
 import FollowerListPage from "./components/UserProfile/FollowerListPage";
 import UserProfileEditPage from "./components/UserProfile/UserProfileEditPage";
 import { PostListProvider } from "./providers/PostListProvider";
+import RankingPage from "./components/Ranking/RankingPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         </Route>
         <Route path="user_tanka/:userId/" element={<UserTankaPage />} />
         <Route path="favorite/:userId/" element={<FavoritesPage />} />
+        <Route path="ranking" element={<RankingPage />} />
       </Routes>
     </BrowserRouter>
   );
