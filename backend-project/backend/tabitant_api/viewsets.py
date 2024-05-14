@@ -86,6 +86,9 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
 
+    def get_serializer_class(self):
+        return UserProfileSerializer
+
     def retrieve(self, request, pk):
         queryset = self.get_queryset().values('id', 'user', 'bio', 'default_post')
         queryset = queryset.filter(id=pk)
@@ -225,11 +228,17 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    qyeryset = Comment.objects.all()
+    queryset = Comment.objects.all()
+
+    def get_serializer_class(self):
+        return CommentSerializer
 
     def list(self, request):
         queryset = self.get_queryset()
+        post_id = request.query_params.get("post_id", None)
         reply_to = request.query_params.get('reply_to', None)
+        if post_id is not None:
+            queryset = queryset.filter(post_id=post_id)
         if reply_to:
             queryset = queryset.filter(parent_comment=reply_to)  #parent_comment=reply_toでいいのか
         serializer = CommentSerializer(queryset, many=True)
