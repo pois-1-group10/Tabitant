@@ -1,15 +1,15 @@
-import { Tanka, User } from ".";
+import { Tanka, User, LatLng } from ".";
 
 export class Post {
     id: string;
     userId: string;
     content: Tanka;
-    location: google.maps.LatLng;
+    location: LatLng;
 
     // external data
     user: User | null = null;
 
-    constructor(id: string, user: string | User, content: Tanka, location: google.maps.LatLng) {
+    constructor(id: string, user: string | User, content: Tanka, location: LatLng) {
         this.id = id;
         this.content = content;
         this.location = location;

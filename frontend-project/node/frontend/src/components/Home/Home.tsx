@@ -4,7 +4,7 @@ import { useJsApiLoader } from '@react-google-maps/api';
 import Map from './Map'
 import SearchBox from './SearchBox';
 import FeaturedPost from './FeaturedPost';
-import NavigationMenu from './NavigationMenu';
+import NavigationMenu from '../common/NavigationMenu';
 
 export default function App() {
     const { isLoaded } = useJsApiLoader({
@@ -21,7 +21,7 @@ export default function App() {
             <Map lat={35.026244} lng={135.780822} />
             <SearchBox />
             <FeaturedPost />
-            <NavigationMenu />
+            <NavigationMenu post ranking profile logout />
         </>
     );
 }

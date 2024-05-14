@@ -159,7 +159,7 @@ const tagItemSelectedStyle = (theme: Theme) => css`
 `
 
 const overlayStyle = css`
-    z-index: 20;
+    z-index: 999;
     position: fixed;
     top: 0;
     left: 0;
@@ -171,5 +171,5 @@ const overlayStyle = css`
 `
 
 const frontStyle = css`
-    z-index: 100;
+    z-index: 1000;
 `

@@ -1,15 +1,25 @@
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { Theme, css } from '@emotion/react'
-import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
 
-export default function NavigationMenu() {
+interface Props {
+    post?: boolean,
+    home?: boolean,
+    ranking?: boolean,
+    profile?: boolean,
+    logout?: boolean,
+}
+
+export default function NavigationMenu(props: Props) {
+    const { post, home, ranking, profile, logout } = props;
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
@@ -22,22 +32,36 @@ export default function NavigationMenu() {
                             initial={{ y: 40, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -20, opacity: 0 }}>
-                            <Link to='/post'>
-                                <EditIcon />
-                                <span>投稿を作成</span>
-                            </Link>
-                            <Link to='/'>
-                                <StarBorderIcon />
-                                <span>ランキング</span>
-                            </Link>
-                            <Link to='/'>
-                                <PersonIcon />
-                                <span>マイページ</span>
-                            </Link>
-                            <Link to='/login?signin'>
-                                <LogoutIcon />
-                                <span>ログアウト</span>
-                            </Link>
+                            {post && (
+                                <Link to='/post'>
+                                    <EditIcon />
+                                    <span>投稿を作成</span>
+                                </Link>
+                            )}
+                            {home && (
+                                <Link to='/'>
+                                    <HomeIcon />
+                                    <span>ホーム</span>
+                                </Link>
+                            )}
+                            {ranking && (
+                                <Link to='/ranking'>
+                                    <StarBorderIcon />
+                                    <span>ランキング</span>
+                                </Link>
+                            )}
+                            {profile && (
+                                <Link to='/'>
+                                    <PersonIcon />
+                                    <span>マイページ</span>
+                                </Link>
+                            )}
+                            {logout && (
+                                <Link to='/login?signin'>
+                                    <LogoutIcon />
+                                    <span>ログアウト</span>
+                                </Link>
+                            )}
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -71,10 +95,11 @@ export default function NavigationMenu() {
 
 const menuStyle = css`
     position: fixed;
-    bottom: 30px;
+    bottom: 20px;
     left: 20px;
     display: flex;
     flex-flow: column;
+    z-index: 100;
 `
 
 const linkStyle = (theme: Theme) => css`
@@ -120,7 +145,7 @@ const buttonLineTransition = {
 }
 
 const overlayStyle = css`
-    z-index: 20;
+    z-index: 999;
     position: fixed;
     top: 0;
     left: 0;
@@ -132,5 +157,5 @@ const overlayStyle = css`
 `
 
 const frontStyle = css`
-    z-index: 100;
+    z-index: 1000;
 `
