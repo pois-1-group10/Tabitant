@@ -13,8 +13,13 @@ from django.db.models import F
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+
+    def get_serializer_class(self):
+        return UserSerializer
+
     def list(self, request):
-        queryset = User.objects.all().values('id', 'email', 'username', 'image')
+        queryset = self.get_queryset()
         following = request.query_params.get('following', None)
         followed_by = request.query_params.get('followed_by', None)
         #queryset.follower.get(fillower_id=request.user.id)
@@ -40,8 +45,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def retrieve(self, request, pk):
-        queryset = User.objects.all()
-        queryset = queryset.annotate(
+        queryset = self.get_queryset().annotate(
             followee_num=Follow.objects.filter(followee_id=pk).count(),
             follower_num=Follow.objects.filter(follower_id=pk).count(),
             award_ids=Award.objects.filter(user__id=pk).values('id'),   #.values以降いる？
@@ -80,8 +84,10 @@ class UserViewSet(viewsets.ModelViewSet):
     
 
 class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+
     def retrieve(self, request, pk):
-        queryset = UserProfile.objects.all().values('id', 'user', 'bio', 'default_post')
+        queryset = self.get_queryset().values('id', 'user', 'bio', 'default_post')
         queryset = queryset.filter(id=pk)
         serializer = UserProfileSerializer(item, data=request.data)
         item = get_object_or_404(queryset)
@@ -103,8 +109,13 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     
 
 class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    
+    def get_serializer_class(self):
+        return PostSerializer
+
     def list(self, request):
-        queryset = Post.objects.all()
+        queryset = self.get_queryset()
         lat = request.query_params.get('lat', None)
         lng = request.query_params.get('lng', None)
         tag=request.query_params.get('tag', None)
@@ -117,23 +128,21 @@ class PostViewSet(viewsets.ModelViewSet):
         if tag:
             queryset = queryset.filter(tag__in=F("tags__"))    #??
         if emo:
-            queryset = queryset.filter(emotion       = Post.emotion_ikari )   #??
+            queryset = queryset.filter(emotion=Post.emotion_ikari)   #??
         if user:
             queryset = queryset.filter(user__user_id=user)
-        queryset = queryset.values('id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
-                  'latitude', 'longitude', 'prefecture')
         queryset = queryset.annotate(
-            user_image=F("user__image"),    #user_image=Post.user.imageではどう？
+            user_image=F("user__image"),
             user_name=F("user__username"),
-            good_count=Good.objects.filter(post__id=F("post__id")).count(),
-            bad_count=Bad.objects.filter(post__id=F("post__id")).count(),
+            good_count=Count("good"),
+            bad_count=Count("bad"),
         )
         serializer = PostSerializer(queryset, many=True)
         return Response(serializer.data)
     
     @action(methods=["get"], detail=False, url_path='hot_one')
     def hot_one(self, request):
-        queryset = Post.objects.all()
+        queryset = self.get_queryset()
         lat = request.query_params.get('lat', None)
         lng = request.query_params.get('lng', None)
         if lat:
@@ -156,8 +165,7 @@ class PostViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def retrieve(self, request, pk):
-        queryset = Post.objects.all()
-        queryset = queryset.annotate(
+        queryset = self.get_queryset().annotate(
             image=F("user__image"),
             username=User.objects.get(id=queryset.get(id=pk).user_id).username,   #F("user__username"),
             good_count=Good.objects.filter(post__post_id=pk).count(),
@@ -217,8 +225,10 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    qyeryset = Comment.objects.all()
+
     def list(self, request):
-        queryset = Comment.objects.all()
+        queryset = self.get_queryset()
         reply_to = request.query_params.get('reply_to', None)
         if reply_to:
             queryset = queryset.filter(parent_comment=reply_to)  #parent_comment=reply_toでいいのか

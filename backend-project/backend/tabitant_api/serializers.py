@@ -2,19 +2,19 @@ from rest_framework import serializers
 from .models import *
     
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', "password",'image']
+        fields = ["id", 'email', 'username', "image", "password"]
         read_only_fields = ['id', 'image']
-        write_only_fields = ['password']
 
 class UserDetailSerializer(serializers.ModelSerializer):
     user_profile_id=serializers.IntegerField()
     follower_num=serializers.IntegerField()
     followee_num=serializers.IntegerField()   
     like_num=serializers.IntegerField() 
-    default_post=
+    default_post=serializers.PrimaryKeyRelatedField(queryset=Post.objects.all())
     awards_ids=serializers.ListField(child=serializers.IntegerField())
 
     class Meta:
@@ -23,11 +23,13 @@ class UserDetailSerializer(serializers.ModelSerializer):
         read_only_fields = ['user_profile','follower_num','followee_num','like_num','default_post','award_ids']
 
 class PostSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = UserSerializer()
+    good_count = serializers.IntegerField()
+    bad_count = serializers.IntegerField()
 
     class Meta:
         model = Post
-        fields = ['id', 'user', 'image', 'username','content_1', 'content_2', 'content_3', 'content_4', 'content_5',
+        fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
                   'latitude', 'longitude', 'prefecture', 'good_count', 'bad_count']
         
 class PostHotSerializer(serializers.ModelSerializer):
