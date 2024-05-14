@@ -131,7 +131,7 @@ const tabStyle = (theme: Theme) => css`
 
 const tabStyleSelected = (theme: Theme) => css`
     ${tabStyle(theme)}
-    color: ${theme.palette.text.primary} !important;
+    color: white !important;
     font-weight: bold;
 `
 
