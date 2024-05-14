@@ -45,9 +45,11 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "dj_rest_auth.registration",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -148,3 +150,12 @@ REST_FRAMEWORK = {
 SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+CORS_ALLOW_CREDENTIALS = True
+# アクセスを許可したいURL（アクセス元）を追加
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+# プリフライト(事前リクエスト)の設定
+# 30分だけ許可
+CORS_PREFLIGHT_MAX_AGE = 60 * 30
