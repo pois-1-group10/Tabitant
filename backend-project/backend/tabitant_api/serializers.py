@@ -9,18 +9,25 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", 'email', 'username', "image", "password"]
         read_only_fields = ['id', 'image']
 
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id', 'user_id', 'bio', 'default_post_id']
+        read_only_fields = ['user_id']
+
 class UserDetailSerializer(serializers.ModelSerializer):
-    user_profile_id=serializers.IntegerField()
+    userprofile = UserProfileSerializer()
     follower_num=serializers.IntegerField()
     followee_num=serializers.IntegerField()   
     like_num=serializers.IntegerField() 
-    default_post=serializers.PrimaryKeyRelatedField(queryset=Post.objects.all())
-    awards_ids=serializers.ListField(child=serializers.IntegerField())
+    # default_post=serializers.PrimaryKeyRelatedField(queryset=Post.objects.all())
+    # awards_ids=serializers.ListField(child=serializers.IntegerField())
 
     class Meta:
         model = User
-        fields = ['id','email','username','image','user_profile','follower_num','followee_num','like_num','default_post','award_ids']
-        read_only_fields = ['user_profile','follower_num','followee_num','like_num','default_post','award_ids']
+        fields = ['id','email','username','image','userprofile','follower_num','followee_num','like_num']
+        read_only_fields = ['userprofile','follower_num','followee_num','like_num']
 
 class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer()
@@ -68,11 +75,7 @@ class FollowSerializer(serializers.ModelSerializer):
         model = Follow
         fields = ['id', 'follower_id', 'followee_id']
 
-class UserProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ['id', 'user_id', 'bio', 'default_post_id']
-        read_only_fields = ['user_id']
+
 
 ####山本作業分
 # serializers.py用

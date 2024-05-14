@@ -23,10 +23,10 @@ class UserViewSet(viewsets.ModelViewSet):
         following = request.query_params.get('following', None)
         followed_by = request.query_params.get('followed_by', None)
         #queryset.follower.get(fillower_id=request.user.id)
-        if following:
-            queryset = queryset.filter(follow__follower_id=following)
+        if following is not None:
+            queryset = queryset.filter(follower__followee_id=following)
         if followed_by:
-            queryset = queryset.filter(follow__followee_id=followed_by)
+            queryset = queryset.filter(followee__follower_id=followed_by)
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
     
@@ -45,14 +45,11 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def retrieve(self, request, pk):
-        queryset = self.get_queryset().annotate(
-            followee_num=Follow.objects.filter(followee_id=pk).count(),
-            follower_num=Follow.objects.filter(follower_id=pk).count(),
-            award_ids=Award.objects.filter(user__id=pk).values('id'),   #.values以降いる？
-            good_num=Good.objects.filter(post__user_id=pk).count(),
-            default_post=UserProfile.objects.get(user__id=pk).default_post,
-            user_profile=UserProfile.objects.get(user__id=pk),
-        ).values('id','email','username','image','user_profile','follower_num','followee_num','good_num','default_post','award_ids')
+        queryset = self.get_queryset().select_related("userprofile").annotate(
+            followee_num=Count("follower", distinct=True),
+            follower_num=Count("followee", distinct=True),
+            like_num=Count("goods", distinct=True),
+        )
         queryset = queryset.filter(id=pk)
         item = get_object_or_404(queryset)
         serializer = UserDetailSerializer(item)

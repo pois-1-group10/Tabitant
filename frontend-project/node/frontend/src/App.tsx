@@ -12,6 +12,8 @@ import FollowerListPage from "./components/UserProfile/FollowerListPage";
 import UserProfileEditPage from "./components/UserProfile/UserProfileEditPage";
 import { PostListProvider } from "./providers/PostListProvider";
 import RankingPage from "./components/Ranking/RankingPage";
+import { UserListProvider } from "./providers/UserListProvider";
+import { UserDetailProvider } from "./providers/UserDetailProvider";
 
 function App() {
   return (
@@ -22,14 +24,38 @@ function App() {
         <Route path="post" element={<PostPage />} />
         <Route path="post_detail/:id/" element={<PostDetailPage />} />
         <Route path="user_profile/:id/" element={<Outlet />}>
-          <Route path="" element={<UserProfilePage />} />
-          <Route path="edit/" element={
-            <PostListProvider>
-              <UserProfileEditPage />
-            </PostListProvider>
-          } />
-          <Route path="followee/" element={<FollowUserListPage />} />
-          <Route path="follower/" element={<FollowerListPage />} />
+          <Route
+            path=""
+            element={
+              <UserDetailProvider>
+                <UserProfilePage />
+              </UserDetailProvider>
+            }
+          />
+          <Route
+            path="edit/"
+            element={
+              <PostListProvider>
+                <UserProfileEditPage />
+              </PostListProvider>
+            }
+          />
+          <Route
+            path="followee/"
+            element={
+              <UserListProvider>
+                <FollowUserListPage />
+              </UserListProvider>
+            }
+          />
+          <Route
+            path="follower/"
+            element={
+              <UserListProvider>
+                <FollowerListPage />
+              </UserListProvider>
+            }
+          />
         </Route>
         <Route path="user_tanka/:userId/" element={<UserTankaPage />} />
         <Route path="favorite/:userId/" element={<FavoritesPage />} />
