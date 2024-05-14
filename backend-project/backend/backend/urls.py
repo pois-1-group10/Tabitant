@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from dj_rest_auth.views import PasswordResetConfirmView
 
 urlpatterns = [
+    path('dj-rest-auth/password/reset/confirm/<int:uid>/<str:token>', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('admin/', admin.site.urls),
     path("", include("tabitant_api.urls")),
     path('api-auth/', include('rest_framework.urls')),

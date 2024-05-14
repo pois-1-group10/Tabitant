@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
 import PostPage from "./components/Post/PostPage";
@@ -21,45 +27,50 @@ function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
-        <Route path="post" element={<PostPage />} />
-        <Route path="post_detail/:id/" element={<PostDetailPage />} />
-        <Route path="user_profile/:id/" element={<Outlet />}>
-          <Route
-            path=""
-            element={
-              <UserDetailProvider>
-                <UserProfilePage />
-              </UserDetailProvider>
-            }
-          />
-          <Route
-            path="edit/"
-            element={
-              <PostListProvider>
-                <UserProfileEditPage />
-              </PostListProvider>
-            }
-          />
-          <Route
-            path="followee/"
-            element={
-              <UserListProvider>
-                <FollowUserListPage />
-              </UserListProvider>
-            }
-          />
-          <Route
-            path="follower/"
-            element={
-              <UserListProvider>
-                <FollowerListPage />
-              </UserListProvider>
-            }
-          />
+        <Route
+          path="/"
+          element={localStorage.getItem("token") ? <Outlet /> : <Navigate replace to="/login/" />}
+        >
+          <Route path="post" element={<PostPage />} />
+          <Route path="post_detail/:id/" element={<PostDetailPage />} />
+          <Route path="user_profile/:id/" element={<Outlet />}>
+            <Route
+              path=""
+              element={
+                <UserDetailProvider>
+                  <UserProfilePage />
+                </UserDetailProvider>
+              }
+            />
+            <Route
+              path="edit/"
+              element={
+                <PostListProvider>
+                  <UserProfileEditPage />
+                </PostListProvider>
+              }
+            />
+            <Route
+              path="followee/"
+              element={
+                <UserListProvider>
+                  <FollowUserListPage />
+                </UserListProvider>
+              }
+            />
+            <Route
+              path="follower/"
+              element={
+                <UserListProvider>
+                  <FollowerListPage />
+                </UserListProvider>
+              }
+            />
+          </Route>
+          <Route path="user_tanka/:userId/" element={<UserTankaPage />} />
+          <Route path="favorite/:userId/" element={<FavoritesPage />} />
+          <Route path="ranking" element={<RankingPage />} />
         </Route>
-        <Route path="user_tanka/:userId/" element={<UserTankaPage />} />
-        <Route path="favorite/:userId/" element={<FavoritesPage />} />
-        <Route path="ranking" element={<RankingPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -3,7 +3,8 @@
 import React from "react";
 import { css } from "@emotion/react";
 import CancelButton from "../common/CancelButton";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { UserAuthAPI } from "../../api/UserAuth";
 
 interface Props {
   setSidebarIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,7 +13,14 @@ interface Props {
 export default function Sidebar(props: Props) {
   const { setSidebarIsOpen } = props;
 	const params = useParams();
+  const navigate= useNavigate();
 	const userId = params.id;
+
+  const logout = async () => {
+    await UserAuthAPI.logout();
+    localStorage.removeItem("token");
+    navigate("/login/");
+  };
 
   return (
     <div css={shadowStyle}>
@@ -30,7 +38,7 @@ export default function Sidebar(props: Props) {
           <div css={breakLineStyle} />
           <div css={linkButtonStyle}>パスワード変更</div>
           <div css={breakLineStyle} />
-          <div css={linkButtonStyle}>ログアウト</div>
+          <div css={linkButtonStyle} onClick={logout}>ログアウト</div>
           <div css={breakLineStyle} />
 					<div css={linkButtonAlertStyle}>アカウント削除</div>
           <div css={breakLineStyle} />

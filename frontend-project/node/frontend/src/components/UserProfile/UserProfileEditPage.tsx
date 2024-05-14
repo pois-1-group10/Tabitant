@@ -13,7 +13,6 @@ import EditButton from "../common/EditButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { PostListContext } from "../../providers/PostListProvider";
 import { Post } from "../../types/post";
-import { Tanka } from "../../models";
 
 type Input = {
   username?: string;

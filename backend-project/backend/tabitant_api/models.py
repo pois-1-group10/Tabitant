@@ -4,7 +4,12 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class User(AbstractUser):
+    email = models.EmailField(_("email address"), unique=True)
     image = models.ImageField(upload_to="%Y/%m%d/", verbose_name="アイコン", null=True, blank=True)
+
+    EMAIL_FIELD = "email"
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = "ユーザー"
