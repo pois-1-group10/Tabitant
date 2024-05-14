@@ -63,34 +63,36 @@ class BadSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['id', 'user_id', 'post_id','parent_comment_id','content','created_at','updated_at']
+        fields = ['id', 'user', 'post','parent_comment','content','created_at','updated_at']
 
 class CommentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['id', 'user_id', 'post_id','parent_comment_id','content','created_at','updated_at']
+        fields = ['id', 'user', 'post','parent_comment','content','created_at','updated_at']
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = ['id', 'follower_id', 'followee_id']
-
-
-
-####山本作業分
-# serializers.py用
-
-class AwardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Award
-        fields = ['id', 'user_id', 'tanka_id', 'compe_id', 'rank']
-
-class CompetitionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Competition
-        fields = ['id', 'prefecture_id', 'year', 'month']
+        fields = ['id', 'follower', 'followee']
 
 class PrefectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prefecture
         fields = ['id', 'name']
+
+class AwardSerializer(serializers.ModelSerializer):
+    prefecture = PrefectureSerializer(source="compe.prefecture", read_only=True)
+    class Meta:
+        model = Award
+        fields = ['id', 'user', 'post', 'compe', 'rank', 'prefecture']
+
+class CompetitionDetailSerializer(serializers.ModelSerializer):
+    prefecture = PrefectureSerializer(read_only=True)
+    class Meta:
+        model = Competition
+        fields = ['id', 'year', 'month', 'prefecture']
+
+class CompetitionUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Competition
+        fields = ['id', 'year', 'month', 'prefecture']

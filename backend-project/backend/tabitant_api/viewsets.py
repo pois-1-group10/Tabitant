@@ -9,6 +9,10 @@ from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from django.db.models import F
 
+# 例外
+def ErrorResponse(message, status):
+    return Response({"detail": message}, status)
+
 #クエリセットとはモデルのオブジェクトのリスト  .filterはクエリセットを返し、.getはオブジェクトを返す。
 
 
@@ -274,33 +278,97 @@ class CommentViewSet(viewsets.ModelViewSet):
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-#####山本作業分
-# views.py用
 
-from rest_framework import generics
-from .models import Award, Competition, Prefecture
-from .serializers import AwardSerializer, CompetitionSerializer, PrefectureSerializer
-
-class AwardListCreateView(generics.ListCreateAPIView):
+class AwardViewSet(viewsets.ModelViewSet):
     queryset = Award.objects.all()
-    serializer_class = AwardSerializer
 
-class AwardDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Award.objects.all()
-    serializer_class = AwardSerializer
+    def get_serializer_class(self):
+        return AwardSerializer
 
-class CompetitionListCreateView(generics.ListCreateAPIView):
+    def list(self, request):
+        queryset = self.get_queryset()
+        user_id = request.query_params.get('user_id', None)
+        competition_id = request.query_params.get('competition_id', None)
+        if user_id:
+            queryset = queryset.filter(user=user_id)
+        if competition_id:
+            queryset = queryset.filter(compe=competition_id)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def retrieve(self, request, pk):
+        item = self.get_object()
+        serializer = self.get_serializer(item)
+        return Response(serializer.data)
+    
+    def update(self, request, pk):
+        item = self.get_object()
+        serializer = self.get_serializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, pk):
+        item = self.get_object()
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CompetitionViewSet(viewsets.ModelViewSet):
     queryset = Competition.objects.all()
-    serializer_class = CompetitionSerializer
 
-class CompetitionDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Competition.objects.all()
-    serializer_class = CompetitionSerializer
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return CompetitionDetailSerializer
+        return CompetitionUpdateSerializer
 
-class PrefectureListCreateView(generics.ListCreateAPIView):
-    queryset = Prefecture.objects.all()
-    serializer_class = PrefectureSerializer
+    def list(self, request):
+        queryset = self.get_queryset()
+        lat = request.query_params.get('lat', None)
+        lng = request.query_params.get('lng', None)
+        prefecture_id = request.query_params.get('prefecture_id', None)
+        post_id = request.query_params.get('post_id', None)
+        if (lat and not lng) or (not lat and lng):
+            return ErrorResponse("Only one of lat and lng cannot be specified.", status.HTTP_400_BAD_REQUEST)
+        if lat and lng:
+            # TODO
+            pass
+        if prefecture_id:
+            queryset = queryset.filter(prefecture=prefecture_id)
+        if post_id:
+            queryset = queryset.filter(post=post_id)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
-class PrefectureDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Prefecture.objects.all()
-    serializer_class = PrefectureSerializer
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def retrieve(self, request, pk):
+        item = self.get_object()
+        serializer = self.get_serializer(item)
+        return Response(serializer.data)
+    
+    def update(self, request, pk):
+        item = self.get_object()
+        serializer = self.get_serializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, pk):
+        item = self.get_object()
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

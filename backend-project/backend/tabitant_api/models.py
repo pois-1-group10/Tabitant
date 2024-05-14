@@ -84,9 +84,6 @@ class Competition(models.Model):
     def __str__(self):
         return f"Competition {self.id}"
 
-
-###山本作業分Award
-
 class Award(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
