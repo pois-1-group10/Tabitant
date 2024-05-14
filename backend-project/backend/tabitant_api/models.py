@@ -13,6 +13,10 @@ class User(AbstractUser):
 class Prefecture(models.Model):
     name=models.CharField(max_length=15, default='')
 
+    class Meta:
+        verbose_name = "都道府県"
+        verbose_name_plural = "都道府県"
+
     def __str__(self):
         return self.name
 
@@ -35,9 +39,23 @@ class Post(models.Model):
     emotion_samishii=models.IntegerField(default=0)
     emotion_ikari=models.IntegerField(default=0)
 
+    class Meta:
+        verbose_name = "投稿"
+        verbose_name_plural = "投稿"
+
+    def __str__(self):
+        return f"{self.user.username}: " + " ".join([self.content_1, self.content_2, self.content_3])
+
 class Tag(models.Model):
     name=models.CharField(max_length=15, default='')
     post=models.ManyToManyField(Post, related_name="tags")
+
+    class Meta:
+        verbose_name = "タグ"
+        verbose_name_plural = "タグ"
+
+    def __str__(self):
+        return self.name
 
 class Good(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="goods")   #逆引きによりgoodテーブルにあるユーザのリストをゲット
@@ -55,6 +73,13 @@ class Comment(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "コメント"
+        verbose_name_plural = "コメント"
+
+    def __str__(self):
+        return f"{self.user.username}: {self.content[:20]}"
+
 class GoodComment(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     comment=models.ForeignKey(Comment, on_delete=models.CASCADE)
@@ -71,6 +96,13 @@ class UserProfile(models.Model):
     bio=models.CharField(max_length=150, blank=True, default='')
     default_post=models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
 
+    class Meta:
+        verbose_name = "ユーザープロフィール"
+        verbose_name_plural = "ユーザープロフィール"
+
+    def __str__(self):
+        return self.user.username
+
 class Competition(models.Model):
     prefecture=models.ForeignKey(Prefecture, on_delete=models.CASCADE, related_name='competition', null=True)
     year=models.IntegerField(default=2020)
@@ -78,11 +110,11 @@ class Competition(models.Model):
     post = models.ManyToManyField(Post, related_name="competition")
 
     class Meta:
-        verbose_name = "競技"
-        verbose_name_plural = "競技一覧"
+        verbose_name = "大会"
+        verbose_name_plural = "大会"
 
     def __str__(self):
-        return f"Competition {self.id}"
+        return f"{self.id}: {self.prefecture.name}大会"
 
 class Award(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -92,7 +124,7 @@ class Award(models.Model):
 
     class Meta:
         verbose_name = "受賞"
-        verbose_name_plural = "受賞一覧"
+        verbose_name_plural = "受賞"
 
     def __str__(self):
-        return f"Award {self.id}"
+        return f"{self.user.username}: {self.rank}位 ({self.compe})"
