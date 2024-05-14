@@ -77,9 +77,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
 ####山本作業分
 # serializers.py用
 
-from rest_framework import serializers
-from .models import Award, Competition, Prefecture
-
 class AwardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Award

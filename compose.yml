@@ -5,7 +5,7 @@ services:
       dockerfile: docker/python/Dockerfile
     volumes:
       - ./backend-project/backend:/backend
-    command: python3 /backend/manage.py runserver 0.0.0.0:8000
+    # command: python3 /backend/manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     tty: true
@@ -17,9 +17,10 @@ services:
     volumes:
       - ./frontend-project/node/frontend:/usr/src/app/frontend
       - node_modules:/usr/src/app/frontend/node_modules
-    command: sh -c "cd /usr/src/app/frontend && yarn start"
+    # command: sh -c "cd /usr/src/app/frontend && yarn start"
     ports:
       - "3000:3000"
+    tty: true
 
 volumes:
   node_modules:

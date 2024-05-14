@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class User(AbstractUser):
@@ -71,40 +72,10 @@ class UserProfile(models.Model):
     default_post=models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
 
 class Competition(models.Model):
-    prefecture=models.ForeignKey(Prefecture, on_delete=models.CASCADE, related_name='competition')
+    prefecture=models.ForeignKey(Prefecture, on_delete=models.CASCADE, related_name='competition', null=True)
     year=models.IntegerField(default=2020)
     month=models.IntegerField(default=1)
     post = models.ManyToManyField(Post, related_name="competition")
-
-class Award(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name='award')
-    post=models.ForeignKey(Post, on_delete=models.CASCADE)
-###山本作業分Award
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-class Award(models.Model):
-    user_id = models.IntegerField(verbose_name=_("ユーザーID"))
-    tanka_id = models.IntegerField(verbose_name=_("短歌ID"))
-    compe_id = models.IntegerField(verbose_name=_("競技ID"))
-    rank = models.IntegerField(verbose_name=_("順位"))
-
-    class Meta:
-        verbose_name = "受賞"
-        verbose_name_plural = "受賞一覧"
-
-    def __str__(self):
-        return f"Award {self.id}"
-
-
-####山本作業分Competition
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-class Competition(models.Model):
-    prefecture_id = models.IntegerField(verbose_name=_("都道府県ID"))
-    year = models.IntegerField(verbose_name=_("年"))
-    month = models.IntegerField(verbose_name=_("月"))
 
     class Meta:
         verbose_name = "競技"
@@ -114,22 +85,17 @@ class Competition(models.Model):
         return f"Competition {self.id}"
 
 
-####山本作業分Prefecture
-from django.db import models
+###山本作業分Award
 
-class Prefecture(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, verbose_name="都道府県")
+class Award(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
+    compe = models.ForeignKey(Competition, on_delete=models.CASCADE, null=True)
+    rank = models.IntegerField(verbose_name=_("順位"))
 
     class Meta:
-        verbose_name = "都道府県"
-        verbose_name_plural = "都道府県"
+        verbose_name = "受賞"
+        verbose_name_plural = "受賞一覧"
 
-
-# AwardからCompetitionへのアクセス
-award = Award.objects.get(pk=1)
-competition = award.compe_id  # AwardオブジェクトからCompetitionオブジェクトへのアクセス
-
-# CompetitionからPrefectureへのアクセス
-competition = Competition.objects.get(pk=1)
-prefecture = competition.prefecture_id  # CompetitionオブジェクトからPrefectureオブジェクトへのアクセス
+    def __str__(self):
+        return f"Award {self.id}"
