@@ -73,3 +73,21 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ['id', 'user_id', 'bio', 'default_post_id']
         read_only_fields = ['user_id']
+
+####山本作業分
+# serializers.py用
+
+class AwardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Award
+        fields = ['id', 'user_id', 'tanka_id', 'compe_id', 'rank']
+
+class CompetitionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Competition
+        fields = ['id', 'prefecture_id', 'year', 'month']
+
+class PrefectureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Prefecture
+        fields = ['id', 'name']

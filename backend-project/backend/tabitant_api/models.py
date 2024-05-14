@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class User(AbstractUser):
@@ -71,11 +72,30 @@ class UserProfile(models.Model):
     default_post=models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
 
 class Competition(models.Model):
-    prefecture=models.ForeignKey(Prefecture, on_delete=models.CASCADE, related_name='competition')
+    prefecture=models.ForeignKey(Prefecture, on_delete=models.CASCADE, related_name='competition', null=True)
     year=models.IntegerField(default=2020)
     month=models.IntegerField(default=1)
     post = models.ManyToManyField(Post, related_name="competition")
 
+    class Meta:
+        verbose_name = "競技"
+        verbose_name_plural = "競技一覧"
+
+    def __str__(self):
+        return f"Competition {self.id}"
+
+
+###山本作業分Award
+
 class Award(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name='award')
-    post=models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
+    compe = models.ForeignKey(Competition, on_delete=models.CASCADE, null=True)
+    rank = models.IntegerField(verbose_name=_("順位"))
+
+    class Meta:
+        verbose_name = "受賞"
+        verbose_name_plural = "受賞一覧"
+
+    def __str__(self):
+        return f"Award {self.id}"
