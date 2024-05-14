@@ -45,7 +45,6 @@ class TagFactory(DjangoModelFactory):
         model = Tag
 
     name = LazyFunction(faker.word)
-    post = RelatedFactory(PostFactory)
 
 class GoodFactory(DjangoModelFactory):
     class Meta:
@@ -92,7 +91,7 @@ class UserProfileFactory(DjangoModelFactory):
 
     user = SubFactory(UserFactory)
     bio = LazyFunction(faker.paragraph)
-    default_post = SubFactory(PostFactory)
+    default_post = None
 
 class CompetitionFactory(DjangoModelFactory):
     class Meta:
