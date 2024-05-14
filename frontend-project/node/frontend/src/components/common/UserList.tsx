@@ -2,37 +2,35 @@
 
 import React, { FC } from "react";
 import { css } from "@emotion/react";
+import { User } from "../../types/user";
 
-export default function UserList() {
+type Props = {
+  users: User[];
+}
+
+export default function UserList(props: Props) {
+  const { users } = props;
+
   return (
     <div css={userListStyle}>
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
-      <UserItem following />
+      {users.map(user => (
+        <UserItem key={user.id} user={user} following />
+      ))}
     </div>
   );
 }
 
 interface UserItemProps {
+  user: User;
   following: boolean;
 }
 
 const UserItem: FC<UserItemProps> = (props: UserItemProps) => {
-  const { following = true } = props;
+  const { user, following = true } = props;
   return (
     <div css={userItemWrapperStyle}>
       <img src="" alt="" />
-      <div css={userNameStyle}>ユーザー ネーム</div>
+      <div css={userNameStyle}>{user.username}</div>
       {following ? (
         <UnfollowButton onClick={() => null} />
       ) : (

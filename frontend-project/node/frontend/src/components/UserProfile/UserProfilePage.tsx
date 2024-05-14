@@ -1,15 +1,17 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import Card from "../common/Card";
 import TankaCard from "../common/TankaCard";
 import HamburgerButton from "../common/HamburgerButton";
 import Sidebar from "./Sidebar";
 import { Link, useParams } from "react-router-dom";
+import { UserDetailContext } from "../../providers/UserDetailProvider";
 
 export default function UserProfilePage() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
+  const { user, fetchUserDetail } = useContext(UserDetailContext);
   const params = useParams();
   const userId = params.id;
 
@@ -22,6 +24,10 @@ export default function UserProfilePage() {
     overflow: ${sidebarIsOpen ? "hidden" : "scroll"};
   `;
 
+  useEffect(() => {
+    fetchUserDetail();
+  }, []);
+
   return (
     <div css={backgroundStyle}>
       <HamburgerButton
@@ -32,25 +38,25 @@ export default function UserProfilePage() {
       <div css={profileHeaderStyle}>
         <img src="" alt="" css={userIconStyle} />
         <div css={userInfoStyle}>
-          <div className="user-name">ユーザー　ネームああ</div>
+          <div className="user-name">{user?.username}</div>
           <div css={followDataStyle}>
             <Link to="followee/" css={navigatingBlockStyle}>
-              <div className="number">1000</div>
+              <div className="number">{user?.followee_num}</div>
               <div className="type">フォロー</div>
             </Link>
             <Link to="follower/" css={navigatingBlockStyle}>
-              <div className="number">100</div>
+              <div className="number">{user?.follower_num}</div>
               <div className="type">フォロワー</div>
             </Link>
             <Link to={`/favorite/${userId}`} css={navigatingBlockStyle}>
-              <div className="number">1000</div>
+              <div className="number">{user?.like_num}</div>
               <div className="type">いいね</div>
             </Link>
           </div>
         </div>
       </div>
       <p css={bioTextStyle}>
-        よろしくお願いします。ああああああああああああああああああああ
+        {user?.userprofile?.bio}
       </p>
       <hr />
       <div css={sectionTitleStyle}>短歌</div>

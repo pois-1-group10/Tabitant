@@ -1,19 +1,29 @@
 /** @jsxImportSource @emotion/react */
 
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { css } from "@emotion/react";
 import BackButton from "../common/BackButton";
 import SortButton from "../common/SortButton";
 import UserList from "../common/UserList";
+import { useParams } from "react-router-dom";
+import { UserListContext } from "../../providers/UserListProvider";
 
 export default function FollowUserListPage() {
+  const params = useParams();
+	const userId = params.id;
+	const { users, fetchUsers } = useContext(UserListContext);
+
+  useEffect(() => {
+    fetchUsers({ followed_by: userId });
+  }, []);
+  
   return (
     <div css={backgroundStyle}>
       <BackButton />
       <SortButton style={sortButtonStyle} onClick={() => null} />
 			<div css={pageTitleStyle}>フォロー中</div>
 			<div css={userListWrapperStyle}>
-      	<UserList />
+      	<UserList users={users} />
 			</div>
     </div>
   );
