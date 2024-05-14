@@ -10,7 +10,7 @@ import BackButton from "../common/BackButton";
 export default function PostPage() {
   return (
     <div css={backgroundStyle}>
-      <BackButton onClick={() => null}/>
+      <BackButton />
       <Card style={postCardStyle}>
         <div css={postCardHeaderStyle}>
           <img src="" alt="icon" css={iconStyle} />
