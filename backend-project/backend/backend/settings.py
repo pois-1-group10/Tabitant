@@ -147,6 +147,13 @@ REST_FRAMEWORK = {
     ]
 }
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'    #ログイン認証方法にemailを選定
+ACCOUNT_EMAIL_REQUIRED = True
+
+REST_AUTH = {
+    "LOGIN_SERIALIZER": "tabitant_api.serializers.LoginSerializer",
+}
+
 SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
@@ -159,3 +166,5 @@ CORS_ALLOWED_ORIGINS = [
 # プリフライト(事前リクエスト)の設定
 # 30分だけ許可
 CORS_PREFLIGHT_MAX_AGE = 60 * 30
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -1,6 +1,16 @@
+from dj_rest_auth.serializers import LoginSerializer
+from dj_rest_auth.serializers import PasswordResetSerializer
+from dj_rest_auth.forms import AllAuthPasswordResetForm
+from django.conf import settings
+from django.contrib.auth.forms import PasswordResetForm
 from rest_framework import serializers
 from .models import *
-    
+
+class CustomLoginSerializer(LoginSerializer):
+    username = None
+    email = serializers.EmailField(required=True, allow_blank=False)
+
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
