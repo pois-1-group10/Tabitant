@@ -7,6 +7,8 @@ router.register(r'users', viewsets.UserViewSet, basename="user")  # 'users'„ÅØ„Ç
 router.register(r'user_profiles', viewsets.UserProfileViewSet, basename="user_profile")
 router.register(r'posts', viewsets.PostViewSet, basename="post")
 router.register(r'comments', viewsets.CommentViewSet, basename="comment")
+router.register(r'awards', viewsets.AwardViewSet, basename="award")
+router.register(r'competitions', viewsets.CompetitionViewSet, basename="competition")
 urlpatterns = router.urls
 
 urlpatterns = [
