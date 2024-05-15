@@ -65,7 +65,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
     
     def update(self, request, pk):
-        item = get_object_or_404(User, pk=pk)  #更新する対象のオブジェクト
+        item = self.get_object()  #更新する対象のオブジェクト
         serializer = UserDetailSerializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -73,7 +73,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, pk):
-        item = get_object_or_404(User, pk=pk)
+        item = self.get_object()
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
@@ -87,17 +87,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'error': 'You are already following this user.'}, status=400)
         Follow.objects.create(follower=follower, followee=user_to_follow)
         return Response({'message': 'Successfully followed user.'}, status=201)
-    
-    @action(detail=True, methods=['post'], url_path='follow')   #??
-    def unfollow(self, request, pk=None):
-        follow_instance = Follow.objects.filter(follower=request.user, followee__id=pk).first()
-        if follow_instance:
-            # 条件に合致するフォロー関係が見つかった場合は削除する
-            follow_instance.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            # フォロー関係が見つからなかった場合は404エラーを返す
-            return Response(status=status.HTTP_404_NOT_FOUND)
+
         
     @action(detail=True, methods=['post'], url_path='follow')
     def unfollow(self, request, pk=None):
@@ -131,7 +121,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
     
     def update(self, request, pk):
-        item = get_object_or_404(UserProfile, pk=pk)
+        item = self.get_object()
         serializer = UserProfileSerializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -139,7 +129,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, pk):
-        item = get_object_or_404(UserProfile, pk=pk)
+        item = self.get_object()
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
