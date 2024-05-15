@@ -98,6 +98,24 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             # フォロー関係が見つからなかった場合は404エラーを返す
             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+    @action(detail=True, methods=['post'], url_path='follow')
+    def unfollow(self, request, pk=None):
+        # フォロー関係を削除するためにfilterを使用し、条件に合致するレコードを取得する
+        follow_instance = Follow.objects.filter(follower=request.user, followee__id=pk).first()
+        if follow_instance:
+            # 条件に合致するフォロー関係が見つかった場合は削除する
+            follow_instance.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            # フォロー関係が見つからなかった場合は404エラーを返す
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+    @action(detail=False, methods={"get"})
+    def auth(self, request):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
+
     
 
 class UserProfileViewSet(viewsets.ModelViewSet):
