@@ -5,6 +5,7 @@ import { SerializedStyles, css } from "@emotion/react";
 import Card from "./Card";
 import TagChip from "./TagChip";
 import { DetailPost } from "../../types/post";
+import { Link } from "react-router-dom";
 
 interface Props {
   post?: DetailPost;
@@ -24,7 +25,10 @@ export default function TankaCard(props: Props) {
   return (
     <Card style={concatenatedStyle} {...cardProps}>
       <div css={postCardHeaderStyle}>
-        {icon}
+        <Link to={`/user_profile/${post?.user.id}`} css={userInfoStyle}>
+          {icon}
+          <p>{post?.user.username}</p>
+        </Link>
         <div css={postCardHeaderContentStyle}>
           <div css={tagsWrapperStyle}>
             <TagChip name="日常" />
@@ -58,6 +62,7 @@ const cardStyle = css`
 const postCardHeaderStyle = css`
   width: 100%;
   display: flex;
+  flex-flow: column;
   gap: 4px;
 `;
 
@@ -72,7 +77,18 @@ const postCardHeaderContentStyle = css`
   display: flex;
   flex-flow: column;
   flex-grow: 1;
+`;
+
+const userInfoStyle = css`
+  display: flex;
+  align-items: center;
   gap: 8px;
+  color: initial;
+  text-decoration: none;
+  p {
+    margin: 0;
+    font-weight: bold;
+  }
 `;
 
 const mainTextWrapperStyle = css`

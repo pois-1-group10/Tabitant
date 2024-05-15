@@ -14,10 +14,12 @@ import { useParams } from "react-router-dom";
 import { BadButton, FollowButton, GoodButton } from "./ReactionButtons";
 import { PostAPI } from "../../api/Post";
 import { UserAPI } from "../../api/User";
+import { AuthUserContext } from "../../providers/AuthUserProvider";
 
 export default function PostDetailPage() {
   const { post, fetchPostDetail } = useContext(PostDetailContext);
   const { comments, fetchComments } = useContext(CommentListContext);
+	const { currentUser } = useContext(AuthUserContext);
   const [goodIsClicked, setGoodIsClicked] = useState<boolean|undefined>();
   const [badIsClicked, setBadIsClicked] = useState<boolean|undefined>();
   const [goodCount, setGoodCount] = useState<number | undefined>();
@@ -25,6 +27,8 @@ export default function PostDetailPage() {
 	const [following, setFollowing] = useState<boolean | undefined>();
   const params = useParams();
   const postId = Number(params.id);
+
+	const myPost = currentUser?.id === post?.user.id;
 
   useEffect(() => {
     fetchPostDetail();
@@ -92,7 +96,7 @@ export default function PostDetailPage() {
         <div css={reactionButtonWrapperStyle}>
           <GoodButton checked={goodIsClicked} count={goodCount ?? 0} onClick={goodClickHandler} />
           <BadButton checked={badIsClicked} count={badCount ?? 0} onClick={badClickHandler} />
-          <FollowButton following={following} onClick={followClickHandler} />
+          {myPost || <FollowButton following={following} onClick={followClickHandler} />}
         </div>
         <div css={commentInputWrapperStyle}>
           <img src="" alt="icon" css={selfIconStyle} />

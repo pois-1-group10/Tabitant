@@ -8,6 +8,7 @@ import ReplyList from "./ReplyList";
 import { CommentListProvider } from "../../providers/CommentListProvider";
 import { CommentAPI } from "../../api/Comment";
 import { BadButton, GoodButton } from "./ReactionButtons";
+import { Link } from "react-router-dom";
 
 interface Props {
   comment: Comment;
@@ -15,10 +16,18 @@ interface Props {
 
 export default function CommentItem({ comment }: Props) {
   const [showReplies, setShowReplies] = useState<boolean>(false);
-  const [goodIsClicked, setGoodIsClicked] = useState<boolean | undefined>(comment.liked);
-  const [badIsClicked, setBadIsClicked] = useState<boolean | undefined>(comment.disliked);
-  const [goodCount, setGoodCount] = useState<number | undefined>(comment.good_count);
-  const [badCount, setBadCount] = useState<number | undefined>(comment.bad_count);
+  const [goodIsClicked, setGoodIsClicked] = useState<boolean | undefined>(
+    comment.liked
+  );
+  const [badIsClicked, setBadIsClicked] = useState<boolean | undefined>(
+    comment.disliked
+  );
+  const [goodCount, setGoodCount] = useState<number | undefined>(
+    comment.good_count
+  );
+  const [badCount, setBadCount] = useState<number | undefined>(
+    comment.bad_count
+  );
 
   const goodClickHandler = async () => {
     if (goodIsClicked) {
@@ -58,7 +67,9 @@ export default function CommentItem({ comment }: Props) {
         <img src="" alt="" css={iconStyle} />
         <div css={contentWrapperStyle}>
           <div css={commenterNameStyle}>
-            {comment.user.username}
+            <Link to={`/user_profile/${comment.user.id}`}>
+              {comment.user.username}
+            </Link>
             <span>{new Date(comment.created_at).toLocaleString()}</span>
           </div>
           <p>{comment.content}</p>
@@ -114,6 +125,14 @@ const contentWrapperStyle = css`
 const commenterNameStyle = css`
   color: #767878;
   font-size: 12px;
+	a {
+		color: initial;
+		font-weight: bold;
+		text-decoration: none;
+	}
+	span {
+		margin-left: 8px;
+	}
 `;
 
 const commentFooterStyle = css`
