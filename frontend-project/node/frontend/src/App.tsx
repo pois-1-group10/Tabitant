@@ -72,9 +72,11 @@ function App() {
             <Route
               path="edit/"
               element={
-                <PostListProvider>
-                  <UserProfileEditPage />
-                </PostListProvider>
+                <UserDetailProvider>
+                  <PostListProvider>
+                    <UserProfileEditPage />
+                  </PostListProvider>
+                </UserDetailProvider>
               }
             />
             <Route

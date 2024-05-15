@@ -13,6 +13,8 @@ import EditButton from "../common/EditButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { PostListContext } from "../../providers/PostListProvider";
 import { Post } from "../../types/post";
+import { UserDetailContext } from "../../providers/UserDetailProvider";
+import { AuthUserContext } from "../../providers/AuthUserProvider";
 
 type Input = {
   username?: string;
@@ -41,21 +43,24 @@ const rules = {
 export default function UserProfileEditPage() {
   const [photo, setPhoto] = useState<File>();
   const [selectingPost, setSelectingPost] = useState<Post>();
+  const { posts, fetchPosts } = useContext(PostListContext);
+  const { user, fetchUserDetail } = useContext(UserDetailContext);
+  const { currentUser } = useContext(AuthUserContext);
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<Input>({
     defaultValues: {
-      username: "ユーザー　ネーム",
-      bio: "",
+      username: user?.username,
+      bio: user?.userprofile?.bio,
     },
   });
-  const { posts, fetchPosts } = useContext(PostListContext);
 
   const navigate = useNavigate();
   const params = useParams();
-  const id = params.id;
+  const userId = Number(params.id);
 
   const onSubmit: SubmitHandler<Input> = (data) => {
     const formData = new FormData();
@@ -64,7 +69,7 @@ export default function UserProfileEditPage() {
     formData.append("post_id", data.tankaId?.toString() ?? "");
     photo && formData.append("icon", photo);
     console.log(formData.get("icon"));
-    navigate(`/user_profile/${id}/`);
+    navigate(`/user_profile/${userId}/`);
   };
 
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,8 +87,15 @@ export default function UserProfileEditPage() {
   };
 
   useEffect(() => {
-    fetchPosts({});
+    currentUser && fetchUserDetail(currentUser.id);
+    currentUser && fetchPosts({user_id: currentUser.id});
   }, []);
+
+  useEffect(() => {
+    user && setValue("username", user.username);
+    user?.userprofile && setValue("bio", user.userprofile.bio);
+    user?.userprofile && setValue("tankaId", user.userprofile.default_post_id);
+  }, [user]);
 
   return (
     <div css={backgroundStyle}>
@@ -194,8 +206,16 @@ const SelectTankaItem: FC<TankaItemProps> = (params: TankaItemProps) => {
 		color: #767878;
 	`;
 
+  const clickHandler = () => {
+    if (isSelected) {
+      setPost(undefined);
+    } else {
+      setPost(post);
+    }
+  }
+
   return (
-    <div css={tankaItemStyle} onClick={() => setPost(post)}>
+    <div css={tankaItemStyle} onClick={clickHandler}>
       <div>{post.content_1 +
         " " +
         post.content_2 +
