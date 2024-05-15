@@ -4,10 +4,10 @@ import React, { ReactElement, ReactNode } from "react";
 import { SerializedStyles, css } from "@emotion/react";
 import Card from "./Card";
 import TagChip from "./TagChip";
-import { Post } from "../../types/post";
+import { DetailPost } from "../../types/post";
 
 interface Props {
-  post?: Post;
+  post?: DetailPost;
   link?: boolean;
   icon?: ReactElement;
   style?: SerializedStyles;
@@ -32,7 +32,7 @@ export default function TankaCard(props: Props) {
           </div>
           <div css={areaPositionWrapperStyle}>
             <div css={areaPositionTextStyle}>
-              <div className="area">{post?.prefecture}</div>
+              <div className="area">{post?.prefecture?.name}</div>
               <div className="position">詳細位置</div>
             </div>
           </div>

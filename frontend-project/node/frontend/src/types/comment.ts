@@ -10,6 +10,8 @@ export type Comment = {
   good_count?: number;
   bad_count?: number;
 	reply_count?: number;
+	liked: boolean;
+	disliked: boolean;
 };
 
 export type CommentListParams = {

@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { FC, useContext, useEffect } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { css } from "@emotion/react";
 
-import thumbUpIcon from "../../img/thumb_up.svg";
-import thumbDownIcon from "../../img/thumb_down.svg";
 import { Comment } from "../../types/comment";
 import { CommentListContext } from "../../providers/CommentListProvider";
+import { CommentAPI } from "../../api/Comment";
+import { BadButton, GoodButton } from "./ReactionButtons";
 
 interface Props {
   parentCommentId: number;
@@ -33,6 +33,44 @@ interface InnerProps {
 }
 
 const ReplyItem: FC<InnerProps> = ({ reply }) => {
+  const [goodIsClicked, setGoodIsClicked] = useState<boolean | undefined>(reply.liked);
+  const [badIsClicked, setBadIsClicked] = useState<boolean | undefined>(reply.disliked);
+  const [goodCount, setGoodCount] = useState<number | undefined>(reply.good_count);
+  const [badCount, setBadCount] = useState<number | undefined>(reply.bad_count);
+
+  const goodClickHandler = async () => {
+    if (goodIsClicked) {
+      await CommentAPI.unlike(reply.id);
+      setGoodIsClicked(false);
+      goodCount !== undefined && setGoodCount(goodCount - 1);
+    } else {
+      await CommentAPI.like(reply.id);
+      setGoodIsClicked(true);
+      goodCount !== undefined && setGoodCount(goodCount + 1);
+    }
+    if (badIsClicked) {
+      setBadIsClicked(false);
+      badCount !== undefined && setBadCount(badCount - 1);
+    }
+  };
+
+  const badClickHandler = async () => {
+    if (goodIsClicked) {
+      setGoodIsClicked(false);
+      goodCount !== undefined && setGoodCount(goodCount - 1);
+    }
+    if (badIsClicked) {
+      await CommentAPI.undislike(reply.id);
+      setBadIsClicked(false);
+      badCount !== undefined && setBadCount(badCount - 1);
+    } else {
+      await CommentAPI.dislike(reply.id);
+      setBadIsClicked(true);
+      badCount !== undefined && setBadCount(badCount + 1);
+    }
+  };
+
+
   return (
     <div css={wrapperStyle}>
       <img src="" alt="" css={iconStyle} />
@@ -43,14 +81,8 @@ const ReplyItem: FC<InnerProps> = ({ reply }) => {
         </div>
         <p>{reply.content}</p>
         <div css={commentFooterStyle}>
-          <div>
-            <img src={thumbUpIcon} alt="" />
-            <div css={thumbCountStyle}>{reply.good_count ?? 0}</div>
-          </div>
-          <div>
-            <img src={thumbDownIcon} alt="" />
-            <div css={thumbCountStyle}>{reply.bad_count ?? 0}</div>
-          </div>
+          <GoodButton checked={goodIsClicked} count={goodCount} onClick={goodClickHandler} />
+          <BadButton checked={badIsClicked} count={badCount} onClick={badClickHandler} />
         </div>
       </div>
     </div>
@@ -97,13 +129,4 @@ const commentFooterStyle = css`
   img {
     height: 16px;
   }
-`;
-
-const thumbCountStyle = css`
-  font-size: 12px;
-`;
-
-const replyOpenerStyle = css`
-  color: #ff981f;
-  font-size: 14px;
 `;

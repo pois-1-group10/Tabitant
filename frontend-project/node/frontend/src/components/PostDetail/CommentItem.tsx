@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import { css } from "@emotion/react";
 
-import thumbUpIcon from "../../img/thumb_up.svg";
-import thumbDownIcon from "../../img/thumb_down.svg";
 import { Comment } from "../../types/comment";
 import ReplyList from "./ReplyList";
 import { CommentListProvider } from "../../providers/CommentListProvider";
+import { CommentAPI } from "../../api/Comment";
+import { BadButton, GoodButton } from "./ReactionButtons";
 
 interface Props {
   comment: Comment;
@@ -15,6 +15,42 @@ interface Props {
 
 export default function CommentItem({ comment }: Props) {
   const [showReplies, setShowReplies] = useState<boolean>(false);
+  const [goodIsClicked, setGoodIsClicked] = useState<boolean | undefined>(comment.liked);
+  const [badIsClicked, setBadIsClicked] = useState<boolean | undefined>(comment.disliked);
+  const [goodCount, setGoodCount] = useState<number | undefined>(comment.good_count);
+  const [badCount, setBadCount] = useState<number | undefined>(comment.bad_count);
+
+  const goodClickHandler = async () => {
+    if (goodIsClicked) {
+      await CommentAPI.unlike(comment.id);
+      setGoodIsClicked(false);
+      goodCount !== undefined && setGoodCount(goodCount - 1);
+    } else {
+      await CommentAPI.like(comment.id);
+      setGoodIsClicked(true);
+      goodCount !== undefined && setGoodCount(goodCount + 1);
+    }
+    if (badIsClicked) {
+      setBadIsClicked(false);
+      badCount !== undefined && setBadCount(badCount - 1);
+    }
+  };
+
+  const badClickHandler = async () => {
+    if (goodIsClicked) {
+      setGoodIsClicked(false);
+      goodCount !== undefined && setGoodCount(goodCount - 1);
+    }
+    if (badIsClicked) {
+      await CommentAPI.undislike(comment.id);
+      setBadIsClicked(false);
+      badCount !== undefined && setBadCount(badCount - 1);
+    } else {
+      await CommentAPI.dislike(comment.id);
+      setBadIsClicked(true);
+      badCount !== undefined && setBadCount(badCount + 1);
+    }
+  };
 
   return (
     <>
@@ -27,14 +63,16 @@ export default function CommentItem({ comment }: Props) {
           </div>
           <p>{comment.content}</p>
           <div css={commentFooterStyle}>
-            <div>
-              <img src={thumbUpIcon} alt="" />
-              <div css={thumbCountStyle}>{comment.good_count ?? 0}</div>
-            </div>
-            <div>
-              <img src={thumbDownIcon} alt="" />
-              <div css={thumbCountStyle}>{comment.bad_count ?? 0}</div>
-            </div>
+            <GoodButton
+              checked={goodIsClicked}
+              count={goodCount ?? 0}
+              onClick={goodClickHandler}
+            />
+            <BadButton
+              checked={badIsClicked}
+              count={badCount ?? 0}
+              onClick={badClickHandler}
+            />
             {showReplies || (
               <div css={replyOpenerStyle} onClick={() => setShowReplies(true)}>
                 {comment.reply_count}件の返信
@@ -80,14 +118,10 @@ const commenterNameStyle = css`
 
 const commentFooterStyle = css`
   display: flex;
-	gap: 24px;
+  gap: 24px;
   justify-content: left;
   align-items: center;
   text-align: center;
-`;
-
-const thumbCountStyle = css`
-  font-size: 12px;
 `;
 
 const replyOpenerStyle = css`

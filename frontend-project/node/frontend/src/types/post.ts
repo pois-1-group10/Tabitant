@@ -39,7 +39,7 @@ export type DetailPost = {
   content_5: string;
   latitude?: number;
   longitude?: number;
-  prefecture?: string;
+  prefecture?: Prefecture;
   detailed_place_id?: string;
   emotion_ureshii: number;
   emotion_omoshiroi: number;
@@ -64,4 +64,9 @@ export type PostListParams = {
   user_id?: number;
   liked_by?: number;
   compe_id?: number;
+}
+
+export type Prefecture = {
+  id: number;
+  name: string;
 }
