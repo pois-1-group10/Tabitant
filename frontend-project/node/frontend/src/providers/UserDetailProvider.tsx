@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import { UserAPI } from "../api/User";
 
 type UserDetailContextType = {
-    user?: DetailUser;
-    loading: boolean;
-    fetchUserDetail: () => Promise<void>;
+  user?: DetailUser;
+  loading: boolean;
+  fetchUserDetail: (id?: number) => Promise<void>;
 }
 
 export const UserDetailContext = createContext({} as UserDetailContextType);
@@ -15,12 +15,12 @@ export const UserDetailProvider = ({ children }: { children: React.ReactNode }) 
   const [user, setUser] = useState<DetailUser|undefined>();
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
-  const userId = params.id;
+  const userId = Number(params.id);
 
-  const fetchUserDetail = async () => {
+  const fetchUserDetail = async (id?: number) => {
     setLoading(true);
     try {
-      const userData = await UserAPI.fetchUserDetail(Number(userId));
+      const userData = await UserAPI.fetchUserDetail(id ?? userId);
       setUser(userData);
     } catch(e) {
       console.log(e);

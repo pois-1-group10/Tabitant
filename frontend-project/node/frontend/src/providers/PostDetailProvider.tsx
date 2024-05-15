@@ -1,10 +1,10 @@
 import React, { createContext, useState } from "react";
-import { Post } from "../types/post";
+import { DetailPost } from "../types/post";
 import { PostAPI } from "../api/Post";
 import { useParams } from "react-router-dom";
 
 type PostDetailContextType = {
-  post?: Post;
+  post?: DetailPost;
   loading: boolean;
   fetchPostDetail: (id?: number) => Promise<void>;
 };
@@ -16,7 +16,7 @@ export const PostDetailProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [post, setPost] = useState<Post | undefined>();
+  const [post, setPost] = useState<DetailPost | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
   const params = useParams();
   const userId = Number(params.id);

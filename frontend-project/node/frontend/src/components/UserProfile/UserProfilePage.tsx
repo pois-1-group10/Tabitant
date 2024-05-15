@@ -9,12 +9,16 @@ import Sidebar from "./Sidebar";
 import { Link, useParams } from "react-router-dom";
 import { UserDetailContext } from "../../providers/UserDetailProvider";
 import NavigationMenu from "../common/NavigationMenu";
+import { AuthUserContext } from "../../providers/AuthUserProvider";
 
 export default function UserProfilePage() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
   const { user, fetchUserDetail } = useContext(UserDetailContext);
+  const { currentUser } = useContext(AuthUserContext);
   const params = useParams();
   const userId = params.id;
+
+  const myPage = Number(userId) === currentUser?.id;
 
   const backgroundStyle = css`
     position: relative;
@@ -27,7 +31,7 @@ export default function UserProfilePage() {
 
   useEffect(() => {
     fetchUserDetail();
-  }, []);
+  }, [userId]);
 
   return (
     <div css={backgroundStyle}>
@@ -35,7 +39,7 @@ export default function UserProfilePage() {
         style={hamburgerButtonStyle}
         onClick={() => setSidebarIsOpen(true)}
       />
-      <NavigationMenu home ranking post />
+      <NavigationMenu home ranking post profile={!myPage} />
       {sidebarIsOpen && <Sidebar setSidebarIsOpen={setSidebarIsOpen} />}
       <div css={profileHeaderStyle}>
         <img src="" alt="" css={userIconStyle} />

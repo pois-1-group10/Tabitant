@@ -77,7 +77,7 @@ class UserViewSet(viewsets.ModelViewSet):
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-    @action(detail=True, methods=['post'], url_path='follow')
+    @action(detail=True, methods=['post'])
     def follow(self, request, pk=None):
         user_to_follow = get_object_or_404(User, pk=pk)
         follower = request.user  # リクエストを送信したユーザーがフォロワーとなる
@@ -88,12 +88,12 @@ class UserViewSet(viewsets.ModelViewSet):
         Follow.objects.create(follower=follower, followee=user_to_follow)
         return Response({'message': 'Successfully followed user.'}, status=201)
 
-    @action(detail=False, methods={"get"})
+    @action(detail=False, methods=["get"])
     def auth(self, request):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
     
-    @action(detail=True, methods=['post'], url_path='follow')   #??
+    @action(detail=True, methods=['post'])
     def unfollow(self, request, pk=None):
         follow_instance = Follow.objects.filter(follower=request.user, followee__id=pk).first()
         if follow_instance:

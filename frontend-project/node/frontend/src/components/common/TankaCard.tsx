@@ -4,10 +4,11 @@ import React, { ReactElement, ReactNode } from "react";
 import { SerializedStyles, css } from "@emotion/react";
 import Card from "./Card";
 import TagChip from "./TagChip";
-import { Post } from "../../types/post";
+import { DetailPost } from "../../types/post";
+import { Link } from "react-router-dom";
 
 interface Props {
-  post?: Post;
+  post?: DetailPost;
   link?: boolean;
   icon?: ReactElement;
   style?: SerializedStyles;
@@ -24,7 +25,10 @@ export default function TankaCard(props: Props) {
   return (
     <Card style={concatenatedStyle} {...cardProps}>
       <div css={postCardHeaderStyle}>
-        {icon}
+        <Link to={`/user_profile/${post?.user.id}`} css={userInfoStyle}>
+          {icon}
+          <p>{post?.user.username}</p>
+        </Link>
         <div css={postCardHeaderContentStyle}>
           <div css={tagsWrapperStyle}>
             <TagChip name="日常" />
@@ -32,7 +36,7 @@ export default function TankaCard(props: Props) {
           </div>
           <div css={areaPositionWrapperStyle}>
             <div css={areaPositionTextStyle}>
-              <div className="area">{post?.prefecture}</div>
+              <div className="area">{post?.prefecture?.name}</div>
               <div className="position">詳細位置</div>
             </div>
           </div>
@@ -58,6 +62,7 @@ const cardStyle = css`
 const postCardHeaderStyle = css`
   width: 100%;
   display: flex;
+  flex-flow: column;
   gap: 4px;
 `;
 
@@ -72,7 +77,18 @@ const postCardHeaderContentStyle = css`
   display: flex;
   flex-flow: column;
   flex-grow: 1;
+`;
+
+const userInfoStyle = css`
+  display: flex;
+  align-items: center;
   gap: 8px;
+  color: initial;
+  text-decoration: none;
+  p {
+    margin: 0;
+    font-weight: bold;
+  }
 `;
 
 const mainTextWrapperStyle = css`

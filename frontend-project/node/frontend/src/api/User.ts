@@ -29,4 +29,20 @@ export class UserAPI {
     });
     return response.data;
   }
+
+	static async follow(id: number): Promise<void> {
+		await authAxios.post(`users/${id}/follow/`, {}, {
+			headers: sessionStorage.getItem("token")
+        ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
+        : {},
+		})
+	}
+
+	static async unfollow(id: number): Promise<void> {
+		await authAxios.post(`users/${id}/unfollow/`, {}, {
+			headers: sessionStorage.getItem("token")
+        ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
+        : {},
+		})
+	}
 }

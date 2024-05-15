@@ -1,19 +1,21 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { css } from "@emotion/react";
 import { User } from "../../types/user";
+import { UserAPI } from "../../api/User";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   users: User[];
-}
+};
 
 export default function UserList(props: Props) {
   const { users } = props;
 
   return (
     <div css={userListStyle}>
-      {users.map(user => (
+      {users.map((user) => (
         <UserItem key={user.id} user={user} following />
       ))}
     </div>
@@ -27,14 +29,31 @@ interface UserItemProps {
 
 const UserItem: FC<UserItemProps> = (props: UserItemProps) => {
   const { user, following = true } = props;
+  const [isFollowing, setIsFollowing] = useState<boolean>(following);
+  const navigate = useNavigate();
+
+  const navigateToUserDetail = () => {
+    navigate(`/user_profile/${user.id}`);
+  };
+
+  const onClickFollowButton = async () => {
+    await UserAPI.follow(user.id);
+    setIsFollowing(true);
+  };
+
+  const onClickUnFollowButton = async () => {
+    await UserAPI.unfollow(user.id);
+    setIsFollowing(false);
+  };
+
   return (
-    <div css={userItemWrapperStyle}>
+    <div css={userItemWrapperStyle} onClick={navigateToUserDetail}>
       <img src="" alt="" />
       <div css={userNameStyle}>{user.username}</div>
-      {following ? (
-        <UnfollowButton onClick={() => null} />
+      {isFollowing ? (
+        <UnfollowButton onClick={onClickUnFollowButton} />
       ) : (
-        <FollowButton onClick={() => null} />
+        <FollowButton onClick={onClickFollowButton} />
       )}
     </div>
   );

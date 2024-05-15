@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
+import { nanoid } from "nanoid";
 import { useContext, useState } from "react";
 import { Theme, css } from "@emotion/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import PersonIcon from "@mui/icons-material/Person";
@@ -23,12 +24,12 @@ interface Props {
 export default function NavigationMenu(props: Props) {
   const { post, home, ranking, profile, logout } = props;
   const [isExpanded, setIsExpanded] = useState(false);
-	const { currentUser } = useContext(AuthUserContext);
+  const { currentUser } = useContext(AuthUserContext);
 
-	const onClickLogout = async () => {
-		sessionStorage.removeItem("token");
-		await UserAuthAPI.logout();
-	};
+  const onClickLogout = async () => {
+    sessionStorage.removeItem("token");
+    await UserAuthAPI.logout();
+  };
 
   return (
     <>
@@ -61,7 +62,7 @@ export default function NavigationMenu(props: Props) {
                 </Link>
               )}
               {currentUser && profile && (
-                <Link to={`/user_profile/${currentUser.id}`}>
+                <Link to={`/user_profile/${currentUser.id}/`}>
                   <PersonIcon />
                   <span>マイページ</span>
                 </Link>

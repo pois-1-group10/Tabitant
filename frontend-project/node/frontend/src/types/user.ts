@@ -3,6 +3,7 @@ export type User = {
 	email: string;
 	username: string;
 	image: string;
+	following?: boolean;
 }
 
 export type PostUser = {
