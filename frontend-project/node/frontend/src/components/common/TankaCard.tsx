@@ -4,15 +4,17 @@ import React, { ReactElement, ReactNode } from "react";
 import { SerializedStyles, css } from "@emotion/react";
 import Card from "./Card";
 import TagChip from "./TagChip";
+import { Post } from "../../types/post";
 
 interface Props {
+  post?: Post;
   icon?: ReactElement;
 	style?: SerializedStyles;
   children?: ReactNode;
 }
 
 export default function TankaCard(props: Props) {
-  const { icon, style, children } = props;
+  const { post, icon, style, children } = props;
 	const concatenatedStyle = css`
 		${cardStyle}
 		${style}
@@ -28,7 +30,7 @@ export default function TankaCard(props: Props) {
           </div>
           <div css={areaPositionWrapperStyle}>
             <div css={areaPositionTextStyle}>
-              <div className="area">エリア</div>
+              <div className="area">{post?.prefecture}</div>
               <div className="position">詳細位置</div>
             </div>
           </div>
@@ -36,11 +38,11 @@ export default function TankaCard(props: Props) {
       </div>
       <hr />
       <div css={mainTextWrapperStyle}>
-        <p>あああああ</p>
-        <p>あああああああ</p>
-        <p>あああああ</p>
-        <p>あああああああ</p>
-        <p>あああああああ</p>
+        <p>{post?.content_1}</p>
+        <p>{post?.content_2}</p>
+        <p>{post?.content_3}</p>
+        <p>{post?.content_4}</p>
+        <p>{post?.content_5}</p>
       </div>
 			{children}
     </Card>

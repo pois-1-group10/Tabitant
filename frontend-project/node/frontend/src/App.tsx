@@ -21,6 +21,8 @@ import RankingPage from "./components/Ranking/RankingPage";
 import { UserListProvider } from "./providers/UserListProvider";
 import { UserDetailProvider } from "./providers/UserDetailProvider";
 import { AuthUserProvider } from "./providers/AuthUserProvider";
+import { PostDetailProvider } from "./providers/PostDetailProvider";
+import { CommentListProvider } from "./providers/CommentListProvider";
 
 function App() {
   return (
@@ -48,7 +50,16 @@ function App() {
           }
         >
           <Route path="post" element={<PostPage />} />
-          <Route path="post_detail/:id/" element={<PostDetailPage />} />
+          <Route
+            path="post_detail/:id/"
+            element={
+              <PostDetailProvider>
+                <CommentListProvider>
+                  <PostDetailPage />
+                </CommentListProvider>
+              </PostDetailProvider>
+            }
+          />
           <Route path="user_profile/:id/" element={<Outlet />}>
             <Route
               path=""

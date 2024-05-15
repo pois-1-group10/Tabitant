@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { FC } from "react";
+import React, { FC, useContext, useEffect } from "react";
 import { css } from "@emotion/react";
-import { useParams } from "react-router-dom";
 import BackButton from "../common/BackButton";
 import Card from "../common/Card";
 
@@ -11,25 +10,37 @@ import thumbDownIcon from "../../img/thumb_down.svg";
 import CommentInput from "./CommentInput";
 import CommentItem from "./CommentItem";
 import TankaCard from "../common/TankaCard";
+import { PostDetailContext } from "../../providers/PostDetailProvider";
+import { CommentListContext } from "../../providers/CommentListProvider";
+import { useParams } from "react-router-dom";
 
 export default function PostDetailPage() {
+	const { post, fetchPostDetail } = useContext(PostDetailContext);
+	const { comments, fetchComments } = useContext(CommentListContext);
 	const params = useParams();
-	const id = params.id;
+	const postId = Number(params.id);
+
+	useEffect(() => {
+		fetchPostDetail();
+		postId && fetchComments({ post_id: postId });
+	}, []);
+
 	return (
 		<div css={backgroundStyle}>
 			<BackButton />
-			<TankaCard 
+			<TankaCard
+				post={post}
 				icon={<img src="" alt="" css={iconStyle} />}
 				style={cardStyle}
 			>
 				<div css={reactionButtonWrapperStyle}>
 					<div>
 						<img src={thumbUpIcon} alt="" />
-						<div css={thumbCountStyle}>0</div>
+						<div css={thumbCountStyle}>{post?.good_count}</div>
 					</div>
 					<div>
 						<img src={thumbDownIcon} alt="" />
-						<div css={thumbCountStyle}>0</div>
+						<div css={thumbCountStyle}>{post?.bad_count}</div>
 					</div>
 					<FollowButton onClick={() => null}/>
 				</div>
@@ -40,9 +51,9 @@ export default function PostDetailPage() {
       </TankaCard>
 			<Card style={cardStyle}>
 				<div css={commentTitleStyle}>コメント</div>
-				<CommentItem />
-				<CommentItem />
-				<CommentItem />
+				{comments.map(comment => (
+					<CommentItem key={comment.id} comment={comment} />
+				))}
 			</Card>
 		</div>
 	)
