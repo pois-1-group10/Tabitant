@@ -83,8 +83,22 @@ function App() {
               }
             />
           </Route>
-          <Route path="user_tanka/:userId/" element={<UserTankaPage />} />
-          <Route path="favorite/:userId/" element={<FavoritesPage />} />
+          <Route
+            path="user_tanka/:userId/"
+            element={
+              <PostListProvider>
+                <UserTankaPage />
+              </PostListProvider>
+            }
+          />
+          <Route
+            path="favorite/:userId/"
+            element={
+              <PostListProvider>
+                <FavoritesPage />
+              </PostListProvider>
+            }
+          />
           <Route path="ranking" element={<RankingPage />} />
         </Route>
       </Routes>
