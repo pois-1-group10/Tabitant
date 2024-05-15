@@ -126,19 +126,26 @@ class PostViewSet(viewsets.ModelViewSet):
             return PostOperationSerializer
         return PostDetailSerializer
     
-    def ranking_order(self, queryset):
-        return (
-            queryset.annotate(
-                comment_count=Count('comments'),
-                good_count=Count('goods'),
+    def ranking_order(self, queryset, select_newer: bool):
+        queryset = queryset.annotate(
+            comment_count=Count('comments'),
+            good_count=Count('goods'),
+        )
+        if select_newer:
+            queryset = queryset.annotate(
                 elapsed_seconds=ExpressionWrapper(
                     (timezone.now() - F('created_at')) / 1e6,
                     output_field=IntegerField()
                 )
-            ).annotate(
-                popularity=F('good_count') + F('comment_count') * 2 - F('elapsed_seconds') * 4 / 86400
-            ).order_by("-popularity")
-        )
+            )
+            queryset = queryset.annotate(
+                popularity=F('good_count') + F('comment_count') * 2 - (F('elapsed_seconds') / 86400) ** 2
+            )
+        else:
+            queryset = queryset.annotate(
+                popularity=F('good_count') + F('comment_count') * 2
+            )
+        return queryset.order_by("-popularity")
 
     def list(self, request):
         queryset = self.get_queryset()
@@ -177,8 +184,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if compe_id:
             queryset = queryset.filter(competition=compe_id)
         if ranking:
-            logger.warning("rank")
-            queryset = self.ranking_order(queryset)
+            queryset = self.ranking_order(queryset, False)
         serializer = self.get_serializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
@@ -191,7 +197,7 @@ class PostViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(latitude__range=(lat-0.01,lat+0.01))
         if lng:
             queryset = queryset.filter(longitude__range=(lng-0.01,lng+0.01))
-        queryset = self.ranking_order(queryset)
+        queryset = self.ranking_order(queryset, True)
         one = queryset.first()
         serializer = self.get_serializer(one)
         return Response(serializer.data)
