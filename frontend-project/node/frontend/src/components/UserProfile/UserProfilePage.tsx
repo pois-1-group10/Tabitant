@@ -60,7 +60,7 @@ export default function UserProfilePage() {
       </p>
       <hr />
       <div css={sectionTitleStyle}>短歌</div>
-      <TankaCard style={tankaCardStyle} />
+      <TankaCard style={tankaCardStyle} link/>
       <div css={sectionTitleStyle}>受賞歴</div>
       <Card style={awardCardStyle}></Card>
     </div>

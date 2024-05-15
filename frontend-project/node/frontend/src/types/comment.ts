@@ -16,3 +16,10 @@ export type CommentListParams = {
 	post_id?: number;
 	reply_to?: number;
 };
+
+export type PostCommentData = {
+	post: number;
+	reply_to?: number;
+	user: number;
+	content: string;
+};

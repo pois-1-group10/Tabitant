@@ -8,19 +8,21 @@ import { Post } from "../../types/post";
 
 interface Props {
   post?: Post;
+  link?: boolean;
   icon?: ReactElement;
-	style?: SerializedStyles;
+  style?: SerializedStyles;
   children?: ReactNode;
 }
 
 export default function TankaCard(props: Props) {
-  const { post, icon, style, children } = props;
-	const concatenatedStyle = css`
-		${cardStyle}
-		${style}
-	`;
+  const { post, link = false, icon, style, children } = props;
+  const concatenatedStyle = css`
+    ${cardStyle}
+    ${style}
+  `;
+  const cardProps = post && link ? { to: `/post_detail/${post?.id}` } : {};
   return (
-    <Card style={concatenatedStyle} to={"/post_detail/1/"}>
+    <Card style={concatenatedStyle} {...cardProps}>
       <div css={postCardHeaderStyle}>
         {icon}
         <div css={postCardHeaderContentStyle}>
@@ -44,7 +46,7 @@ export default function TankaCard(props: Props) {
         <p>{post?.content_4}</p>
         <p>{post?.content_5}</p>
       </div>
-			{children}
+      {children}
     </Card>
   );
 }
