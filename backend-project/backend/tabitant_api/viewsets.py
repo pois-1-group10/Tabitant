@@ -148,6 +148,8 @@ class PostViewSet(viewsets.ModelViewSet):
         tag = request.query_params.get('tag', None)
         emotion = request.query_params.get('emotion', None)
         user_id = request.query_params.get('user_id', None)
+        liked_by = request.query_params.get('liked_by', None)
+        compe_id = request.query_params.get('compe_id', None)
         ranking = request.query_params.get('ranking', None)
         if lat:
             queryset = queryset.filter(latitude__range=(lat-0.01,lat+0.01))
@@ -170,6 +172,10 @@ class PostViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(**{ f"emotion_{emotion}__gte": 1 }).order_by(f"-emotion_{emotion}")
         if user_id:
             queryset = queryset.filter(user=user_id)
+        if liked_by:
+            queryset = queryset.filter(goods__user=liked_by)
+        if compe_id:
+            queryset = queryset.filter(competition=compe_id)
         if ranking:
             logger.warning("rank")
             queryset = self.ranking_order(queryset)
