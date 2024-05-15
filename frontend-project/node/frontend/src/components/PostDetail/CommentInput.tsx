@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { CommentAPI } from "../../api/Comment";
 import { AuthUserContext } from "../../providers/AuthUserProvider";
+import { CommentListContext } from "../../providers/CommentListProvider";
 
 interface Props {
   postId: number;
@@ -16,15 +17,22 @@ type Input = {
 };
 
 export default function CommentInput({ postId, replyTo }: Props) {
-  const { register, handleSubmit } = useForm<Input>();
+  const { register, handleSubmit, reset } = useForm<Input>();
   const { currentUser } = useContext(AuthUserContext);
+  const { fetchComments } = useContext(CommentListContext);
 
   const onSubmit = async (data: Input) => {
     try {
-      currentUser && postId && await CommentAPI.createComment({
-        post: postId,
-        user: currentUser.id,
-		content: data.content,
+      currentUser &&
+        postId &&
+        (await CommentAPI.createComment({
+          post: postId,
+          user: currentUser.id,
+          content: data.content,
+        }));
+	  reset();
+      await fetchComments({
+        post_id: postId,
       });
     } catch (e) {
       console.log(e);

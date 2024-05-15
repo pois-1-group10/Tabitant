@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
-import React from "react";
+import React, { useContext } from "react";
 import { css } from "@emotion/react";
 import CancelButton from "../common/CancelButton";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserAuthAPI } from "../../api/UserAuth";
+import { AuthUserContext } from "../../providers/AuthUserProvider";
 
 interface Props {
   setSidebarIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,9 +13,12 @@ interface Props {
 
 export default function Sidebar(props: Props) {
   const { setSidebarIsOpen } = props;
-	const params = useParams();
-  const navigate= useNavigate();
-	const userId = params.id;
+  const { currentUser } = useContext(AuthUserContext);
+  const params = useParams();
+  const navigate = useNavigate();
+  const userId = params.id;
+
+  const myPage = Number(userId) === currentUser?.id;
 
   const logout = async () => {
     await UserAuthAPI.logout();
@@ -30,18 +34,34 @@ export default function Sidebar(props: Props) {
       />
       <div css={sidebarBackgroundStyle}>
         <div css={linkWrapperStyle}>
-          <Link to="edit/" css={linkButtonStyle}>プロフィール編集</Link>
+          {myPage && (
+            <>
+              <Link to="edit/" css={linkButtonStyle}>
+                プロフィール編集
+              </Link>
+              <div css={breakLineStyle} />
+            </>
+          )}
+          <Link to={`/user_tanka/${userId}`} css={linkButtonStyle}>
+            短歌一覧
+          </Link>
           <div css={breakLineStyle} />
-          <Link to={`/user_tanka/${userId}`} css={linkButtonStyle}>短歌一覧</Link>
+          <Link to={`/favorite/${userId}`} css={linkButtonStyle}>
+            いいねした作品
+          </Link>
           <div css={breakLineStyle} />
-          <Link to={`/favorite/${userId}`} css={linkButtonStyle}>いいねした作品</Link>
-          <div css={breakLineStyle} />
-          <div css={linkButtonStyle}>パスワード変更</div>
-          <div css={breakLineStyle} />
-          <div css={linkButtonStyle} onClick={logout}>ログアウト</div>
-          <div css={breakLineStyle} />
-					<div css={linkButtonAlertStyle}>アカウント削除</div>
-          <div css={breakLineStyle} />
+          {myPage && (
+            <>
+              <div css={linkButtonStyle}>パスワード変更</div>
+              <div css={breakLineStyle} />
+              <div css={linkButtonStyle} onClick={logout}>
+                ログアウト
+              </div>
+              <div css={breakLineStyle} />
+              <div css={linkButtonAlertStyle}>アカウント削除</div>
+              <div css={breakLineStyle} />
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -60,10 +80,10 @@ const shadowStyle = css`
 
 const cancelButtonStyle = css`
   position: absolute;
-	left: initial;
+  left: initial;
   top: 20px;
   right: 20px;
-	z-index: 2000;
+  z-index: 2000;
 `;
 
 const sidebarBackgroundStyle = css`
@@ -81,10 +101,10 @@ const linkWrapperStyle = css`
 `;
 
 const linkButtonStyle = css`
-	display: block;
-	text-decoration: none;
-	cursor: default;
-	color: black;
+  display: block;
+  text-decoration: none;
+  cursor: default;
+  color: black;
   height: 40px;
   width: 168px;
   line-height: 40px;
@@ -102,7 +122,7 @@ const linkButtonAlertStyle = css`
   text-align: center;
   font-size: 14px;
   font-weight: bold;
-	color: red;
+  color: red;
 `;
 
 const breakLineStyle = css`

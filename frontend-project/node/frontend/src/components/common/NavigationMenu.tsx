@@ -42,7 +42,7 @@ export default function NavigationMenu(props: Props) {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
             >
-              {post && (
+              {currentUser && post && (
                 <Link to="/post">
                   <EditIcon />
                   <span>投稿を作成</span>
@@ -66,7 +66,7 @@ export default function NavigationMenu(props: Props) {
                   <span>マイページ</span>
                 </Link>
               )}
-              {logout && (
+              {currentUser && logout && (
                 <Link to="/login?signin" onClick={onClickLogout}>
                   <LogoutIcon />
                   <span>ログアウト</span>
