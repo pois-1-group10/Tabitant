@@ -55,7 +55,7 @@ function TabPanel({ value, index }: TabPanelProps) {
                 {isShown && (
                     tabPosts[index]?.map(p =>
                         <div key={p.id} css={cardStyle}>
-                            <TankaCard icon={UserIcon({ user: p.user })}>
+                            <TankaCard icon={UserIcon({ user: p.user })} link>
                                 <div>{p.user?.username}</div>
                                 <div>{p.content.toString()}</div>
                             </TankaCard>

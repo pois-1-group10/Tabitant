@@ -1,18 +1,31 @@
 /** @jsxImportSource @emotion/react */
 
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { css } from "@emotion/react";
 import BackButton from "../common/BackButton";
 import TankaList from "../common/TankaList";
 import SortButton from "../common/SortButton";
+import { PostListContext } from "../../providers/PostListProvider";
+import { useParams } from "react-router-dom";
 
 export default function FavoritesPage() {
+  const { posts, fetchPosts } = useContext(PostListContext);
+  const params = useParams();
+  console.log(params);
+  const userId = Number(params.userId);
+
+  useEffect(() => {
+    fetchPosts({
+      liked_by: userId,
+    });
+  }, []);
+
   return (
     <div css={backgroundStyle}>
       <BackButton />
       <SortButton style={sortButtonStyle} onClick={() => null}/>
       <div css={sectionTitleStyle}>いいねした作品</div>
-      <TankaList />
+      <TankaList posts={posts} />
     </div>
   )
 }

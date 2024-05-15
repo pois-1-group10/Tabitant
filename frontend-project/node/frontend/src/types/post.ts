@@ -54,3 +54,14 @@ export type DetailPost = {
   disliked: boolean;
 	created_at: Date;
 };
+
+export type PostListParams = {
+  lat?: number;
+  lng?: number;
+  search?: string;
+  tag?: string[];
+  emotion?: string;
+  user_id?: number;
+  liked_by?: number;
+  compe_id?: number;
+}

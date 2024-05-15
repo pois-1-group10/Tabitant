@@ -20,19 +20,46 @@ import { PostListProvider } from "./providers/PostListProvider";
 import RankingPage from "./components/Ranking/RankingPage";
 import { UserListProvider } from "./providers/UserListProvider";
 import { UserDetailProvider } from "./providers/UserDetailProvider";
+import { AuthUserProvider } from "./providers/AuthUserProvider";
+import { PostDetailProvider } from "./providers/PostDetailProvider";
+import { CommentListProvider } from "./providers/CommentListProvider";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Home />} />
+        <Route
+          index
+          element={
+            <AuthUserProvider>
+              <Home />
+            </AuthUserProvider>
+          }
+        />
         <Route path="login" element={<Login />} />
         <Route
           path="/"
-          element={localStorage.getItem("token") ? <Outlet /> : <Navigate replace to="/login/" />}
+          element={
+            sessionStorage.getItem("token") ? (
+              <AuthUserProvider>
+                <Outlet />
+              </AuthUserProvider>
+            ) : (
+              <Navigate replace to="/login/" />
+            )
+          }
         >
           <Route path="post" element={<PostPage />} />
-          <Route path="post_detail/:id/" element={<PostDetailPage />} />
+          <Route
+            path="post_detail/:id/"
+            element={
+              <PostDetailProvider>
+                <CommentListProvider>
+                  <PostDetailPage />
+                </CommentListProvider>
+              </PostDetailProvider>
+            }
+          />
           <Route path="user_profile/:id/" element={<Outlet />}>
             <Route
               path=""
@@ -67,8 +94,22 @@ function App() {
               }
             />
           </Route>
-          <Route path="user_tanka/:userId/" element={<UserTankaPage />} />
-          <Route path="favorite/:userId/" element={<FavoritesPage />} />
+          <Route
+            path="user_tanka/:userId/"
+            element={
+              <PostListProvider>
+                <UserTankaPage />
+              </PostListProvider>
+            }
+          />
+          <Route
+            path="favorite/:userId/"
+            element={
+              <PostListProvider>
+                <FavoritesPage />
+              </PostListProvider>
+            }
+          />
           <Route path="ranking" element={<RankingPage />} />
         </Route>
       </Routes>

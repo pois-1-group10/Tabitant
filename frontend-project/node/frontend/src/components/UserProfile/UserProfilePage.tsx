@@ -8,6 +8,7 @@ import HamburgerButton from "../common/HamburgerButton";
 import Sidebar from "./Sidebar";
 import { Link, useParams } from "react-router-dom";
 import { UserDetailContext } from "../../providers/UserDetailProvider";
+import NavigationMenu from "../common/NavigationMenu";
 
 export default function UserProfilePage() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
@@ -34,6 +35,7 @@ export default function UserProfilePage() {
         style={hamburgerButtonStyle}
         onClick={() => setSidebarIsOpen(true)}
       />
+      <NavigationMenu home ranking post />
       {sidebarIsOpen && <Sidebar setSidebarIsOpen={setSidebarIsOpen} />}
       <div css={profileHeaderStyle}>
         <img src="" alt="" css={userIconStyle} />
@@ -60,7 +62,7 @@ export default function UserProfilePage() {
       </p>
       <hr />
       <div css={sectionTitleStyle}>短歌</div>
-      <TankaCard style={tankaCardStyle} />
+      <TankaCard style={tankaCardStyle} link/>
       <div css={sectionTitleStyle}>受賞歴</div>
       <Card style={awardCardStyle}></Card>
     </div>

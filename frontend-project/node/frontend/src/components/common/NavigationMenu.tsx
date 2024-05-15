@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { ReactNode, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Theme, css } from "@emotion/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import HomeIcon from "@mui/icons-material/Home";
 import { UserAuthAPI } from "../../api/UserAuth";
+import { AuthUserContext } from "../../providers/AuthUserProvider";
 
 interface Props {
   post?: boolean;
@@ -22,10 +23,11 @@ interface Props {
 export default function NavigationMenu(props: Props) {
   const { post, home, ranking, profile, logout } = props;
   const [isExpanded, setIsExpanded] = useState(false);
+	const { currentUser } = useContext(AuthUserContext);
 
 	const onClickLogout = async () => {
+		sessionStorage.removeItem("token");
 		await UserAuthAPI.logout();
-		localStorage.removeItem("token");
 	};
 
   return (
@@ -40,7 +42,7 @@ export default function NavigationMenu(props: Props) {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
             >
-              {post && (
+              {currentUser && post && (
                 <Link to="/post">
                   <EditIcon />
                   <span>投稿を作成</span>
@@ -58,13 +60,13 @@ export default function NavigationMenu(props: Props) {
                   <span>ランキング</span>
                 </Link>
               )}
-              {profile && (
-                <Link to="/">
+              {currentUser && profile && (
+                <Link to={`/user_profile/${currentUser.id}`}>
                   <PersonIcon />
                   <span>マイページ</span>
                 </Link>
               )}
-              {logout && (
+              {currentUser && logout && (
                 <Link to="/login?signin" onClick={onClickLogout}>
                   <LogoutIcon />
                   <span>ログアウト</span>
