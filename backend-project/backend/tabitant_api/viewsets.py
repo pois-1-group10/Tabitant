@@ -5,32 +5,17 @@ from .serializers import *
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
-from django.db.models import Count
+from django.db.models import Count, F, Q, ExpressionWrapper
+from django.db.models.fields import IntegerField
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
-from django.db.models import F
-import ml
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
 # 例外
 def ErrorResponse(message, status):
     return Response({"detail": message}, status)
-
-# リクエストの content から感情分析の結果の辞書を取得
-def get_emotion_dict(request):
-    content = "".join([request.data.get(f"content_{i}") for i in range(1, 6)])
-    d = ml.eval(content)
-    res = {
-        'emotion_ureshii': d["emotion.happy"],
-        'emotion_omoshiroi': d["emotion.funny"],
-        'emotion_odayaka': d["emotion.calm"],
-        'emotion_shimijimi': d["emotion.sad"],
-        'emotion_samishii': d["emotion.lonely"],
-        'emotion_ikari': d["emotion.angry"],
-    }
-    return res
-
 
 #クエリセットとはモデルのオブジェクトのリスト  .filterはクエリセットを返し、.getはオブジェクトを返す。
 
@@ -140,26 +125,54 @@ class PostViewSet(viewsets.ModelViewSet):
         elif self.action in ['like', 'unlike', 'dislike', 'undislike']:
             return PostOperationSerializer
         return PostDetailSerializer
+    
+    def ranking_order(self, queryset):
+        return (
+            queryset.annotate(
+                comment_count=Count('comments'),
+                good_count=Count('goods'),
+                elapsed_seconds=ExpressionWrapper(
+                    (timezone.now() - F('created_at')) / 1e6,
+                    output_field=IntegerField()
+                )
+            ).annotate(
+                popularity=F('good_count') + F('comment_count') * 2 - F('elapsed_seconds') * 4 / 86400
+            ).order_by("-popularity")
+        )
 
     def list(self, request):
         queryset = self.get_queryset()
         lat = request.query_params.get('lat', None)
         lng = request.query_params.get('lng', None)
+        search = request.query_params.get('search', None)
         tag = request.query_params.get('tag', None)
         emotion = request.query_params.get('emotion', None)
         user_id = request.query_params.get('user_id', None)
+        ranking = request.query_params.get('ranking', None)
         if lat:
             queryset = queryset.filter(latitude__range=(lat-0.01,lat+0.01))
         if lng:
             queryset = queryset.filter(longitude__range=(lng-0.01,lng+0.01))
+        if search:
+            for word in search.split(' '):
+                queryset = queryset.filter(
+                    Q(content_1__contains=word) |
+                    Q(content_2__contains=word) |
+                    Q(content_3__contains=word) |
+                    Q(content_4__contains=word) |
+                    Q(content_5__contains=word)
+                )
         if tag:
-            queryset = queryset.filter(tag__in=F("tags"))
+            queryset = queryset.filter(tags=tag)
         if emotion:
             if not emotion in ["ureshii", "omoshiroi", "odayaka", "shimijimi", "samishii", "ikari"]:
                 return ErrorResponse("The emotion value is invalid.", status.HTTP_400_BAD_REQUEST)
             queryset = queryset.filter(**{ f"emotion_{emotion}__gte": 1 }).order_by(f"-emotion_{emotion}")
         if user_id:
             queryset = queryset.filter(user=user_id)
+        if ranking:
+            logger.warning("rank")
+            queryset = self.ranking_order(queryset)
         serializer = self.get_serializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
@@ -172,14 +185,15 @@ class PostViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(latitude__range=(lat-0.01,lat+0.01))
         if lng:
             queryset = queryset.filter(longitude__range=(lng-0.01,lng+0.01))
-        serializer = self.get_serializer(queryset, many=True)
+        queryset = self.ranking_order(queryset)
+        one = queryset.first()
+        serializer = self.get_serializer(one)
         return Response(serializer.data)
 
     def create(self, request):
-        emotions = get_emotion_dict(request)
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(**emotions)
+            serializer.save()
             logger.info("Emotional labels have been attached.")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -191,11 +205,10 @@ class PostViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def update(self, request, pk):
-        emotions = get_emotion_dict(request)
         item = self.get_object()
         serializer = self.get_serializer(item, data=request.data)
         if serializer.is_valid():
-            serializer.save(**emotions)
+            serializer.save()
             logger.info("Emotional labels have been reattached.")
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -256,7 +269,9 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
 
     def get_serializer_class(self):
-        return CommentSerializer
+        if self.action in ['create', 'update']:
+            return CommentUpdateSerializer
+        return CommentDetailSerializer
 
     def list(self, request):
         queryset = self.get_queryset()
@@ -265,39 +280,31 @@ class CommentViewSet(viewsets.ModelViewSet):
         if post_id is not None:
             queryset = queryset.filter(post_id=post_id)
         if reply_to:
-            queryset = queryset.filter(parent_comment=reply_to)  #parent_comment=reply_toでいいのか
-        serializer = CommentSerializer(queryset, many=True)
+            queryset = queryset.filter(parent_comment=reply_to)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-    
-    def create(self, request):  #???
-        serializer = CommentSerializer(data=request.data)
-        post_id = request.query_params.get('post_id', None)
-        reply_to = request.query_params.get('reply_to', None)
-        partial_data = {
-            'post_id': post_id,
-            'parent_comment_id': reply_to,
-        }
+
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk):
-        queryset = Comment.objects.all()
-        queryset = queryset.filter(id=pk)
-        item = get_object_or_404(queryset)
-        serializer = CommentDetailSerializer(item)
+        item = self.get_object()
+        serializer = self.get_serializer(item)
         return Response(serializer.data)
 
-    def update(self, request):
-        queryset = self.get_object()
-        serializer = CommentDetailSerializer(queryset, data=request.data)
+    def update(self, request, pk):
+        item = self.get_object()
+        serializer = self.get_serializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def destroy(self, request):
+    def destroy(self, request, pk):
         item = self.get_object()
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

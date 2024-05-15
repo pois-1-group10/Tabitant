@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm
 from rest_framework import serializers
 from .models import *
+import ml
 
 class CustomLoginSerializer(LoginSerializer):
     username = None
@@ -39,17 +40,24 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ['id','email','username','image','userprofile','follower_num','followee_num','like_num']
         read_only_fields = ['userprofile','follower_num','followee_num','like_num']
 
+class PrefectureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Prefecture
+        fields = ['id', 'name']
+
 class PostDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+    prefecture = PrefectureSerializer()
     good_count = serializers.IntegerField(source="goods.count", read_only=True)
     bad_count = serializers.IntegerField(source="bads.count", read_only=True)
+    comment_count = serializers.IntegerField(source="comments.count", read_only=True)
     liked = serializers.SerializerMethodField()
     disliked = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
-                  'latitude', 'longitude', 'prefecture', 'good_count', 'bad_count',
+                  'latitude', 'longitude', 'prefecture', 'created_at', 'good_count', 'bad_count', 'comment_count', 'tags',
                   'emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
                   'emotion_samishii', 'emotion_ikari', 'liked', 'disliked']
 
@@ -69,14 +77,34 @@ class PostUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
-                  'latitude', 'longitude', 'prefecture',
+                  'latitude', 'longitude', 'prefecture', 'tags',
                   'emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
                   'emotion_samishii', 'emotion_ikari']
         read_only_fields = ['emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
                   'emotion_samishii', 'emotion_ikari']
 
+    def add_emotion_labels(self, validated_data):
+        content = "".join([validated_data.get(f"content_{i}") for i in range(1, 6)])
+        d = ml.eval(content)
+        emotions = {
+            'emotion_ureshii': d["emotion.happy"],
+            'emotion_omoshiroi': d["emotion.funny"],
+            'emotion_odayaka': d["emotion.calm"],
+            'emotion_shimijimi': d["emotion.sad"],
+            'emotion_samishii': d["emotion.lonely"],
+            'emotion_ikari': d["emotion.angry"],
+        }
+        validated_data.update(emotions)
+
+    def create(self, validated_data):
+        self.add_emotion_labels(validated_data)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        self.add_emotion_labels(validated_data)
+        return super().update(instance, validated_data)
+
 class PostOperationSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
     good_count = serializers.IntegerField(source="goods.count", read_only=True)
     bad_count = serializers.IntegerField(source="bads.count", read_only=True)
     liked = serializers.SerializerMethodField()
@@ -85,7 +113,7 @@ class PostOperationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = read_only_fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
-                  'latitude', 'longitude', 'prefecture', 'good_count', 'bad_count',
+                  'latitude', 'longitude', 'prefecture', 'created_at', 'good_count', 'bad_count',
                   'emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
                   'emotion_samishii', 'emotion_ikari', 'liked', 'disliked']
 
@@ -101,35 +129,39 @@ class PostOperationSerializer(serializers.ModelSerializer):
             return Bad.objects.filter(user=user, post=obj).exists()
         return False
 
-class GoodSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Good
-        fields = ['id', 'user', 'post']
-
-class BadSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Bad
-        fields = ['id', 'user', 'post']
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = ['id', 'user', 'post','parent_comment','content','created_at','updated_at']
-
 class CommentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'post','parent_comment','content','created_at','updated_at']
+        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'created_at', 'updated_at']
+
+class CommentUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'created_at', 'updated_at']
+
+    def check_parent(self, validated_data):
+        parent_comment = validated_data.get("parent_comment")
+        if not parent_comment: return
+        post = validated_data.get("post")
+        # parent_comment の post と自身の post を比較
+        if parent_comment.post != post:
+            raise serializers.ValidationError("The parent comment does not belong to the same post.")
+        # parent_comment には parent があってはならない
+        if parent_comment.parent_comment:
+            raise serializers.ValidationError("The parent comment must be a root comment.")
+
+    def create(self, validated_data):
+        self.check_parent(validated_data)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        self.check_parent(validated_data)
+        return super().update(instance, validated_data)
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ['id', 'follower', 'followee']
-
-class PrefectureSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Prefecture
-        fields = ['id', 'name']
 
 class AwardSerializer(serializers.ModelSerializer):
     prefecture = PrefectureSerializer(source="compe.prefecture", read_only=True)
