@@ -135,9 +135,11 @@ class CommentDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'post', 'parent_comment', 'content', 'created_at', 'updated_at']
 
 class CommentUpdateSerializer(serializers.ModelSerializer):
+    reply_count = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'created_at', 'updated_at', 'reply_count']
 
     def check_parent(self, validated_data):
         parent_comment = validated_data.get("parent_comment")

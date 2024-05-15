@@ -178,7 +178,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if lat:
             queryset = queryset.filter(latitude__range=(float(lat)-0.01,float(lat)+0.01))
         if lng:
-            queryset = queryset.filter(longitude__range=(lng-0.01,lng+0.01))
+            queryset = queryset.filter(longitude__range=(float(lng)-0.01,float(lng)+0.01))
         if search:
             for word in search.split(' '):
                 queryset = queryset.filter(
@@ -310,6 +310,9 @@ class CommentViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(post_id=post_id)
         if reply_to:
             queryset = queryset.filter(parent_comment=reply_to)
+        else:
+            queryset = queryset.filter(parent_comment=None)
+            queryset = queryset.annotate(reply_count=Count('replies'))
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
