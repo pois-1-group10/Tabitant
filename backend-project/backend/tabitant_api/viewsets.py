@@ -19,6 +19,8 @@ def ErrorResponse(message, status):
 
 #クエリセットとはモデルのオブジェクトのリスト  .filterはクエリセットを返し、.getはオブジェクトを返す。
 
+#postの時はidだけでしたい
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -58,21 +60,20 @@ class UserViewSet(viewsets.ModelViewSet):
             follower_num=Count("followee", distinct=True),
             like_num=Count("goods", distinct=True),
         )
-        queryset = queryset.filter(id=pk)
-        item = get_object_or_404(queryset)
+        item = get_object_or_404(queryset, id=pk)
         serializer = UserDetailSerializer(item)
         return Response(serializer.data)
     
-    def update(self, request):
-        item = self.get_object()  #更新する対象のオブジェクト
+    def update(self, request, pk):
+        item = get_object_or_404(User, pk=pk)  #更新する対象のオブジェクト
         serializer = UserDetailSerializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def destroy(self, request):
-        item = self.get_object()
+    def destroy(self, request, pk):
+        item = get_object_or_404(User, pk=pk)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
@@ -92,6 +93,24 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
     
+    @action(detail=True, methods=['post'], url_path='follow')   #??
+    def unfollow(self, request, pk=None):
+        follow_instance = Follow.objects.filter(follower=request.user, followee__id=pk).first()
+        if follow_instance:
+            # 条件に合致するフォロー関係が見つかった場合は削除する
+            follow_instance.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            # フォロー関係が見つからなかった場合は404エラーを返す
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        
+    @action(detail=False, methods={"get"})
+    def auth(self, request):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
+
+    
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
@@ -100,23 +119,21 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         return UserProfileSerializer
 
     def retrieve(self, request, pk):
-        queryset = self.get_queryset().values('id', 'user', 'bio', 'default_post')
-        queryset = queryset.filter(id=pk)
-        serializer = UserProfileSerializer(item, data=request.data)
-        item = get_object_or_404(queryset)
-        serializer = UserDetailSerializer(item)
+        queryset = self.get_queryset()
+        item = queryset.get(id=pk)
+        serializer = UserProfileSerializer(item)
         return Response(serializer.data)
     
-    def update(self, request):
-        item = self.get_object()
+    def update(self, request, pk):
+        item = get_object_or_404(UserProfile, pk=pk)
         serializer = UserProfileSerializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def destroy(self, request):
-        item = self.get_object()
+    def destroy(self, request, pk):
+        item = get_object_or_404(UserProfile, pk=pk)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
@@ -164,7 +181,7 @@ class PostViewSet(viewsets.ModelViewSet):
         compe_id = request.query_params.get('compe_id', None)
         ranking = request.query_params.get('ranking', None)
         if lat:
-            queryset = queryset.filter(latitude__range=(lat-0.01,lat+0.01))
+            queryset = queryset.filter(latitude__range=(float(lat)-0.01,float(lat)+0.01))
         if lng:
             queryset = queryset.filter(longitude__range=(lng-0.01,lng+0.01))
         if search:
@@ -199,9 +216,9 @@ class PostViewSet(viewsets.ModelViewSet):
         lat = request.query_params.get('lat', None)
         lng = request.query_params.get('lng', None)
         if lat:
-            queryset = queryset.filter(latitude__range=(lat-0.01,lat+0.01))
+            queryset = queryset.filter(latitude__range=(float(lat)-0.01,float(lat)+0.01))
         if lng:
-            queryset = queryset.filter(longitude__range=(lng-0.01,lng+0.01))
+            queryset = queryset.filter(longitude__range=(float(lng)-0.01,float(lng)+0.01))
         queryset = self.ranking_order(queryset, True)
         one = queryset.first()
         serializer = self.get_serializer(one)
