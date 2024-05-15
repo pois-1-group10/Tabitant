@@ -66,9 +66,23 @@ class Good(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="goods")   #逆引きによりgoodテーブルにあるユーザのリストをゲット
     post=models.ForeignKey(Post, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = "Good"
+        verbose_name_plural = "Good"
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.post}"
+
 class Bad(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     post=models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Bad"
+        verbose_name_plural = "Bad"
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.post}"
 
 class Comment(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
@@ -89,12 +103,24 @@ class GoodComment(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     comment=models.ForeignKey(Comment, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = "コメントへの Good"
+        verbose_name_plural = "コメントへの Good"
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.comment}"
+
 class Follow(models.Model):
     follower=models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
     followee=models.ForeignKey(User, on_delete=models.CASCADE, related_name="followee")
 
     class Meta:
         unique_together = ['follower_id', 'followee_id']
+        verbose_name = "フォロー"
+        verbose_name_plural = "フォロー"
+
+    def __str__(self):
+        return f"{self.follower.username} -> {self.followee.username}"
 
 class UserProfile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE, related_name="userprofile")
