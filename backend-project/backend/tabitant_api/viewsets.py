@@ -86,6 +86,11 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'error': 'You are already following this user.'}, status=400)
         Follow.objects.create(follower=follower, followee=user_to_follow)
         return Response({'message': 'Successfully followed user.'}, status=201)
+
+    @action(detail=False, methods={"get"})
+    def auth(self, request):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
     
 
 class UserProfileViewSet(viewsets.ModelViewSet):
