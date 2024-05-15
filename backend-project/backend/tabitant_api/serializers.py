@@ -39,36 +39,77 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ['id','email','username','image','userprofile','follower_num','followee_num','like_num']
         read_only_fields = ['userprofile','follower_num','followee_num','like_num']
 
-class PostSerializer(serializers.ModelSerializer):
+class PostDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    good_count = serializers.IntegerField()
-    bad_count = serializers.IntegerField()
+    good_count = serializers.IntegerField(source="goods.count", read_only=True)
+    bad_count = serializers.IntegerField(source="bads.count", read_only=True)
+    liked = serializers.SerializerMethodField()
+    disliked = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
-                  'latitude', 'longitude', 'prefecture', 'good_count', 'bad_count']
-        
-class PostHotSerializer(serializers.ModelSerializer):
+                  'latitude', 'longitude', 'prefecture', 'good_count', 'bad_count',
+                  'emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
+                  'emotion_samishii', 'emotion_ikari', 'liked', 'disliked']
 
+    def get_liked(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Good.objects.filter(user=user, post=obj).exists()
+        return False
+
+    def get_disliked(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Bad.objects.filter(user=user, post=obj).exists()
+        return False
+
+class PostUpdateSerializer(serializers.ModelSerializer):
     class Meta:
-        model= Post
-        fields = ['id', 'user', 'user_image', 'user_name','content_1', 'content_2', 'content_3', 'content_4', 'content_5']
-        
-class PostDetailSerializer(serializers.ModelSerializer):
+        model = Post
+        fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
+                  'latitude', 'longitude', 'prefecture',
+                  'emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
+                  'emotion_samishii', 'emotion_ikari']
+        read_only_fields = ['emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
+                  'emotion_samishii', 'emotion_ikari']
+
+class PostOperationSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    good_count = serializers.IntegerField(source="goods.count", read_only=True)
+    bad_count = serializers.IntegerField(source="bads.count", read_only=True)
+    liked = serializers.SerializerMethodField()
+    disliked = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
+        fields = read_only_fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
+                  'latitude', 'longitude', 'prefecture', 'good_count', 'bad_count',
+                  'emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
+                  'emotion_samishii', 'emotion_ikari', 'liked', 'disliked']
+
+    def get_liked(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Good.objects.filter(user=user, post=obj).exists()
+        return False
+
+    def get_disliked(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Bad.objects.filter(user=user, post=obj).exists()
+        return False
 
 class GoodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Good
-        fields = ['id', 'user_id', 'post_id']
+        fields = ['id', 'user', 'post']
 
 class BadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bad
-        fields = ['id', 'user_id', 'post_id']
+        fields = ['id', 'user', 'post']
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

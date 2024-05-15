@@ -29,18 +29,19 @@ class Command(BaseCommand):
             tag.post.set(tag_posts)
         self.stdout.write('Created tags.')
 
-        # Create Goods and Bads
-        goods = GoodFactory.create_batch(100, user=Iterator(users), post=Iterator(posts))
-        bads = BadFactory.create_batch(100, user=Iterator(users), post=Iterator(posts))
-        self.stdout.write('Created goods and bads.')
+        # TODO: Unique 制約を考慮 (GoodComments も同じ)
+        # # Create Goods and Bads
+        # goods = GoodFactory.create_batch(100, user=Iterator(users), post=Iterator(posts))
+        # bads = BadFactory.create_batch(100, user=Iterator(users), post=Iterator(posts))
+        # self.stdout.write('Created goods and bads.')
 
         # Create Comments
         comments = CommentFactory.create_batch(20, user=Iterator(users), post=Iterator(posts))
         self.stdout.write('Created comments.')
 
-        # Create GoodComments
-        good_comments = GoodCommentFactory.create_batch(100, user=Iterator(users), comment=Iterator(comments))
-        self.stdout.write('Created good comments.')
+        # # Create GoodComments
+        # good_comments = GoodCommentFactory.create_batch(100, user=Iterator(users), comment=Iterator(comments))
+        # self.stdout.write('Created good comments.')
 
         # Create Follows
         follows = FollowFactory.create_batch(10, follower=Iterator(users), followee=Iterator(users))

@@ -1,3 +1,4 @@
+import logging
 from rest_framework import viewsets
 from .models import *
 from .serializers import *
@@ -8,10 +9,28 @@ from django.db.models import Count
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from django.db.models import F
+import ml
+
+logger = logging.getLogger(__name__)
 
 # 例外
 def ErrorResponse(message, status):
     return Response({"detail": message}, status)
+
+# リクエストの content から感情分析の結果の辞書を取得
+def get_emotion_dict(request):
+    content = "".join([request.data.get(f"content_{i}") for i in range(1, 6)])
+    d = ml.eval(content)
+    res = {
+        'emotion_ureshii': d["emotion.happy"],
+        'emotion_omoshiroi': d["emotion.funny"],
+        'emotion_odayaka': d["emotion.calm"],
+        'emotion_shimijimi': d["emotion.sad"],
+        'emotion_samishii': d["emotion.lonely"],
+        'emotion_ikari': d["emotion.angry"],
+    }
+    return res
+
 
 #クエリセットとはモデルのオブジェクトのリスト  .filterはクエリセットを返し、.getはオブジェクトを返す。
 
@@ -114,36 +133,36 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
-    
+
     def get_serializer_class(self):
-        return PostSerializer
+        if self.action in ['create', 'update']:
+            return PostUpdateSerializer
+        elif self.action in ['like', 'unlike', 'dislike', 'undislike']:
+            return PostOperationSerializer
+        return PostDetailSerializer
 
     def list(self, request):
         queryset = self.get_queryset()
         lat = request.query_params.get('lat', None)
         lng = request.query_params.get('lng', None)
-        tag=request.query_params.get('tag', None)
-        emo=request.query_params.get('emotion', None)
-        user=request.query_params.get('user_id', None)
+        tag = request.query_params.get('tag', None)
+        emotion = request.query_params.get('emotion', None)
+        user_id = request.query_params.get('user_id', None)
         if lat:
             queryset = queryset.filter(latitude__range=(lat-0.01,lat+0.01))
         if lng:
             queryset = queryset.filter(longitude__range=(lng-0.01,lng+0.01))
         if tag:
-            queryset = queryset.filter(tag__in=F("tags__"))    #??
-        if emo:
-            queryset = queryset.filter(emotion=Post.emotion_ikari)   #??
-        if user:
-            queryset = queryset.filter(user__user_id=user)
-        queryset = queryset.annotate(
-            user_image=F("user__image"),
-            user_name=F("user__username"),
-            good_count=Count("good"),
-            bad_count=Count("bad"),
-        )
-        serializer = PostSerializer(queryset, many=True)
+            queryset = queryset.filter(tag__in=F("tags"))
+        if emotion:
+            if not emotion in ["ureshii", "omoshiroi", "odayaka", "shimijimi", "samishii", "ikari"]:
+                return ErrorResponse("The emotion value is invalid.", status.HTTP_400_BAD_REQUEST)
+            queryset = queryset.filter(**{ f"emotion_{emotion}__gte": 1 }).order_by(f"-emotion_{emotion}")
+        if user_id:
+            queryset = queryset.filter(user=user_id)
+        serializer = self.get_serializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
-    
+
     @action(methods=["get"], detail=False, url_path='hot_one')
     def hot_one(self, request):
         queryset = self.get_queryset()
@@ -153,79 +172,84 @@ class PostViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(latitude__range=(lat-0.01,lat+0.01))
         if lng:
             queryset = queryset.filter(longitude__range=(lng-0.01,lng+0.01))
-        queryset = queryset.values('id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5')     
-        queryset = queryset.annotate(
-            user_image=F("user__image"),
-            user_name=F("user__username"),
-        )  
-        serializer = PostHotSerializer(queryset, many=True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
     def create(self, request):
-        serializer = PostSerializer(data=request.data)
+        emotions = get_emotion_dict(request)
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def retrieve(self, request, pk):
-        queryset = self.get_queryset().annotate(
-            image=F("user__image"),
-            username=User.objects.get(id=queryset.get(id=pk).user_id).username,   #F("user__username"),
-            good_count=Good.objects.filter(post__post_id=pk).count(),
-            bad_count=Bad.objects.filter(post__post_id=pk).count(),
-            tags=list(Tag.objects.filter(post=pk).values('id')),     #???
-            liked=Good.objects.filter(user=request.user, post=pk).exists(),  #post=pkでいいのか
-            disliked=Bad.objects.filter(user=request.user, post=pk).exists(),  #post=pkでいいのか
-        ).values('id','user','username','image','content1','content_2', 'content_3', 'content_4', 'content_5',
-                 'latitude', 'longitude', 'prefecture','detailed_place', 'emotion_ureshii','emotion_omoshiroi','emotion_odayaka','emotion_shimijimi',
-                  'emotion_samishii', 'emotion_ikari','good_count', 'bad_count', 'tags', 'liked', 'disliked')     
-        queryset = queryset.filter(id=pk)
-        item = get_object_or_404(queryset)
-        serializer = PostDetailSerializer(item)
-        return Response(serializer.data)
-    
-    def update(self, request):
-        item = self.get_object()  #更新する対象のオブジェクト
-        serializer = PostDetailSerializer(item, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def destroy(self, request):
-        item = self.get_object()
-        item.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    
-    
-    @action(methods=["post"], detail=True, url_path='like')
-    def like(self, request, pk):
-        serializer = GoodSerializer(data=request.data)
-        Good.objects.create(user=request.user, post=pk)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    @action(methods=["delete"], detail=True, url_path='like')
-    def unlike(self, request, pk):
-        Good.objects.delete(user=request.user, post=pk)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    
-    @action(methods=["post"], detail=True, url_path='dislike')
-    def dislike(self, request, pk):
-        serializer = PostSerializer(data=request.data)
-        Bad.objects.create(user=request.user, post=pk)
-        if serializer.is_valid():
-            serializer.save()
+            serializer.save(**emotions)
+            logger.info("Emotional labels have been attached.")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(methods=["delete"], detail=True, url_path='dislike')
-    def undislike(self, request, pk):
-        Bad.objects.delete(user=request.user, post=pk)
+    def retrieve(self, request, pk):
+        queryset = self.get_queryset()
+        item = get_object_or_404(queryset, pk=pk)
+        serializer = self.get_serializer(item)
+        return Response(serializer.data)
+
+    def update(self, request, pk):
+        emotions = get_emotion_dict(request)
+        item = self.get_object()
+        serializer = self.get_serializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save(**emotions)
+            logger.info("Emotional labels have been reattached.")
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk):
+        item = self.get_object()
+        item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(methods=["post"], detail=True, url_path='like')
+    def like(self, request, pk):
+        item = self.get_object()
+        if Good.objects.filter(user=request.user, post=item).exists():
+            return ErrorResponse("The post has already been liked.", status.HTTP_400_BAD_REQUEST)
+        bad = Bad.objects.filter(user=request.user, post=item)
+        if bad.exists():
+            bad.delete()
+            logger.info("The bad object has been deleted.")
+        Good.objects.create(user=request.user, post=item)
+        serializer = self.get_serializer(item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(methods=["post"], detail=True, url_path='unlike')
+    def unlike(self, request, pk):
+        item = self.get_object()
+        good = Good.objects.filter(user=request.user, post=item)
+        if not good.exists():
+            return ErrorResponse("The post has not been liked.", status.HTTP_400_BAD_REQUEST)
+        good.delete()
+        serializer = self.get_serializer(item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(methods=["post"], detail=True, url_path='dislike')
+    def dislike(self, request, pk):
+        item = self.get_object()
+        if Bad.objects.filter(user=request.user, post=item).exists():
+            return ErrorResponse("The post has already been disliked.", status.HTTP_400_BAD_REQUEST)
+        good = Good.objects.filter(user=request.user, post=item)
+        if good.exists():
+            good.delete()
+            logger.info("The good object has been deleted.")
+        Bad.objects.create(user=request.user, post=item)
+        serializer = self.get_serializer(item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(methods=["post"], detail=True, url_path='undislike')
+    def undislike(self, request, pk):
+        item = self.get_object()
+        bad = Bad.objects.filter(user=request.user, post=item)
+        if not bad.exists():
+            return ErrorResponse("The post has not been disliked.", status.HTTP_400_BAD_REQUEST)
+        bad.delete()
+        serializer = self.get_serializer(item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
