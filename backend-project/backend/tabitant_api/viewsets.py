@@ -319,7 +319,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        print(request.user)
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
