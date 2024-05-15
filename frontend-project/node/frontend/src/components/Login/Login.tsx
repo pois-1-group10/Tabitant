@@ -73,7 +73,7 @@ function Signin() {
   const onSubmit = async (data: SigninInputs) => {
     try {
       const authData = await UserAuthAPI.login(data);
-      localStorage.setItem("token", authData.key);
+      sessionStorage.setItem("token", authData.key);
       navigate("/");
     } catch (e) {
       console.log(e);

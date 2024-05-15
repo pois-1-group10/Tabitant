@@ -20,16 +20,32 @@ import { PostListProvider } from "./providers/PostListProvider";
 import RankingPage from "./components/Ranking/RankingPage";
 import { UserListProvider } from "./providers/UserListProvider";
 import { UserDetailProvider } from "./providers/UserDetailProvider";
+import { AuthUserProvider } from "./providers/AuthUserProvider";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Home />} />
+        <Route
+          index
+          element={
+            <AuthUserProvider>
+              <Home />
+            </AuthUserProvider>
+          }
+        />
         <Route path="login" element={<Login />} />
         <Route
           path="/"
-          element={localStorage.getItem("token") ? <Outlet /> : <Navigate replace to="/login/" />}
+          element={
+            sessionStorage.getItem("token") ? (
+              <AuthUserProvider>
+                <Outlet />
+              </AuthUserProvider>
+            ) : (
+              <Navigate replace to="/login/" />
+            )
+          }
         >
           <Route path="post" element={<PostPage />} />
           <Route path="post_detail/:id/" element={<PostDetailPage />} />

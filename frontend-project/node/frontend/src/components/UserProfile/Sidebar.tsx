@@ -18,7 +18,7 @@ export default function Sidebar(props: Props) {
 
   const logout = async () => {
     await UserAuthAPI.logout();
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     navigate("/login/");
   };
 
