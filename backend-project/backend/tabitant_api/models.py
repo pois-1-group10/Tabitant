@@ -97,12 +97,12 @@ class Bad(models.Model):
         return f"{self.user.username} -> {self.post}"
 
 class Comment(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
-    post=models.ForeignKey(Post, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    post=models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     parent_comment=models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='replies')
     content = models.TextField(max_length=1000, default='')
     created_at=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "コメント"
