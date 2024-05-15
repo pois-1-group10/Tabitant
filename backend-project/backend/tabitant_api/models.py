@@ -26,7 +26,7 @@ class Prefecture(models.Model):
         return self.name
 
 class Post(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE,related_name="posts")  #逆引きによりユーザーが投稿した全てのポスト
+    user=models.ForeignKey(User, on_delete=models.CASCADE,related_name="posts")
     content_1=models.CharField(max_length=15, blank=False, default='')
     content_2=models.CharField(max_length=15, blank=False, default='')
     content_3=models.CharField(max_length=15, blank=False, default='')
@@ -63,12 +63,38 @@ class Tag(models.Model):
         return self.name
 
 class Good(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="goods")   #逆引きによりgoodテーブルにあるユーザのリストをゲット
-    post=models.ForeignKey(Post, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="goods")
+    post=models.ForeignKey(Post, on_delete=models.CASCADE, related_name="goods")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "post"],
+                name="good_unique"
+            ),
+        ]
+        verbose_name = "Good"
+        verbose_name_plural = "Good"
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.post}"
 
 class Bad(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
-    post=models.ForeignKey(Post, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="bads")
+    post=models.ForeignKey(Post, on_delete=models.CASCADE, related_name="bads")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "post"],
+                name="bad_unique"
+            ),
+        ]
+        verbose_name = "Bad"
+        verbose_name_plural = "Bad"
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.post}"
 
 class Comment(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
@@ -89,12 +115,35 @@ class GoodComment(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     comment=models.ForeignKey(Comment, on_delete=models.CASCADE)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "comment"],
+                name="goodcomment_unique"
+            ),
+        ]
+        verbose_name = "コメントへの Good"
+        verbose_name_plural = "コメントへの Good"
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.comment}"
+
 class Follow(models.Model):
     follower=models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
     followee=models.ForeignKey(User, on_delete=models.CASCADE, related_name="followee")
 
     class Meta:
-        unique_together = ['follower_id', 'followee_id']
+        constraints = [
+            models.UniqueConstraint(
+                fields=["follower", "followee"],
+                name="follow_unique"
+            ),
+        ]
+        verbose_name = "フォロー"
+        verbose_name_plural = "フォロー"
+
+    def __str__(self):
+        return f"{self.follower.username} -> {self.followee.username}"
 
 class UserProfile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE, related_name="userprofile")

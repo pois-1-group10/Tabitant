@@ -2,4 +2,4 @@
 
 rm db.sqlite3
 python3 manage.py migrate
-python3 manage.py createsuperuser --username admin --email ""
+python3 manage.py createsuperuser --email admin@example.com
