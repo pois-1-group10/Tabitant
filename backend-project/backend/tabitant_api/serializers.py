@@ -192,10 +192,18 @@ class PostOperationSerializer(serializers.ModelSerializer):
 
 class CommentDetailSerializer(serializers.ModelSerializer):
     reply_count = serializers.IntegerField(source="replies.count", read_only=True)
+    good_count = serializers.IntegerField(source="goods.count", read_only=True)
+    liked = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'reply_count', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'reply_count', 'good_count', 'liked', 'created_at', 'updated_at']
+
+    def get_liked(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return GoodComment.objects.filter(user=user, comment=obj).exists()
+        return False
 
 class CommentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -220,6 +228,21 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         self.check_parent(validated_data)
         return super().update(instance, validated_data)
+
+class CommentOperationSerializer(serializers.ModelSerializer):
+    good_count = serializers.IntegerField(source="goods.count", read_only=True)
+    liked = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = read_only_fields = ['id', 'user', 'post', 'parent_comment', 'content', 'good_count',
+                                     'liked', 'created_at', 'updated_at']
+
+    def get_liked(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return GoodComment.objects.filter(user=user, comment=obj).exists()
+        return False
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
