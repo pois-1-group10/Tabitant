@@ -23,6 +23,7 @@ import { UserDetailProvider } from "./providers/UserDetailProvider";
 import { AuthUserProvider } from "./providers/AuthUserProvider";
 import { PostDetailProvider } from "./providers/PostDetailProvider";
 import { CommentListProvider } from "./providers/CommentListProvider";
+import PasswordPage from "./components/Password/PasswordPage";
 
 function App() {
   return (
@@ -113,6 +114,7 @@ function App() {
             }
           />
           <Route path="ranking" element={<RankingPage />} />
+          <Route path="password" element={<PasswordPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
