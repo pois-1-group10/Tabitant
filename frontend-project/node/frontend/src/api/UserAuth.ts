@@ -39,6 +39,10 @@ export class UserAuthAPI {
   }
 
   static async changePassword(data: PasswordChangeInputs): Promise<void> {
-    await authAxios.post("dj-rest-auth/password/reset/confirm/", data);
+    await authAxios.post("dj-rest-auth/password/change/", data, {
+      headers: sessionStorage.getItem("token")
+        ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
+        : {},
+    });
   }
 }
