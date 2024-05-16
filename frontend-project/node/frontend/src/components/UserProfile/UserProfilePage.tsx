@@ -54,7 +54,7 @@ export default function UserProfilePage() {
       <NavigationMenu home ranking post profile={!myPage} />
       {sidebarIsOpen && <Sidebar setSidebarIsOpen={setSidebarIsOpen} />}
       <div css={profileHeaderStyle}>
-        <img src="" alt="" css={userIconStyle} />
+        <img src={user?.image} alt="" css={userIconStyle} />
         <div css={userInfoStyle}>
           <div className="user-name">{user?.username}</div>
           <div css={followDataStyle}>
@@ -81,8 +81,16 @@ export default function UserProfilePage() {
           <FollowButton onClick={onClickFollow} />
         ))}
       <hr />
-      <div css={sectionTitleStyle}>短歌</div>
-      <TankaCard style={tankaCardStyle} link />
+      {user?.userprofile?.default_post && (
+        <>
+          <div css={sectionTitleStyle}>短歌</div>
+          <TankaCard
+            style={tankaCardStyle}
+            post={user?.userprofile?.default_post}
+            link
+          />
+        </>
+      )}
       <div css={sectionTitleStyle}>受賞歴</div>
       <Card style={awardCardStyle}></Card>
     </div>

@@ -1,3 +1,5 @@
+import { DetailPost, Post } from "./post";
+
 export type User = {
 	id: number;
 	email: string;
@@ -16,7 +18,7 @@ export type UserProfile = {
 	id: number;
 	user_id: number;
 	bio: string;
-	default_post_id: number;
+	default_post: DetailPost;
 };
 
 export type DetailUser = {
@@ -34,7 +36,7 @@ export type DetailUser = {
 
 export type PostUserProfile = {
 	bio?: string;
-	default_post_id?: number;
+	default_post: number | null;
 };
 
 export type UserListParams = {

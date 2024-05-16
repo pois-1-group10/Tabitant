@@ -53,10 +53,11 @@ class UserViewSet(viewsets.ModelViewSet):
         item = self.get_object()
         serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data)
-
-    def update(self, request, pk):
-        item = self.get_object()
-        serializer = self.get_serializer(item, data=request.data, context={'request': request})
+    
+    def update(self, request, pk, **kwargs):
+        partial = kwargs.pop('partial', False)
+        item = get_object_or_404(User, pk=pk)  #更新する対象のオブジェクト
+        serializer = UserDetailSerializer(item, data=request.data, context={'request': request}, partial=partial)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -110,9 +111,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(item)
         return Response(serializer.data)
 
-    def update(self, request, pk):
+    def update(self, request, pk, **kwargs):
+        partial = kwargs.pop('partial', False)
         item = self.get_object()
-        serializer = self.get_serializer(item, data=request.data)
+        serializer = self.get_serializer(item, data=request.data, partial=partial)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

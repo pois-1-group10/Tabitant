@@ -10,7 +10,7 @@ export type Post = {
   content_5: string;
   latitude?: number;
   longitude?: number;
-  prefecture?: string;
+  prefecture?: Prefecture;
   good_count?: number;
   bad_count?: number;
 	created_at: Date;

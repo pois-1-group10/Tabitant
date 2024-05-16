@@ -75,8 +75,8 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
 
 class UserDetailSerializer(serializers.ModelSerializer):
     userprofile = UserProfileDetailSerializer(read_only=True)
-    follower_num = serializers.IntegerField(source="follower.count", read_only=True)
-    followee_num = serializers.IntegerField(source="followee.count", read_only=True)
+    follower_num = serializers.IntegerField(source="followee.count", read_only=True)
+    followee_num = serializers.IntegerField(source="follower.count", read_only=True)
     like_num = serializers.IntegerField(source="goods.count", read_only=True)
     followed = serializers.SerializerMethodField()
     awards = AwardSerializer(many=True)
