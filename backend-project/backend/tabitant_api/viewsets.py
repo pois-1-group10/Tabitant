@@ -313,6 +313,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         reply_to = request.query_params.get('reply_to', None)
         if post_id is not None:
             queryset = queryset.filter(post_id=post_id)
+            if not reply_to:
+                queryset = queryset.filter(parent_comment=None)
         if reply_to:
             queryset = queryset.filter(parent_comment=reply_to)
         serializer = self.get_serializer(queryset, many=True)

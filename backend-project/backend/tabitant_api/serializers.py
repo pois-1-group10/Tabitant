@@ -130,9 +130,11 @@ class PostOperationSerializer(serializers.ModelSerializer):
         return False
 
 class CommentDetailSerializer(serializers.ModelSerializer):
+    reply_count = serializers.IntegerField(source="replies.count", read_only=True)
+
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'reply_count', 'created_at', 'updated_at']
 
 class CommentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
