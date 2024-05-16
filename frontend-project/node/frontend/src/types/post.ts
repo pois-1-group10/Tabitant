@@ -71,3 +71,9 @@ export type Prefecture = {
   id: number;
   name: string;
 }
+
+export type ChartData = {
+  emotion: string;
+  score: number;
+  fullMark: number;
+}
