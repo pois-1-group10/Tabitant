@@ -17,7 +17,7 @@ type SigninInputs = {
 function ClearAdornment({ name, setValue }: { name: string; setValue: any }) {
   return (
     <InputAdornment position="end">
-      <IconButton onClick={() => setValue(name, "")} edge="end">
+      <IconButton onClick={() => setValue(name, "")} edge="end" tabIndex={-1}>
         <HighlightOffIcon />
       </IconButton>
     </InputAdornment>
