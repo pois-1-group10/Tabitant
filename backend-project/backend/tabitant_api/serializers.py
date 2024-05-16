@@ -42,6 +42,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class DefaultPostSerializer(serializers.ModelSerializer):
     prefecture = PrefectureSerializer()
+    tags = serializers.SlugRelatedField("name", queryset=Tag.objects.all(), many=True)
 
     class Meta:
         model = Post
@@ -113,6 +114,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
     comment_count = serializers.IntegerField(source="comments.count", read_only=True)
     liked = serializers.SerializerMethodField()
     disliked = serializers.SerializerMethodField()
+    tags = serializers.SlugRelatedField("name", queryset=Tag.objects.all(), many=True)
 
     class Meta:
         model = Post

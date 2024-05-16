@@ -14,6 +14,7 @@ export type Post = {
   good_count?: number;
   bad_count?: number;
 	created_at: Date;
+  tags: string[];
 };
 
 export type SubmitPost = {
@@ -49,7 +50,7 @@ export type DetailPost = {
   emotion_ikari: number;
   good_count?: number;
   bad_count?: number;
-  tags?: string;
+  tags: string[];
   liked: boolean;
   disliked: boolean;
 	created_at: Date;

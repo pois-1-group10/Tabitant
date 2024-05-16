@@ -33,8 +33,7 @@ export default function TankaCard(props: Props) {
         )}
         <div css={postCardHeaderContentStyle}>
           <div css={tagsWrapperStyle}>
-            <TagChip name="日常" />
-            <TagChip name="自然" />
+            {post?.tags.map((tagName) => <TagChip key={tagName} name={tagName} />)}
           </div>
           <div css={areaPositionWrapperStyle}>
             <div css={areaPositionTextStyle}>
@@ -70,9 +69,11 @@ const postCardHeaderStyle = css`
 
 const tagsWrapperStyle = css`
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+  margin: 4px 0;
   align-items: center;
-  height: 32px;
+  width: 60%;
 `;
 
 const postCardHeaderContentStyle = css`
