@@ -90,7 +90,7 @@ export default function PostDetailPage() {
       <BackButton />
       <TankaCard
         post={post}
-        icon={<img src="" alt="" css={iconStyle} />}
+        icon={<img src={post?.user.image} alt="" css={iconStyle} />}
         style={cardStyle}
       >
         <div css={reactionButtonWrapperStyle}>

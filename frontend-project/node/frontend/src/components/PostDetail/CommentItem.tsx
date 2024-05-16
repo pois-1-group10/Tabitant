@@ -84,11 +84,16 @@ export default function CommentItem({ comment }: Props) {
               count={badCount ?? 0}
               onClick={badClickHandler}
             />
-            {showReplies || (
-              <div css={replyOpenerStyle} onClick={() => setShowReplies(true)}>
-                {comment.reply_count}件の返信
-              </div>
-            )}
+            {!showReplies &&
+              comment.reply_count !== undefined &&
+              comment.reply_count > 0 && (
+                <div
+                  css={replyOpenerStyle}
+                  onClick={() => setShowReplies(true)}
+                >
+                  {comment.reply_count}件の返信
+                </div>
+              )}
           </div>
         </div>
       </div>
@@ -125,14 +130,14 @@ const contentWrapperStyle = css`
 const commenterNameStyle = css`
   color: #767878;
   font-size: 12px;
-	a {
-		color: initial;
-		font-weight: bold;
-		text-decoration: none;
-	}
-	span {
-		margin-left: 8px;
-	}
+  a {
+    color: initial;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  span {
+    margin-left: 8px;
+  }
 `;
 
 const commentFooterStyle = css`

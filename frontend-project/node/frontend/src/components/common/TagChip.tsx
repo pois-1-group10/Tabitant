@@ -20,7 +20,6 @@ export default function TagChip(props: Props) {
 const outerframeStyle = css`
   display: flex;
   height: 24px;
-  width: 64px;
   padding: 4px;
   box-sizing: border-box;
   border-radius: 4px;
