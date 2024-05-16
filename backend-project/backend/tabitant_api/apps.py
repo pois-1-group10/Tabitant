@@ -7,6 +7,7 @@ class TabitantApiConfig(AppConfig):
     name = 'tabitant_api'
 
     def ready(self):
+        import tabitant_api.signals
         if os.environ.get('RUN_MAIN', None) != 'true':
             return
         ml.load()
