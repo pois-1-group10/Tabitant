@@ -52,7 +52,9 @@ export default function Sidebar(props: Props) {
           <div css={breakLineStyle} />
           {myPage && (
             <>
-              <div css={linkButtonStyle}>パスワード変更</div>
+              <Link to="/password/" css={linkButtonStyle}>
+                パスワード変更
+              </Link>
               <div css={breakLineStyle} />
               <div css={linkButtonStyle} onClick={logout}>
                 ログアウト
