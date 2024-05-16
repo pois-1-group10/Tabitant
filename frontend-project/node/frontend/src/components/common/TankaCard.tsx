@@ -25,10 +25,12 @@ export default function TankaCard(props: Props) {
   return (
     <Card style={concatenatedStyle} {...cardProps}>
       <div css={postCardHeaderStyle}>
-        <Link to={`/user_profile/${post?.user.id}`} css={userInfoStyle}>
-          {icon}
-          <p>{post?.user.username}</p>
-        </Link>
+        {icon && (
+          <Link to={`/user_profile/${post?.user.id}`} css={userInfoStyle}>
+            {icon}
+            <p>{post?.user.username}</p>
+          </Link>
+        )}
         <div css={postCardHeaderContentStyle}>
           <div css={tagsWrapperStyle}>
             <TagChip name="日常" />

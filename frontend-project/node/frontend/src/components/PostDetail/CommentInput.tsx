@@ -28,11 +28,13 @@ export default function CommentInput({ postId, replyTo }: Props) {
         (await CommentAPI.createComment({
           post: postId,
           user: currentUser.id,
+          parent_comment: replyTo,
           content: data.content,
         }));
-	  reset();
+      reset();
       await fetchComments({
         post_id: postId,
+		reply_to: replyTo,
       });
     } catch (e) {
       console.log(e);
@@ -44,7 +46,7 @@ export default function CommentInput({ postId, replyTo }: Props) {
       <input
         {...register("content")}
         type="text"
-        placeholder="コメントをする"
+        placeholder={replyTo ? "返信をする" : "コメントをする"}
         css={inputStyle}
       />
       <button type="submit" css={submitButtonStyle}>

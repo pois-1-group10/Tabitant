@@ -15,6 +15,7 @@ import { PostListContext } from "../../providers/PostListProvider";
 import { Post } from "../../types/post";
 import { UserDetailContext } from "../../providers/UserDetailProvider";
 import { AuthUserContext } from "../../providers/AuthUserProvider";
+import { UserAPI } from "../../api/User";
 
 type Input = {
   username?: string;
@@ -62,14 +63,18 @@ export default function UserProfileEditPage() {
   const params = useParams();
   const userId = Number(params.id);
 
-  const onSubmit: SubmitHandler<Input> = (data) => {
-    const formData = new FormData();
-    formData.append("username", data.username ?? "");
-    formData.append("bio", data.bio ?? "");
-    formData.append("post_id", data.tankaId?.toString() ?? "");
-    photo && formData.append("icon", photo);
-    console.log(formData.get("icon"));
-    navigate(`/user_profile/${userId}/`);
+  const onSubmit: SubmitHandler<Input> = async (data) => {
+    if (currentUser) {
+      const userData = new FormData();
+      userData.append("username", data.username ?? "");
+      photo && userData.append("image", photo, photo.name);
+      await UserAPI.editUserProfile(currentUser.id, {
+        default_post: selectingPost?.id ?? null,
+        ...data,
+      });
+      await UserAPI.editUser(currentUser.id, userData);
+      navigate(`/user_profile/${userId}/`);
+    }
   };
 
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,13 +93,14 @@ export default function UserProfileEditPage() {
 
   useEffect(() => {
     currentUser && fetchUserDetail(currentUser.id);
-    currentUser && fetchPosts({user_id: currentUser.id});
+    currentUser && fetchPosts({ user_id: currentUser.id });
   }, []);
 
   useEffect(() => {
     user && setValue("username", user.username);
     user?.userprofile && setValue("bio", user.userprofile.bio);
-    user?.userprofile && setValue("tankaId", user.userprofile.default_post_id);
+    user?.userprofile?.default_post && setValue("tankaId", user.userprofile.default_post.id);
+    user?.userprofile && setSelectingPost(user?.userprofile.default_post)
   }, [user]);
 
   return (
@@ -106,12 +112,14 @@ export default function UserProfileEditPage() {
           style={editButtonStyle}
           onClick={() => document.getElementById("upload-button")?.click()}
         />
-        {photo && (
-          <img
-            src={URL.createObjectURL(photo)}
-            alt="アイコン写真"
-            css={imageStyle}
-          />
+        {photo ? (
+          <div css={imageStyle}>
+            <img src={URL.createObjectURL(photo)} alt="アイコン写真" />
+          </div>
+        ) : (
+          <div css={imageStyle}>
+            <img src={user?.image} alt="アイコン写真" />
+          </div>
         )}
       </div>
       <Card style={cardStyle}>
@@ -177,7 +185,7 @@ export default function UserProfileEditPage() {
                 key={post.id}
                 post={post}
                 isSelected={post.id === selectingPost?.id}
-								setPost={setSelectingPost}
+                setPost={setSelectingPost}
               />
             ))}
           </div>
@@ -190,21 +198,21 @@ export default function UserProfileEditPage() {
 type TankaItemProps = {
   post: Post;
   isSelected: boolean;
-	setPost: React.Dispatch<React.SetStateAction<Post|undefined>>;
+  setPost: React.Dispatch<React.SetStateAction<Post | undefined>>;
 };
 
 const SelectTankaItem: FC<TankaItemProps> = (params: TankaItemProps) => {
   const { post, isSelected, setPost } = params;
   const tankaItemStyle = css`
     padding: 8px;
-		font-size: 14px;
+    font-size: 14px;
     background-color: ${isSelected ? "rgba(255, 152, 31, 0.5)" : "initial"};
   `;
 
-	const postTimeStyle = css`
-		font-size: 10px;
-		color: #767878;
-	`;
+  const postTimeStyle = css`
+    font-size: 10px;
+    color: #767878;
+  `;
 
   const clickHandler = () => {
     if (isSelected) {
@@ -212,20 +220,22 @@ const SelectTankaItem: FC<TankaItemProps> = (params: TankaItemProps) => {
     } else {
       setPost(post);
     }
-  }
+  };
 
   return (
     <div css={tankaItemStyle} onClick={clickHandler}>
-      <div>{post.content_1 +
-        " " +
-        post.content_2 +
-        " " +
-        post.content_3 +
-        " " +
-        post.content_4 +
-        " " +
-        post.content_5}</div>
-			<div css={postTimeStyle}>{post.created_at.toLocaleString()}</div>
+      <div>
+        {post.content_1 +
+          " " +
+          post.content_2 +
+          " " +
+          post.content_3 +
+          " " +
+          post.content_4 +
+          " " +
+          post.content_5}
+      </div>
+      <div css={postTimeStyle}>{post.created_at.toLocaleString()}</div>
     </div>
   );
 };
@@ -254,15 +264,20 @@ const imagePreviewStyle = css`
   border: 1px solid #303030;
   border-radius: 156px;
   background-color: #fff;
-	flex-shrink: 0;
+  flex-shrink: 0;
 `;
 
 const imageStyle = css`
   height: 280px;
   width: 280px;
-  border: 1px solid #303030;
   border-radius: 156px;
-  object-fit: cover;
+  overflow: hidden;
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 `;
 
 const editButtonStyle = css`
@@ -294,13 +309,13 @@ const textareaStyle = css`
 `;
 
 const tankaLabelStyle = css`
-	margin-top: 16px;
+  margin-top: 16px;
   font-size: 12px;
   color: #767878;
 `;
 
 const selectingTankaStyle = css`
-	margin: 4px 4px 16px;
+  margin: 4px 4px 16px;
   font-size: 16px;
   font-weight: bold;
 `;
@@ -311,5 +326,5 @@ const tankaListWrapperStyle = css`
   margin: 8px auto;
   border-radius: 8px;
   border: 1px solid #767878;
-	overflow: scroll;
+  overflow: scroll;
 `;

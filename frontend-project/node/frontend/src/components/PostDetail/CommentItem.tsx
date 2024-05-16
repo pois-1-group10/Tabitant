@@ -94,7 +94,7 @@ export default function CommentItem({ comment }: Props) {
       </div>
       {showReplies && (
         <CommentListProvider>
-          <ReplyList parentCommentId={comment.id} />
+          <ReplyList postId={comment.post} parentCommentId={comment.id} />
         </CommentListProvider>
       )}
     </>

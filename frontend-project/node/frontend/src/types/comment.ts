@@ -1,10 +1,9 @@
-import { Post } from "./post";
 import { User } from "./user";
 
 export type Comment = {
 	id: number;
   user: User;
-  post: Post;
+  post: number;
   content: string;
   created_at: Date;
   good_count?: number;
@@ -21,7 +20,7 @@ export type CommentListParams = {
 
 export type PostCommentData = {
 	post: number;
-	reply_to?: number;
+	parent_comment?: number;
 	user: number;
 	content: string;
 };
