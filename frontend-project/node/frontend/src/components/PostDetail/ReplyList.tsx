@@ -8,12 +8,14 @@ import { CommentListContext } from "../../providers/CommentListProvider";
 import { CommentAPI } from "../../api/Comment";
 import { BadButton, GoodButton } from "./ReactionButtons";
 import { Link } from "react-router-dom";
+import CommentInput from "./CommentInput";
 
 interface Props {
+  postId: number;
   parentCommentId: number;
 }
 
-export default function ReplyList({ parentCommentId }: Props) {
+export default function ReplyList({ postId, parentCommentId }: Props) {
   const { comments: replies, fetchComments } = useContext(CommentListContext);
 
   useEffect(() => {
@@ -21,10 +23,11 @@ export default function ReplyList({ parentCommentId }: Props) {
   }, []);
 
   return (
-    <div>
+    <div css={repliesWrapperStyle}>
       {replies.map((reply) => (
         <ReplyItem key={reply.id} reply={reply} />
       ))}
+      <CommentInput postId={postId} replyTo={parentCommentId} />
     </div>
   );
 }
@@ -105,10 +108,14 @@ const ReplyItem: FC<InnerProps> = ({ reply }) => {
   );
 };
 
+const repliesWrapperStyle = css`
+  margin-left: 32px;
+`;
+
 const wrapperStyle = css`
   display: flex;
   gap: 8px;
-  margin: 8px 0 8px 32px;
+  margin: 8px 0;
 `;
 
 const iconStyle = css`
