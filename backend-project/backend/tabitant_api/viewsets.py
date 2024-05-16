@@ -289,6 +289,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action in ['create', 'update']:
             return CommentUpdateSerializer
+        elif self.action in ['like', 'unlike']:
+            return CommentOperationSerializer
         return CommentDetailSerializer
 
     def list(self, request):
@@ -328,6 +330,25 @@ class CommentViewSet(viewsets.ModelViewSet):
         item = self.get_object()
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(methods=["post"], detail=True, url_path='like')
+    def like(self, request, pk):
+        item = self.get_object()
+        if GoodComment.objects.filter(user=request.user, comment=item).exists():
+            return ErrorResponse("The comment has already been liked.", status.HTTP_400_BAD_REQUEST)
+        GoodComment.objects.create(user=request.user, comment=item)
+        serializer = self.get_serializer(item, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(methods=["post"], detail=True, url_path='unlike')
+    def unlike(self, request, pk):
+        item = self.get_object()
+        good = GoodComment.objects.filter(user=request.user, comment=item)
+        if not good.exists():
+            return ErrorResponse("The comment has not been liked.", status.HTTP_400_BAD_REQUEST)
+        good.delete()
+        serializer = self.get_serializer(item, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class AwardViewSet(viewsets.ModelViewSet):

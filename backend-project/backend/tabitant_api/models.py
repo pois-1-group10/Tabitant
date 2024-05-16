@@ -116,7 +116,7 @@ class Comment(models.Model):
 
 class GoodComment(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
-    comment=models.ForeignKey(Comment, on_delete=models.CASCADE)
+    comment=models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="goods")
 
     class Meta:
         constraints = [
