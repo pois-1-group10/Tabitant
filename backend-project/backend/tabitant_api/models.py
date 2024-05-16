@@ -15,6 +15,9 @@ class User(AbstractUser):
         verbose_name = "ユーザー"
         verbose_name_plural = "ユーザー"
 
+    def __str__(self):
+        return self.username
+
 class Prefecture(models.Model):
     name=models.CharField(max_length=15, default='')
 
@@ -171,7 +174,7 @@ class Competition(models.Model):
         return f"{self.id}: {self.prefecture.name}大会"
 
 class Award(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="awards")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
     compe = models.ForeignKey(Competition, on_delete=models.CASCADE, null=True)
     rank = models.IntegerField(verbose_name=_("順位"))
