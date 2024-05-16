@@ -1,5 +1,7 @@
+import random
 from factory import Faker, PostGenerationMethodCall, SubFactory, RelatedFactory, LazyFunction
 from faker import Factory as FakerFactory
+from factory import Iterator, LazyAttribute
 from factory.django import DjangoModelFactory
 from tabitant_api.models import *
 
@@ -12,6 +14,10 @@ class UserFactory(DjangoModelFactory):
     username = LazyFunction(faker.user_name)
     email = LazyFunction(faker.email)
     password = PostGenerationMethodCall("set_password", "password")
+
+def setUserProfile(user):
+    user.userprofile.bio = faker.paragraph()
+    user.userprofile.save()
 
 class PrefectureFactory(DjangoModelFactory):
     class Meta:
@@ -84,14 +90,6 @@ class FollowFactory(DjangoModelFactory):
 
     follower = SubFactory(UserFactory)
     followee = SubFactory(UserFactory)
-
-class UserProfileFactory(DjangoModelFactory):
-    class Meta:
-        model = UserProfile
-
-    user = SubFactory(UserFactory)
-    bio = LazyFunction(faker.paragraph)
-    default_post = None
 
 class CompetitionFactory(DjangoModelFactory):
     class Meta:

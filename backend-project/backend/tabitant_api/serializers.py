@@ -1,3 +1,4 @@
+import logging
 from dj_rest_auth.serializers import LoginSerializer
 from dj_rest_auth.serializers import PasswordResetSerializer
 from dj_rest_auth.forms import AllAuthPasswordResetForm
@@ -7,43 +8,102 @@ from rest_framework import serializers
 from .models import *
 import ml
 
+logger = logging.getLogger(__name__)
+
 class CustomLoginSerializer(LoginSerializer):
     username = None
     email = serializers.EmailField(required=True, allow_blank=False)
-
-
-class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-
-    class Meta:
-        model = User
-        fields = ["id", 'email', 'username', "image", "password"]
-        read_only_fields = ['id', 'image']
-
-
-class UserProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ['id', 'user_id', 'bio', 'default_post_id']
-        read_only_fields = ['user_id']
-
-class UserDetailSerializer(serializers.ModelSerializer):
-    userprofile = UserProfileSerializer()
-    follower_num=serializers.IntegerField()
-    followee_num=serializers.IntegerField()   
-    like_num=serializers.IntegerField() 
-    # default_post=serializers.PrimaryKeyRelatedField(queryset=Post.objects.all())
-    # awards_ids=serializers.ListField(child=serializers.IntegerField())
-
-    class Meta:
-        model = User
-        fields = ['id','email','username','image','userprofile','follower_num','followee_num','like_num']
-        read_only_fields = ['userprofile','follower_num','followee_num','like_num']
 
 class PrefectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prefecture
         fields = ['id', 'name']
+
+class AwardSerializer(serializers.ModelSerializer):
+    prefecture = PrefectureSerializer(source="compe.prefecture", read_only=True)
+    class Meta:
+        model = Award
+        fields = ['id', 'user', 'post', 'compe', 'rank', 'prefecture']
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    followed = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ["id", 'email', 'username', "image", "password", "followed"]
+        read_only_fields = ['id', 'image']
+
+    def get_followed(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Follow.objects.filter(follower=user, followee=obj).exists()
+        return False
+
+class DefaultPostSerializer(serializers.ModelSerializer):
+    prefecture = PrefectureSerializer()
+
+    class Meta:
+        model = Post
+        fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
+                  'latitude', 'longitude', 'prefecture', 'created_at', 'tags',
+                  'emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
+                  'emotion_samishii', 'emotion_ikari']
+
+class UserProfileDetailSerializer(serializers.ModelSerializer):
+    default_post = DefaultPostSerializer(read_only=True)
+
+    class Meta:
+        model = UserProfile
+        fields = ['id', 'user', 'bio', 'default_post']
+
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id', 'user', 'bio', 'default_post']
+        read_only_fields = ['user']
+
+    def check_owner(self, instance, validated_data):
+        default_post = validated_data.get("default_post")
+        if not default_post: return
+        if instance.user != default_post.user:
+            raise serializers.ValidationError("The owner of default post and profile must be the same user.")
+
+    def update(self, instance, validated_data):
+        self.check_owner(instance, validated_data)
+        return super().update(instance, validated_data)
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    userprofile = UserProfileDetailSerializer(read_only=True)
+    follower_num = serializers.IntegerField(source="follower.count", read_only=True)
+    followee_num = serializers.IntegerField(source="followee.count", read_only=True)
+    like_num = serializers.IntegerField(source="goods.count", read_only=True)
+    followed = serializers.SerializerMethodField()
+    awards = AwardSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'username', 'image', 'userprofile', 'follower_num', 'followee_num', 'like_num',
+                  'followed', 'awards']
+
+    def get_followed(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Follow.objects.filter(follower=user, followee=obj).exists()
+        return False
+
+class UserOperationSerializer(serializers.ModelSerializer):
+    followed = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = read_only_fields = ["id", 'email', 'username', "image", "followed"]
+
+    def get_followed(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Follow.objects.filter(follower=user, followee=obj).exists()
+        return False
 
 class PostDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer()
@@ -95,6 +155,7 @@ class PostUpdateSerializer(serializers.ModelSerializer):
             'emotion_ikari': d["emotion.angry"],
         }
         validated_data.update(emotions)
+        logger.info("Emotional labels have been attached.")
 
     def create(self, validated_data):
         self.add_emotion_labels(validated_data)
@@ -130,9 +191,11 @@ class PostOperationSerializer(serializers.ModelSerializer):
         return False
 
 class CommentDetailSerializer(serializers.ModelSerializer):
+    reply_count = serializers.IntegerField(source="replies.count", read_only=True)
+
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'post', 'parent_comment', 'content', 'reply_count', 'created_at', 'updated_at']
 
 class CommentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -162,12 +225,6 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ['id', 'follower', 'followee']
-
-class AwardSerializer(serializers.ModelSerializer):
-    prefecture = PrefectureSerializer(source="compe.prefecture", read_only=True)
-    class Meta:
-        model = Award
-        fields = ['id', 'user', 'post', 'compe', 'rank', 'prefecture']
 
 class CompetitionDetailSerializer(serializers.ModelSerializer):
     prefecture = PrefectureSerializer(read_only=True)

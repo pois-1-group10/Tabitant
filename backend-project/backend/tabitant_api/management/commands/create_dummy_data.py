@@ -10,9 +10,11 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # Create Users and their Profiles
         users = UserFactory.create_batch(20)
+        self.stdout.write('Created users.')
+        
         for user in users:
-            UserProfileFactory(user=user)
-        self.stdout.write('Created users and their profiles.')
+            setUserProfile(user)
+        self.stdout.write('Updated user profiles.')
 
         # Create Prefectures
         prefectures = PrefectureFactory.create_batch(50)
@@ -25,26 +27,38 @@ class Command(BaseCommand):
         # Create Tags
         tags = TagFactory.create_batch(10)
         for tag in tags:
-            tag_posts = random.sample(posts, random.randint(1, 5))  # Each tag gets 1 to 5 random posts
+            tag_posts = random.sample(posts, random.randint(1, 10))  # Each tag gets 1 to 10 random posts
             tag.post.set(tag_posts)
         self.stdout.write('Created tags.')
 
-        # TODO: Unique 制約を考慮 (GoodComments も同じ)
-        # # Create Goods and Bads
-        # goods = GoodFactory.create_batch(100, user=Iterator(users), post=Iterator(posts))
-        # bads = BadFactory.create_batch(100, user=Iterator(users), post=Iterator(posts))
-        # self.stdout.write('Created goods and bads.')
+        # Create Goods and Bads
+        user_post_pairs = [(user, post) for user in users for post in posts]
+        random.shuffle(user_post_pairs)
+        good_pairs = user_post_pairs[:300]
+        bad_pairs = user_post_pairs[300:600]
+
+        goods = [GoodFactory(user=user, post=post) for user, post in good_pairs]
+        bads = [BadFactory(user=user, post=post) for user, post in bad_pairs]
+        self.stdout.write('Created goods and bads.')
 
         # Create Comments
-        comments = CommentFactory.create_batch(20, user=Iterator(users), post=Iterator(posts))
+        comments = CommentFactory.create_batch(100, user=Iterator(users), post=Iterator(posts))
         self.stdout.write('Created comments.')
 
-        # # Create GoodComments
-        # good_comments = GoodCommentFactory.create_batch(100, user=Iterator(users), comment=Iterator(comments))
-        # self.stdout.write('Created good comments.')
+        # Create GoodComments
+        user_comment_pairs = [(user, comment) for user in users for comment in comments]
+        random.shuffle(user_comment_pairs)
+        good_comment_pairs = user_comment_pairs[:500]
+
+        good_comments = [GoodCommentFactory(user=user, comment=comment) for user, comment in good_comment_pairs]
+        self.stdout.write('Created good comments.')
 
         # Create Follows
-        follows = FollowFactory.create_batch(10, follower=Iterator(users), followee=Iterator(users))
+        user_pairs = [(user1, user2) for user1 in users for user2 in users if user1 != user2]
+        random.shuffle(user_pairs)
+        follow_pairs = user_pairs[:100]
+
+        follows = [FollowFactory(follower=user1, followee=user2) for user1, user2 in follow_pairs]
         self.stdout.write('Created follows.')
 
         # Create Competitions

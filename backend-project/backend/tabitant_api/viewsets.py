@@ -19,124 +19,108 @@ def ErrorResponse(message, status):
 
 #クエリセットとはモデルのオブジェクトのリスト  .filterはクエリセットを返し、.getはオブジェクトを返す。
 
-#postの時はidだけでしたい
-
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
 
     def get_serializer_class(self):
+        if self.action in ['retrieve']:
+            return UserDetailSerializer
+        elif self.action in ['follow', 'unfollow']:
+            return UserOperationSerializer
         return UserSerializer
 
     def list(self, request):
         queryset = self.get_queryset()
         following = request.query_params.get('following', None)
         followed_by = request.query_params.get('followed_by', None)
-        #queryset.follower.get(fillower_id=request.user.id)
         if following is not None:
             queryset = queryset.filter(follower__followee_id=following)
         if followed_by:
             queryset = queryset.filter(followee__follower_id=followed_by)
-        serializer = UserSerializer(queryset, many=True)
+        serializer = self.get_serializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
-    
+
     def create(self, request):
-        # email、username、passwordのみのデータを作成する
-        partial_data = {
-            'email': request.data.get('email'),
-            'username': request.data.get('username'),
-            'password': request.data.get('password'),
-        }
-        serializer = UserSerializer(data=partial_data)
+        serializer = self.get_serializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def retrieve(self, request, pk):
-        queryset = self.get_queryset().select_related("userprofile").annotate(
-            followee_num=Count("follower", distinct=True),
-            follower_num=Count("followee", distinct=True),
-            like_num=Count("goods", distinct=True),
-        )
-        item = get_object_or_404(queryset, id=pk)
-        serializer = UserDetailSerializer(item)
+        item = self.get_object()
+        serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data)
-    
+
     def update(self, request, pk):
-        item = get_object_or_404(User, pk=pk)  #更新する対象のオブジェクト
-        serializer = UserDetailSerializer(item, data=request.data)
+        item = self.get_object()
+        serializer = self.get_serializer(item, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def destroy(self, request, pk):
-        item = get_object_or_404(User, pk=pk)
+        item = self.get_object()
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
     @action(detail=True, methods=['post'])
-    def follow(self, request, pk=None):
-        user_to_follow = get_object_or_404(User, pk=pk)
-        follower = request.user  # リクエストを送信したユーザーがフォロワーとなる
-        if follower == user_to_follow:
-            return Response({'error': 'You cannot follow yourself.'}, status=400)
-        if Follow.objects.filter(follower=follower, followee=user_to_follow).exists():
-            return Response({'error': 'You are already following this user.'}, status=400)
-        Follow.objects.create(follower=follower, followee=user_to_follow)
-        return Response({'message': 'Successfully followed user.'}, status=201)
+    def follow(self, request, pk):
+        item = self.get_object()
+        if request.user == item:
+            return ErrorResponse("The follower and the followee must be different.", status.HTTP_400_BAD_REQUEST)
+        if Follow.objects.filter(follower=request.user, followee=item).exists():
+            return ErrorResponse("The user has already been followed.", status.HTTP_400_BAD_REQUEST)
+        Follow.objects.create(follower=request.user, followee=item)
+        serializer = self.get_serializer(item, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'])
+    def unfollow(self, request, pk):
+        item = self.get_object()
+        follow = Follow.objects.filter(follower=request.user, followee=item)
+        if not follow.exists():
+            return ErrorResponse("The user has not been followed.", status.HTTP_400_BAD_REQUEST)
+        follow.delete()
+        serializer = self.get_serializer(item, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=["get"])
     def auth(self, request):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
-    
-    @action(detail=True, methods=['post'])
-    def unfollow(self, request, pk=None):
-        follow_instance = Follow.objects.filter(follower=request.user, followee__id=pk).first()
-        if follow_instance:
-            # 条件に合致するフォロー関係が見つかった場合は削除する
-            follow_instance.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            # フォロー関係が見つからなかった場合は404エラーを返す
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        
-        
-    @action(detail=False, methods={"get"})
-    def auth(self, request):
-        serializer = self.get_serializer(request.user)
-        return Response(serializer.data)
 
-    
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
 
     def get_serializer_class(self):
-        return UserProfileSerializer
+        if self.action in ['list', 'retrieve']:
+            return UserProfileDetailSerializer
+        return UserProfileUpdateSerializer
+
+    def create(self, request):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def retrieve(self, request, pk):
-        queryset = self.get_queryset()
-        item = queryset.get(id=pk)
-        serializer = UserProfileSerializer(item)
+        item = self.get_object()
+        serializer = self.get_serializer(item)
         return Response(serializer.data)
-    
+
     def update(self, request, pk):
-        item = get_object_or_404(UserProfile, pk=pk)
-        serializer = UserProfileSerializer(item, data=request.data)
+        item = self.get_object()
+        serializer = self.get_serializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     def destroy(self, request, pk):
-        item = get_object_or_404(UserProfile, pk=pk)
-        item.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -221,21 +205,20 @@ class PostViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(longitude__range=(float(lng)-0.01,float(lng)+0.01))
         queryset = self.ranking_order(queryset, True)
         one = queryset.first()
-        serializer = self.get_serializer(one)
+        serializer = self.get_serializer(one, context={'request': request})
         return Response(serializer.data)
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            logger.info("Emotional labels have been attached.")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk):
         queryset = self.get_queryset()
         item = get_object_or_404(queryset, pk=pk)
-        serializer = self.get_serializer(item)
+        serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data)
 
     def update(self, request, pk):
@@ -243,7 +226,6 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            logger.info("Emotional labels have been reattached.")
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -262,7 +244,7 @@ class PostViewSet(viewsets.ModelViewSet):
             bad.delete()
             logger.info("The bad object has been deleted.")
         Good.objects.create(user=request.user, post=item)
-        serializer = self.get_serializer(item)
+        serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=["post"], detail=True, url_path='unlike')
@@ -272,7 +254,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if not good.exists():
             return ErrorResponse("The post has not been liked.", status.HTTP_400_BAD_REQUEST)
         good.delete()
-        serializer = self.get_serializer(item)
+        serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=["post"], detail=True, url_path='dislike')
@@ -285,7 +267,7 @@ class PostViewSet(viewsets.ModelViewSet):
             good.delete()
             logger.info("The good object has been deleted.")
         Bad.objects.create(user=request.user, post=item)
-        serializer = self.get_serializer(item)
+        serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=["post"], detail=True, url_path='undislike')
@@ -295,7 +277,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if not bad.exists():
             return ErrorResponse("The post has not been disliked.", status.HTTP_400_BAD_REQUEST)
         bad.delete()
-        serializer = self.get_serializer(item)
+        serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -313,6 +295,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         reply_to = request.query_params.get('reply_to', None)
         if post_id is not None:
             queryset = queryset.filter(post_id=post_id)
+            if not reply_to:
+                queryset = queryset.filter(parent_comment=None)
         if reply_to:
             queryset = queryset.filter(parent_comment=reply_to)
         serializer = self.get_serializer(queryset, many=True)
