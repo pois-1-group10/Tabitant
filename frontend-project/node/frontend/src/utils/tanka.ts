@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Post } from "../types/post";
 
 export const tankaFromPost = (post: Post) => {
@@ -9,3 +10,22 @@ export const tankaFromPost = (post: Post) => {
     post.content_5,
   ].join(" ");
 };
+
+export const convertToHiragana = async (text: string) => {
+  if (text.length === 0) return "";
+
+  const response = await axios({
+    method: "post",
+    url: "https://labs.goo.ne.jp/api/hiragana",
+    headers: {
+      "Content-Type": `application/json`,
+    },
+    data: {
+      app_id: process.env.REACT_APP_GOO_API_KEY,
+      sentence: text,
+      output_type: "hiragana",
+    },
+  });
+
+  return response.data.converted.replace(" ", "");
+}
