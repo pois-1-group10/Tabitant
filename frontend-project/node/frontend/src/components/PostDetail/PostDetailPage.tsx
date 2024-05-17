@@ -40,7 +40,7 @@ export default function PostDetailPage() {
 		if(post?.disliked !== undefined) setBadIsClicked(post.disliked);
 		if(post?.good_count !== undefined) setGoodCount(post.good_count);
     if(post?.bad_count !== undefined) setBadCount(post.bad_count);
-		if(post?.user?.following !== undefined) setFollowing(post.user.following);
+		if(post?.user?.followed !== undefined) setFollowing(post.user.followed);
   }, [post]);
 
   const goodClickHandler = async () => {

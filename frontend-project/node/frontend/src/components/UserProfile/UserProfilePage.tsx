@@ -32,7 +32,7 @@ export default function UserProfilePage() {
   `;
 
   const onClickFollow = async () => {
-    // user && (await UserAPI.follow(user.id));
+    user && (await UserAPI.follow(user.id));
     setFollowing(true);
   };
 
@@ -44,6 +44,16 @@ export default function UserProfilePage() {
   useEffect(() => {
     fetchUserDetail();
   }, [userId]);
+
+  useEffect(() => {
+    if (user?.followed !== undefined) {
+      if (user?.followed) {
+        setFollowing(true);
+      } else {
+        setFollowing(false);
+      }
+    }
+  }, [user]);
 
   return (
     <div css={backgroundStyle}>
@@ -74,7 +84,7 @@ export default function UserProfilePage() {
         </div>
       </div>
       <p css={bioTextStyle}>{user?.userprofile?.bio}</p>
-      {following !== undefined &&
+      {!myPage && following !== undefined &&
         (following ? (
           <UnfollowButton onClick={onClickUnfollow} />
         ) : (
