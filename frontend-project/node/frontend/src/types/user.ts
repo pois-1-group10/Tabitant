@@ -1,11 +1,11 @@
-import { DetailPost, Post } from "./post";
+import { DetailPost } from "./post";
 
 export type User = {
 	id: number;
 	email: string;
 	username: string;
 	image: string;
-	following?: boolean;
+	followed?: boolean;
 }
 
 export type PostUser = {
@@ -32,6 +32,7 @@ export type DetailUser = {
 	like_num: number;
 	default_post_id?: number;
 	award_ids?: number[];
+	followed?: boolean;
 };
 
 export type PostUserProfile = {

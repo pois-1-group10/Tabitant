@@ -4,7 +4,9 @@ import React, { FC, useState } from "react";
 import { css } from "@emotion/react";
 import { User } from "../../types/user";
 import { UserAPI } from "../../api/User";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthUserContext } from "../../providers/AuthUserProvider";
 
 type Props = {
   users: User[];
@@ -12,11 +14,17 @@ type Props = {
 
 export default function UserList(props: Props) {
   const { users } = props;
+  const { currentUser } = useContext(AuthUserContext);
 
   return (
     <div css={userListStyle}>
       {users.map((user) => (
-        <UserItem key={user.id} user={user} following />
+        <UserItem
+          key={user.id}
+          user={user}
+          following={user.followed}
+          myself={currentUser?.id === user.id}
+        />
       ))}
     </div>
   );
@@ -24,11 +32,12 @@ export default function UserList(props: Props) {
 
 interface UserItemProps {
   user: User;
-  following: boolean;
+  following?: boolean;
+  myself: boolean;
 }
 
 const UserItem: FC<UserItemProps> = (props: UserItemProps) => {
-  const { user, following = true } = props;
+  const { user, following = true, myself } = props;
   const [isFollowing, setIsFollowing] = useState<boolean>(following);
   const navigate = useNavigate();
 
@@ -36,12 +45,14 @@ const UserItem: FC<UserItemProps> = (props: UserItemProps) => {
     navigate(`/user_profile/${user.id}`);
   };
 
-  const onClickFollowButton = async () => {
+  const onClickFollowButton = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     await UserAPI.follow(user.id);
     setIsFollowing(true);
   };
 
-  const onClickUnFollowButton = async () => {
+  const onClickUnFollowButton = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     await UserAPI.unfollow(user.id);
     setIsFollowing(false);
   };
@@ -50,7 +61,9 @@ const UserItem: FC<UserItemProps> = (props: UserItemProps) => {
     <div css={userItemWrapperStyle} onClick={navigateToUserDetail}>
       <img src="" alt="" />
       <div css={userNameStyle}>{user.username}</div>
-      {isFollowing ? (
+      {myself ? (
+        <></>
+      ) : isFollowing ? (
         <UnfollowButton onClick={onClickUnFollowButton} />
       ) : (
         <FollowButton onClick={onClickFollowButton} />
