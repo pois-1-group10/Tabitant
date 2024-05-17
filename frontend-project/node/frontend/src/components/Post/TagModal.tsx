@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
 import React from "react";
+import { css } from "@emotion/react";
+
 import Card from "../common/Card";
 import TagChip from "../common/TagChip";
-import { css } from "@emotion/react";
 import CancelButton from "../common/CancelButton";
-
-const tags = ["日常", "自然", "人間関係", "恋愛", "仕事", "学校", "家族"];
+import { tags } from "../../utils/constants";
 
 interface TagModalProps {
   selectedTags: string[];
@@ -60,6 +60,7 @@ const modalStyle = css`
   justify-content: center;
   align-items: center;
   box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.3);
+	z-index: 200;
 `;
 
 const cancelButtonWrapperStyle = css`

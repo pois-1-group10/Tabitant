@@ -20,7 +20,7 @@ export default function TagChoices(props: Props) {
         {selectedTags.length > 0 ? (
           selectedTags.map((tag) => <TagChip key={tag} name={tag} />)
         ) : (
-          <div>タグがありません</div>
+          <div css={noTagStyle}>タップしてタグを選択</div>
         )}
       </div>
       {choiceIsOpen && (
@@ -39,4 +39,9 @@ const wrapperStyle = css`
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
+  min-height: 32px;
+`;
+
+const noTagStyle = css`
+  color: #767878;
 `;

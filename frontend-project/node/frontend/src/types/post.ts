@@ -18,16 +18,21 @@ export type Post = {
 };
 
 export type SubmitPost = {
-  user_id?: number;
+  user?: number;
   content_1: string;
   content_2: string;
   content_3: string;
   content_4: string;
   content_5: string;
+  hiragana_1: string;
+  hiragana_2: string;
+  hiragana_3: string;
+  hiragana_4: string;
+  hiragana_5: string;
   latitude?: number;
   longitude?: number;
-  prefecture_id?: number;
-  tags?: number[];
+  prefecture?: string | null;
+  tags?: string[];
 };
 
 export type DetailPost = {
