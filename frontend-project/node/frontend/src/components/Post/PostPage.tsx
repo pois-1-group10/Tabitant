@@ -1,13 +1,14 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { css } from "@emotion/react";
 import Card from "../common/Card";
 import TagChoices from "./TagChoices";
-import TagChip from "../common/TagChip";
 import BackButton from "../common/BackButton";
 
 export default function PostPage() {
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
   return (
     <div css={backgroundStyle}>
       <BackButton />
@@ -15,10 +16,10 @@ export default function PostPage() {
         <div css={postCardHeaderStyle}>
           <img src="" alt="icon" css={iconStyle} />
           <div css={postCardHeaderContentStyle}>
-            <TagChoices>
-              <TagChip name="日常" />
-              <TagChip name="自然" />
-            </TagChoices>
+            <TagChoices
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+            />
             <div css={areaPositionWrapperStyle}>
               <div css={areaPositionTextStyle}>
                 <div className="area">エリア</div>
@@ -35,21 +36,21 @@ export default function PostPage() {
         <hr />
         <textarea css={mainTextareaStyle} />
       </Card>
-      <PostButton onClick={() => null}/>
+      <PostButton onClick={() => null} />
     </div>
   );
 }
 
 interface ButtonProps {
   onClick: (event: React.MouseEvent) => void;
-};
+}
 
 const PostButton: FC<ButtonProps> = ({ onClick }) => {
   return (
     <button onClick={onClick} css={postButtonStyle}>
       詠む
     </button>
-  )
+  );
 };
 
 const backgroundStyle = css`
@@ -82,9 +83,11 @@ const iconStyle = css`
   width: 32px;
   border-radius: 16px;
   border: 1px solid #303030;
+  flex-shrink: 0;
 `;
 
 const postCardHeaderContentStyle = css`
+  position: relative;
   display: flex;
   flex-flow: column;
   flex-grow: 1;
