@@ -53,6 +53,13 @@ class Command(BaseCommand):
         good_comments = [GoodCommentFactory(user=user, comment=comment) for user, comment in good_comment_pairs]
         self.stdout.write('Created good comments.')
 
+        # Create BadComments
+        random.shuffle(user_comment_pairs)
+        bad_comment_pairs = user_comment_pairs[:500]
+
+        bad_comments = [BadCommentFactory(user=user, comment=comment) for user, comment in bad_comment_pairs]
+        self.stdout.write('Created bad comments.')
+
         # Create Follows
         user_pairs = [(user1, user2) for user1 in users for user2 in users if user1 != user2]
         random.shuffle(user_pairs)
