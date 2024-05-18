@@ -5,7 +5,7 @@ from .serializers import *
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
-from django.db.models import Count, F, Q, ExpressionWrapper
+from django.db.models import Count, Exists, F, OuterRef, Q, ExpressionWrapper, Value
 from django.db.models.fields import IntegerField
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
@@ -28,6 +28,8 @@ class UserViewSet(viewsets.ModelViewSet):
             return UserDetailSerializer
         elif self.action in ['follow', 'unfollow']:
             return UserOperationSerializer
+        elif self.action in ['similar']:
+            return SimilarUserSerializer
         return UserSerializer
 
     def list(self, request):
@@ -67,6 +69,37 @@ class UserViewSet(viewsets.ModelViewSet):
         item = self.get_object()
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    @action(detail=False, methods=['get'])
+    def similar(self, request):
+        # フォローしていないユーザーの中で投稿の感情の平均ベクトルのコサイン類似度が0.8以上のユーザーを取得
+        request_user_emotion = request.user.emotions
+        queryset = (
+            self.get_queryset().select_related("emotions").annotate(
+                emotion_ureshii=F("emotions__emotion_ureshii"),
+                emotion_omoshiroi=F("emotions__emotion_omoshiroi"),
+                emotion_odayaka=F("emotions__emotion_odayaka"),
+                emotion_shimijimi=F("emotions__emotion_shimijimi"),
+                emotion_samishii=F("emotions__emotion_samishii"),
+                emotion_ikari=F("emotions__emotion_ikari"),
+                similarity=(
+                    ( F("emotion_ureshii") * Value(request_user_emotion.emotion_ureshii)
+                    + F("emotion_omoshiroi") * Value(request_user_emotion.emotion_omoshiroi)
+                    + F("emotion_odayaka") * Value(request_user_emotion.emotion_odayaka)
+                    + F("emotion_shimijimi") * Value(request_user_emotion.emotion_shimijimi)
+                    + F("emotion_samishii") * Value(request_user_emotion.emotion_samishii)
+                    + F("emotion_ikari") * Value(request_user_emotion.emotion_ikari) )
+                    / ( F("emotions__norm2") * Value(request_user_emotion.norm2) )
+                )
+            )
+            .order_by("-similarity")
+            .exclude(id=request.user.id)
+            .exclude(similarity__isnull=True)
+            .exclude(Exists(Follow.objects.filter(follower=request.user, followee=OuterRef("id"))))
+            .filter(similarity__gt=0.8)
+        )
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'])
     def follow(self, request, pk):

@@ -18,6 +18,21 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+class UserEmotion(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="emotions")
+    emotion_ureshii = models.FloatField()
+    emotion_omoshiroi = models.FloatField()
+    emotion_odayaka = models.FloatField()
+    emotion_shimijimi = models.FloatField()
+    emotion_samishii = models.FloatField()
+    emotion_ikari = models.FloatField()
+    norm2 = models.FloatField()
+
+    class Meta:
+        managed = False
+        db_table = 'tabitant_api_user_emotion_view'
+
+
 class Prefecture(models.Model):
     name=models.CharField(max_length=15, default='')
 
