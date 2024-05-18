@@ -4,15 +4,9 @@ import React, { ReactElement, ReactNode } from "react";
 import { SerializedStyles, css } from "@emotion/react";
 import Card from "./Card";
 import TagChip from "./TagChip";
-import { ChartData, DetailPost } from "../../types/post";
+import { DetailPost } from "../../types/post";
 import { Link } from "react-router-dom";
-import {
-  PolarAngleAxis,
-  PolarGrid,
-  Radar,
-  RadarChart,
-  ResponsiveContainer,
-} from "recharts";
+import EmotionRadarChart from "./EmotionRadarChart";
 
 interface Props {
   post?: DetailPost;
@@ -29,41 +23,6 @@ export default function TankaCard(props: Props) {
     ${style}
   `;
   const cardProps = post && link ? { to: `/post_detail/${post?.id}` } : {};
-
-  const chartData: ChartData[] = post
-    ? [
-        {
-          emotion: "嬉",
-          score: post.emotion_ureshii,
-          fullMark: 3,
-        },
-        {
-          emotion: "笑",
-          score: post.emotion_shimijimi,
-          fullMark: 3,
-        },
-        {
-          emotion: "寂",
-          score: post.emotion_samishii,
-          fullMark: 3,
-        },
-        {
-          emotion: "沁",
-          score: post.emotion_shimijimi,
-          fullMark: 3,
-        },
-        {
-          emotion: "穏",
-          score: post.emotion_odayaka,
-          fullMark: 3,
-        },
-        {
-          emotion: "怒",
-          score: post.emotion_ikari,
-          fullMark: 3,
-        },
-      ]
-    : [];
 
   return (
     <Card style={concatenatedStyle} {...cardProps}>
@@ -88,20 +47,14 @@ export default function TankaCard(props: Props) {
               </div>
             </div>
           </div>
-          <div css={chartContainerStyle}>
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={chartData}>
-                <PolarGrid gridType="circle" />
-                <PolarAngleAxis dataKey="emotion" tick={{ dy: 5 }} />
-                <Radar
-                  dataKey="score"
-                  stroke="#8884d8"
-                  fill="#8884d8"
-                  fillOpacity={0.6}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
+          <EmotionRadarChart 
+            ureshii={post?.emotion_ureshii ?? 0} 
+            omoshiroi={post?.emotion_omoshiroi ?? 0} 
+            samishii={post?.emotion_samishii ?? 0} 
+            shimijimi={post?.emotion_shimijimi ?? 0} 
+            odayaka={post?.emotion_odayaka ?? 0} 
+            ikari={post?.emotion_ikari ?? 0}
+          />
         </div>
       </div>
       <hr />
@@ -139,12 +92,6 @@ const tagsWrapperStyle = css`
 const postCardHeaderContentWrapperStyle = css`
   display: flex;
   width: 100%;
-`;
-
-const chartContainerStyle = css`
-  width: 120px;
-  height: 120px;
-  font-size: 14px;
 `;
 
 const postCardHeaderContentStyle = css`

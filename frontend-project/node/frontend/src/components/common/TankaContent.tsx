@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState } from 'react'
+import React from 'react'
 import { Theme, css } from '@emotion/react'
 import { Tanka } from '../../models';
 
