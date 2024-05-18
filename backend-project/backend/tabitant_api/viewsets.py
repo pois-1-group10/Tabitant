@@ -169,7 +169,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if lat:
             queryset = queryset.filter(latitude__range=(float(lat)-0.01,float(lat)+0.01))
         if lng:
-            queryset = queryset.filter(longitude__range=(lng-0.01,lng+0.01))
+            queryset = queryset.filter(longitude__range=(float(lng)-0.01,float(lng)+0.01))
         if search:
             for word in search.split(' '):
                 queryset = queryset.filter(
@@ -289,7 +289,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action in ['create', 'update']:
             return CommentUpdateSerializer
-        elif self.action in ['like', 'unlike']:
+        elif self.action in ['like', 'unlike', 'dislike', 'undislike']:
             return CommentOperationSerializer
         return CommentDetailSerializer
 
@@ -347,6 +347,25 @@ class CommentViewSet(viewsets.ModelViewSet):
         if not good.exists():
             return ErrorResponse("The comment has not been liked.", status.HTTP_400_BAD_REQUEST)
         good.delete()
+        serializer = self.get_serializer(item, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(methods=["post"], detail=True, url_path='dislike')
+    def dislike(self, request, pk):
+        item = self.get_object()
+        if BadComment.objects.filter(user=request.user, comment=item).exists():
+            return ErrorResponse("The comment has already been disliked.", status.HTTP_400_BAD_REQUEST)
+        BadComment.objects.create(user=request.user, comment=item)
+        serializer = self.get_serializer(item, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(methods=["post"], detail=True, url_path='undislike')
+    def undislike(self, request, pk):
+        item = self.get_object()
+        bad = BadComment.objects.filter(user=request.user, comment=item)
+        if not bad.exists():
+            return ErrorResponse("The comment has not been disliked.", status.HTTP_400_BAD_REQUEST)
+        bad.delete()
         serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
