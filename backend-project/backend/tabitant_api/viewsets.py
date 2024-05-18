@@ -336,6 +336,10 @@ class CommentViewSet(viewsets.ModelViewSet):
         item = self.get_object()
         if GoodComment.objects.filter(user=request.user, comment=item).exists():
             return ErrorResponse("The comment has already been liked.", status.HTTP_400_BAD_REQUEST)
+        bad = BadComment.objects.filter(user=request.user, comment=item)
+        if bad.exists():
+            bad.delete()
+            logger.info("The bad object has been deleted.")
         GoodComment.objects.create(user=request.user, comment=item)
         serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -355,6 +359,10 @@ class CommentViewSet(viewsets.ModelViewSet):
         item = self.get_object()
         if BadComment.objects.filter(user=request.user, comment=item).exists():
             return ErrorResponse("The comment has already been disliked.", status.HTTP_400_BAD_REQUEST)
+        good = GoodComment.objects.filter(user=request.user, comment=item)
+        if good.exists():
+            good.delete()
+            logger.info("The bad object has been deleted.")
         BadComment.objects.create(user=request.user, comment=item)
         serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
