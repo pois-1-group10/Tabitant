@@ -93,6 +93,27 @@ class UserDetailSerializer(serializers.ModelSerializer):
             return Follow.objects.filter(follower=user, followee=obj).exists()
         return False
 
+class SimilarUserSerializer(serializers.ModelSerializer):
+    followed = serializers.SerializerMethodField()
+    emotion_ureshii = serializers.IntegerField()
+    emotion_omoshiroi = serializers.IntegerField()
+    emotion_samishii = serializers.IntegerField()
+    emotion_shimijimi = serializers.IntegerField()
+    emotion_odayaka = serializers.IntegerField()
+    emotion_ikari = serializers.IntegerField()
+    similarity = serializers.FloatField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'image', 'followed', 'emotion_ureshii', 'emotion_omoshiroi', 'emotion_samishii', 
+                  'emotion_shimijimi', 'emotion_odayaka', 'emotion_ikari', 'similarity']
+    
+    def get_followed(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Follow.objects.filter(follower=user, followee=obj).exists()
+        return False
+
 class UserOperationSerializer(serializers.ModelSerializer):
     followed = serializers.SerializerMethodField()
 

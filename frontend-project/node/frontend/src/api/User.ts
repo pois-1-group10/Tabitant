@@ -1,3 +1,4 @@
+import { Emotion } from "../types/emo";
 import {
   DetailUser,
   PostUserProfile,
@@ -20,6 +21,15 @@ export class UserAPI {
   static async fetchUserList(params: UserListParams): Promise<User[]> {
     const response = await authAxios.get("users/", {
       params: params,
+      headers: sessionStorage.getItem("token")
+        ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
+        : {},
+    });
+    return response.data;
+  }
+
+	static async fetchSimilarUserList(): Promise<(User & Emotion)[]> {
+    const response = await authAxios.get("users/similar/", {
       headers: sessionStorage.getItem("token")
         ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
         : {},

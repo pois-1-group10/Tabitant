@@ -11,6 +11,8 @@ import { UserDetailContext } from "../../providers/UserDetailProvider";
 import NavigationMenu from "../common/NavigationMenu";
 import { AuthUserContext } from "../../providers/AuthUserProvider";
 import { UserAPI } from "../../api/User";
+import SimilarUserList from "./SimilarUserList";
+import { SimilarUserProvider } from "../../providers/SimilarUserProvider";
 
 export default function UserProfilePage() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
@@ -84,13 +86,22 @@ export default function UserProfilePage() {
         </div>
       </div>
       <p css={bioTextStyle}>{user?.userprofile?.bio}</p>
-      {!myPage && following !== undefined &&
+      {!myPage &&
+        following !== undefined &&
         (following ? (
           <UnfollowButton onClick={onClickUnfollow} />
         ) : (
           <FollowButton onClick={onClickFollow} />
         ))}
       <hr />
+      {user?.id === currentUser?.id && (
+        <>
+          <div css={sectionTitleStyle}>ディスカバー</div>
+          <SimilarUserProvider>
+            <SimilarUserList />
+          </SimilarUserProvider>
+        </>
+      )}
       {user?.userprofile?.default_post && (
         <>
           <div css={sectionTitleStyle}>短歌</div>
