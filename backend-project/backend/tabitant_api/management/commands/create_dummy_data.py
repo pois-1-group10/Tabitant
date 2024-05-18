@@ -8,10 +8,15 @@ class Command(BaseCommand):
     help = 'Create dummy data'
 
     def handle(self, *args, **kwargs):
+        faker = FakerFactory.create('ja_JP')
+
         # Create Users and their Profiles
-        users = UserFactory.create_batch(20)
+        usernames = set()
+        while len(usernames) < 20:
+            usernames.add(faker.user_name())
+        users = UserFactory.create_batch(len(usernames), username=Iterator(usernames))
         self.stdout.write('Created users.')
-        
+
         for user in users:
             setUserProfile(user)
         self.stdout.write('Updated user profiles.')
@@ -52,6 +57,13 @@ class Command(BaseCommand):
 
         good_comments = [GoodCommentFactory(user=user, comment=comment) for user, comment in good_comment_pairs]
         self.stdout.write('Created good comments.')
+
+        # Create BadComments
+        random.shuffle(user_comment_pairs)
+        bad_comment_pairs = user_comment_pairs[:500]
+
+        bad_comments = [BadCommentFactory(user=user, comment=comment) for user, comment in bad_comment_pairs]
+        self.stdout.write('Created bad comments.')
 
         # Create Follows
         user_pairs = [(user1, user2) for user1 in users for user2 in users if user1 != user2]

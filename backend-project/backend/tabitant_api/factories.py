@@ -84,6 +84,13 @@ class GoodCommentFactory(DjangoModelFactory):
     user = SubFactory(UserFactory)
     comment = SubFactory(CommentFactory)
 
+class BadCommentFactory(DjangoModelFactory):
+    class Meta:
+        model = BadComment
+
+    user = SubFactory(UserFactory)
+    comment = SubFactory(CommentFactory)
+
 class FollowFactory(DjangoModelFactory):
     class Meta:
         model = Follow
