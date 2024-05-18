@@ -59,7 +59,7 @@ const UserItem: FC<UserItemProps> = (props: UserItemProps) => {
 
   return (
     <div css={userItemWrapperStyle} onClick={navigateToUserDetail}>
-      <img src="" alt="" />
+      <img src={user.image} alt="" />
       <div css={userNameStyle}>{user.username}</div>
       {myself ? (
         <></>
@@ -122,21 +122,32 @@ const userNameStyle = css`
 `;
 
 const unfollowButtonStyle = css`
-  height: 20px;
-  width: 80px;
-  border-radius: 8px;
-  background-color: transparent;
+  outline: none;
+  appearance: none;
+  height: 32px;
+  width: fit-content;
+  padding: 0 8px;
+  background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid #303030;
-  text-align: center;
-  font-size: 12px;
+  border-radius: 20px;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  line-height: 32px;
+  color: #ff981f;
 `;
 
 const followButtonStyle = css`
-  height: 20px;
-  width: 80px;
-  border-radius: 8px;
-  background-color: #fff;
+  outline: none;
+  appearance: none;
+  height: 32px;
+  width: fit-content;
+  padding: 0 8px;
+  background-color: #ff981f;
   border: 1px solid #303030;
-  text-align: center;
-  font-size: 12px;
+  border-radius: 20px;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  line-height: 32px;
+  color: #fff;
 `;
+

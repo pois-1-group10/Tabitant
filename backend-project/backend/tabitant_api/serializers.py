@@ -193,6 +193,7 @@ class PostOperationSerializer(serializers.ModelSerializer):
         return False
 
 class CommentDetailSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
     reply_count = serializers.IntegerField(source="replies.count", read_only=True)
     good_count = serializers.IntegerField(source="goods.count", read_only=True)
     liked = serializers.SerializerMethodField()

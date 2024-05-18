@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { Post } from "../../types/post";
 import { PostListContext } from "../../providers/PostListProvider";
 import { tankaFromPost } from "../../utils/tanka";
+import { dateToStringByMinute } from "../../utils/date";
 
 type Props = {
   posts: Post[];
@@ -49,7 +50,7 @@ const TankaItem: FC<InnerProps> = ({ post }) => {
             <span>{post.bad_count}</span>
           </div>
         </div>
-        <span css={dateStyle}>{new Date(post.created_at).toLocaleDateString()}</span>
+        <span css={dateStyle}>{dateToStringByMinute(new Date(post.created_at))}</span>
       </div>
     </Link>
   );

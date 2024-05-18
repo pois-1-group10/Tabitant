@@ -9,6 +9,7 @@ import { CommentAPI } from "../../api/Comment";
 import { BadButton, GoodButton } from "./ReactionButtons";
 import { Link } from "react-router-dom";
 import CommentInput from "./CommentInput";
+import { dateToStringByMinute } from "../../utils/date";
 
 interface Props {
   postId: number;
@@ -82,13 +83,13 @@ const ReplyItem: FC<InnerProps> = ({ reply }) => {
 
   return (
     <div css={wrapperStyle}>
-      <img src="" alt="" css={iconStyle} />
+      <img src={reply.user.image} alt="" css={iconStyle} />
       <div css={contentWrapperStyle}>
         <div css={commenterNameStyle}>
           <Link to={`/user_profile/${reply.user.id}`}>
             {reply.user.username}
           </Link>
-          <span>{new Date(reply.created_at).toLocaleString()}</span>
+          <span>{dateToStringByMinute(new Date(reply.created_at))}</span>
         </div>
         <p>{reply.content}</p>
         <div css={commentFooterStyle}>

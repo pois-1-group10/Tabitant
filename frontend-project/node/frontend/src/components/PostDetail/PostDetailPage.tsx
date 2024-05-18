@@ -99,7 +99,7 @@ export default function PostDetailPage() {
           {myPost || <FollowButton following={following} onClick={followClickHandler} />}
         </div>
         <div css={commentInputWrapperStyle}>
-          <img src="" alt="icon" css={selfIconStyle} />
+          <img src={currentUser?.image} alt="icon" css={selfIconStyle} />
           {post && <CommentInput postId={post.id} />}
         </div>
       </TankaCard>
