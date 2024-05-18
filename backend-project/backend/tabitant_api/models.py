@@ -130,6 +130,23 @@ class GoodComment(models.Model):
 
     def __str__(self):
         return f"{self.user.username} -> {self.comment}"
+    
+class BadComment(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    comment=models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="bads")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "comment"],
+                name="badcomment_unique"
+            ),
+        ]
+        verbose_name = "コメントへの Bad"
+        verbose_name_plural = "コメントへの Bad"
+
+    def __str__(self):
+        return f"{self.user.username} -> {self.comment}"
 
 class Follow(models.Model):
     follower=models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
