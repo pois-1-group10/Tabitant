@@ -9,6 +9,7 @@ import { CommentListProvider } from "../../providers/CommentListProvider";
 import { CommentAPI } from "../../api/Comment";
 import { BadButton, GoodButton } from "./ReactionButtons";
 import { Link } from "react-router-dom";
+import { dateToStringByMinute } from "../../utils/date";
 
 interface Props {
   comment: Comment;
@@ -64,13 +65,13 @@ export default function CommentItem({ comment }: Props) {
   return (
     <>
       <div css={wrapperStyle}>
-        <img src="" alt="" css={iconStyle} />
+        <img src={comment.user.image} alt="" css={iconStyle} />
         <div css={contentWrapperStyle}>
           <div css={commenterNameStyle}>
             <Link to={`/user_profile/${comment.user.id}`}>
               {comment.user.username}
             </Link>
-            <span>{new Date(comment.created_at).toLocaleString()}</span>
+            <span>{dateToStringByMinute(new Date(comment.created_at))}</span>
           </div>
           <p>{comment.content}</p>
           <div css={commentFooterStyle}>

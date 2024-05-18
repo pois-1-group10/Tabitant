@@ -173,3 +173,5 @@ CORS_ALLOWED_ORIGINS = [
 CORS_PREFLIGHT_MAX_AGE = 60 * 30
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ALLOWED_HOSTS = ["*"]
