@@ -8,10 +8,15 @@ class Command(BaseCommand):
     help = 'Create dummy data'
 
     def handle(self, *args, **kwargs):
+        faker = FakerFactory.create('ja_JP')
+
         # Create Users and their Profiles
-        users = UserFactory.create_batch(20)
+        usernames = set()
+        while len(usernames) < 20:
+            usernames.add(faker.user_name())
+        users = UserFactory.create_batch(len(usernames), username=Iterator(usernames))
         self.stdout.write('Created users.')
-        
+
         for user in users:
             setUserProfile(user)
         self.stdout.write('Updated user profiles.')
