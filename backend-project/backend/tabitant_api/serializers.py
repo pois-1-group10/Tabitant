@@ -165,6 +165,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
 
 class PostUpdateSerializer(serializers.ModelSerializer):
     #tag_list = serializers.ListField(child=serializers.CharField())
+    prefecture = serializers.SlugRelatedField("name", queryset=Prefecture.objects.all())
     class Meta:
         model = Post
         fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',

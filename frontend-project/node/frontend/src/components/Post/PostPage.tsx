@@ -165,13 +165,15 @@ export default function PostPage() {
   };
 
   const onSubmit = async (data: Input) => {
-    const detailPos = detailedPlaceIsOn ? {
-      latitude: latitude ?? undefined,
-      longitude: longitude ?? undefined,
-    } : {};
+    const detailPos = detailedPlaceIsOn
+      ? {
+          latitude: latitude ?? undefined,
+          longitude: longitude ?? undefined,
+        }
+      : {};
     await PostAPI.createPost({
       user: currentUser?.id,
-      tags: selectedTags,
+      tag_list: selectedTags,
       content_1: data.tanka1,
       content_2: data.tanka2,
       content_3: data.tanka3,
@@ -232,13 +234,15 @@ export default function PostPage() {
                         ? watch("prefecture")
                         : "位置情報取得エラー"}
                     </div>
-                    {detailedPlaceIsOn && latitude !== undefined && longitude !== undefined && (
-                      <div className="position">
-                        {latitude !== null && longitude !== null
-                          ? `(${latitude}, ${longitude})`
-                          : "詳細位置取得エラー"}
-                      </div>
-                    )}
+                    {detailedPlaceIsOn &&
+                      latitude !== undefined &&
+                      longitude !== undefined && (
+                        <div className="position">
+                          {latitude !== null && longitude !== null
+                            ? `(${latitude}, ${longitude})`
+                            : "詳細位置取得エラー"}
+                        </div>
+                      )}
                   </div>
                 </div>
                 <div css={detailedPlaceSwitchWrapperStyle}>

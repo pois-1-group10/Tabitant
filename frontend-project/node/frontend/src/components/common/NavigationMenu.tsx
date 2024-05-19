@@ -158,6 +158,7 @@ const buttonStyle = (theme: Theme) => css`
   background: ${theme.palette.primary.main};
   border: none;
   border-radius: 10px;
+	box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.5);
   padding: 0 12px;
   cursor: pointer;
 `;

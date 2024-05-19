@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import React, { useContext } from "react";
+import { Link, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import { css } from "@emotion/react";
 import CancelButton from "../common/CancelButton";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { UserAuthAPI } from "../../api/UserAuth";
 import { AuthUserContext } from "../../providers/AuthUserProvider";
 
 interface Props {
@@ -15,24 +15,21 @@ export default function Sidebar(props: Props) {
   const { setSidebarIsOpen } = props;
   const { currentUser } = useContext(AuthUserContext);
   const params = useParams();
-  const navigate = useNavigate();
   const userId = params.id;
 
   const myPage = Number(userId) === currentUser?.id;
 
-  const logout = async () => {
-    await UserAuthAPI.logout();
-    sessionStorage.removeItem("token");
-    navigate("/login/");
-  };
-
   return (
-    <div css={shadowStyle}>
+    <motion.div css={shadowStyle} exit={{ opacity: 0 }}>
       <CancelButton
         style={cancelButtonStyle}
         onClick={() => setSidebarIsOpen(false)}
       />
-      <div css={sidebarBackgroundStyle}>
+      <motion.div
+        css={sidebarBackgroundStyle}
+        animate={{ x: "-50%" }}
+        exit={{ x: "50%" }}
+      >
         <div css={linkWrapperStyle}>
           {myPage && (
             <>
@@ -56,17 +53,11 @@ export default function Sidebar(props: Props) {
                 パスワード変更
               </Link>
               <div css={breakLineStyle} />
-              <div css={linkButtonStyle} onClick={logout}>
-                ログアウト
-              </div>
-              <div css={breakLineStyle} />
-              <div css={linkButtonAlertStyle}>アカウント削除</div>
-              <div css={breakLineStyle} />
             </>
           )}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -89,8 +80,8 @@ const cancelButtonStyle = css`
 `;
 
 const sidebarBackgroundStyle = css`
-  margin-left: 50vw;
-  padding: 80px 0;
+  margin-left: 100vw;
+  padding: 80px 50vw 80px 0;
   height: 100vh;
   width: 50vw;
   background-color: #fff;
@@ -114,17 +105,6 @@ const linkButtonStyle = css`
   text-align: center;
   font-size: 14px;
   font-weight: bold;
-`;
-
-const linkButtonAlertStyle = css`
-  height: 40px;
-  width: 168px;
-  line-height: 40px;
-  margin: 2px auto;
-  text-align: center;
-  font-size: 14px;
-  font-weight: bold;
-  color: red;
 `;
 
 const breakLineStyle = css`
