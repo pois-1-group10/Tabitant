@@ -213,7 +213,10 @@ class PostViewSet(viewsets.ModelViewSet):
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            post = serializer.save()
+            tags = serializer.data['tag_list']
+            tags = Tag.objects.bulk_create([Tag(name=tag_name) for tag_name in tags])
+            post.tags.set(tags)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

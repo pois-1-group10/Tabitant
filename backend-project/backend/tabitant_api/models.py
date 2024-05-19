@@ -35,6 +35,11 @@ class Post(models.Model):
     content_3=models.CharField(max_length=15, blank=False, default='')
     content_4=models.CharField(max_length=15, blank=False, default='')
     content_5=models.CharField(max_length=15, blank=False, default='')
+    hiragana_1=models.CharField(max_length=15, blank=False, default='')
+    hiragana_2=models.CharField(max_length=15, blank=False, default='')
+    hiragana_3=models.CharField(max_length=15, blank=False, default='')
+    hiragana_4=models.CharField(max_length=15, blank=False, default='')
+    hiragana_5=models.CharField(max_length=15, blank=False, default='')
     latitude=models.FloatField(blank=True, null=True, default=0.0)
     longitude=models.FloatField(blank=True, null=True, default=0.0)
     prefecture=models.ForeignKey(Prefecture, on_delete=models.CASCADE)
@@ -46,6 +51,7 @@ class Post(models.Model):
     emotion_shimijimi=models.IntegerField(default=0)
     emotion_samishii=models.IntegerField(default=0)
     emotion_ikari=models.IntegerField(default=0)
+    tag_list = models.JSONField(default=list)
 
     class Meta:
         verbose_name = "投稿"
