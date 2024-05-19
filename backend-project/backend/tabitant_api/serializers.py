@@ -19,11 +19,17 @@ class PrefectureSerializer(serializers.ModelSerializer):
         model = Prefecture
         fields = ['id', 'name']
 
+class CompetitionDetailSerializer(serializers.ModelSerializer):
+    prefecture = PrefectureSerializer(read_only=True)
+    class Meta:
+        model = Competition
+        fields = ['id', 'year', 'month', 'prefecture']
+
 class AwardSerializer(serializers.ModelSerializer):
-    prefecture = PrefectureSerializer(source="compe.prefecture", read_only=True)
+    compe = CompetitionDetailSerializer(read_only=True)
     class Meta:
         model = Award
-        fields = ['id', 'user', 'post', 'compe', 'rank', 'prefecture']
+        fields = ['id', 'user', 'post', 'compe', 'rank']
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -292,11 +298,6 @@ class FollowSerializer(serializers.ModelSerializer):
         model = Follow
         fields = ['id', 'follower', 'followee']
 
-class CompetitionDetailSerializer(serializers.ModelSerializer):
-    prefecture = PrefectureSerializer(read_only=True)
-    class Meta:
-        model = Competition
-        fields = ['id', 'year', 'month', 'prefecture']
 
 class CompetitionUpdateSerializer(serializers.ModelSerializer):
     class Meta:
