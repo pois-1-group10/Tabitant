@@ -19,6 +19,7 @@ import SimilarUserList from "./SimilarUserList";
 import { SimilarUserProvider } from "../../providers/SimilarUserProvider";
 import { awardToString } from "../../utils/award";
 import { Award } from "../../types/award";
+import { AnimatePresence } from "framer-motion";
 
 export default function UserProfilePage() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
@@ -69,8 +70,10 @@ export default function UserProfilePage() {
         style={hamburgerButtonStyle}
         onClick={() => setSidebarIsOpen(true)}
       />
-      <NavigationMenu home ranking post profile={!myPage} />
-      {sidebarIsOpen && <Sidebar setSidebarIsOpen={setSidebarIsOpen} />}
+      <NavigationMenu home ranking post logout profile={!myPage} />
+      <AnimatePresence>
+        {sidebarIsOpen && <Sidebar setSidebarIsOpen={setSidebarIsOpen} />}
+      </AnimatePresence>
       <div css={profileHeaderStyle}>
         <img src={user?.image} alt="" css={userIconStyle} />
         <div css={userInfoStyle}>
