@@ -1,18 +1,24 @@
 /** @jsxImportSource @emotion/react */
 
 import React, { FC, useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { css } from "@emotion/react";
+
+import goldMedalIcon from "../../img/gold_medal.png";
+import silverMedalIcon from "../../img/silver_medal.png";
+import bronzeMedalIcon from "../../img/bronze_medal.png";
 import Card from "../common/Card";
 import TankaCard from "../common/TankaCard";
 import HamburgerButton from "../common/HamburgerButton";
 import Sidebar from "./Sidebar";
-import { Link, useParams } from "react-router-dom";
 import { UserDetailContext } from "../../providers/UserDetailProvider";
 import NavigationMenu from "../common/NavigationMenu";
 import { AuthUserContext } from "../../providers/AuthUserProvider";
 import { UserAPI } from "../../api/User";
 import SimilarUserList from "./SimilarUserList";
 import { SimilarUserProvider } from "../../providers/SimilarUserProvider";
+import { awardToString } from "../../utils/award";
+import { Award } from "../../types/award";
 
 export default function UserProfilePage() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
@@ -113,7 +119,11 @@ export default function UserProfilePage() {
         </>
       )}
       <div css={sectionTitleStyle}>受賞歴</div>
-      <Card style={awardCardStyle}></Card>
+      <Card style={awardCardStyle}>
+        {user?.awards.map((award) => (
+          <AwardItem key={award.id} award={award} />
+        ))}
+      </Card>
     </div>
   );
 }
@@ -135,6 +145,27 @@ const UnfollowButton: FC<InnerProps> = ({ onClick }) => {
     <button onClick={onClick} css={unfollowButtonStyle}>
       フォロー解除
     </button>
+  );
+};
+
+interface AwardProps {
+  award: Award;
+}
+
+const AwardItem: FC<AwardProps> = ({ award }) => {
+  return (
+    <div css={awardItemStyle}>
+      {award.rank === 1 ? (
+        <img src={goldMedalIcon} alt="" css={medalIconStyle} />
+      ) : award.rank === 2 ? (
+        <img src={silverMedalIcon} alt="" css={medalIconStyle} />
+      ) : award.rank === 3 ? (
+        <img src={bronzeMedalIcon} alt="" css={medalIconStyle} />
+      ) : (
+        <div css={medalIconStyle}></div>
+      )}
+      <span>{awardToString(award)}</span>
+    </div>
   );
 };
 
@@ -203,6 +234,7 @@ const awardCardStyle = css`
   background-color: rgba(255, 255, 255, 0.5);
   width: 100%;
   min-height: 120px;
+  padding: 12px;
 `;
 
 const navigatingBlockStyle = css`
@@ -242,4 +274,18 @@ const unfollowButtonStyle = css`
   box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.5);
   font-size: 14px;
   color: #ff981f;
+`;
+
+const awardItemStyle = css`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  margin-bottom: 4px;
+`;
+
+const medalIconStyle = css`
+  height: 24px;
+  width: 24px;
 `;

@@ -1,3 +1,4 @@
+import { Award } from "./award";
 import { DetailPost } from "./post";
 
 export type User = {
@@ -33,6 +34,7 @@ export type DetailUser = {
 	default_post_id?: number;
 	award_ids?: number[];
 	followed?: boolean;
+	awards: Award[];
 };
 
 export type PostUserProfile = {
