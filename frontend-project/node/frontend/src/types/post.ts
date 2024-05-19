@@ -35,7 +35,7 @@ export type SubmitPost = {
   latitude?: number;
   longitude?: number;
   prefecture?: string | null;
-  tags?: string[];
+  tag_list?: string[];
 };
 
 export type DetailPost = {
