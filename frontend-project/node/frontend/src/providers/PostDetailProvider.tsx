@@ -7,6 +7,7 @@ type PostDetailContextType = {
   post?: DetailPost;
   loading: boolean;
   fetchPostDetail: (id?: number) => Promise<void>;
+  fetchHotPost: () => Promise<void>;
 };
 
 export const PostDetailContext = createContext({} as PostDetailContextType);
@@ -29,11 +30,22 @@ export const PostDetailProvider = ({
     } catch (e) {
       console.log(e);
     }
-	setLoading(false);
+    setLoading(false);
   };
 
+  const fetchHotPost = async () => {
+    setLoading(true);
+    try {
+      const postData = await PostAPI.fetchHotPost();
+      setPost(postData);
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  }
+
   return (
-    <PostDetailContext.Provider value={{ post, loading, fetchPostDetail }}>
+    <PostDetailContext.Provider value={{ post, loading, fetchPostDetail, fetchHotPost }}>
       {children}
     </PostDetailContext.Provider>
   );

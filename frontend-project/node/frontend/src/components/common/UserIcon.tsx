@@ -2,12 +2,12 @@
 
 import { Theme, css } from '@emotion/react'
 import PersonIcon from '@mui/icons-material/Person';
-import { User } from '../../models';
+import { User } from '../../types/user';
 
-export default function UserIcon({ user }: { user: User | null }) {
+export default function UserIcon({ user }: { user?: User }) {
     return (
         <div css={iconStyle}>
-            {user?.icon ? <img width="100%" height="100%" src={user.icon} alt="icon" /> : <PersonIcon htmlColor="white" />}
+            {user?.image ? <img width="100%" height="100%" src={user.image} alt="icon" /> : <PersonIcon htmlColor="white" />}
         </div >
     );
 }

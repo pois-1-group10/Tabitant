@@ -21,6 +21,15 @@ export class PostAPI {
     return response.data;
   }
 
+  static async fetchHotPost(): Promise<DetailPost> {
+    const response = await authAxios.get(`posts/hot_one/`, {
+      headers: sessionStorage.getItem("token")
+        ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
+        : {},
+    });
+    return response.data;
+  }
+
   static async createPost(data: SubmitPost): Promise<DetailPost> {
     const response = await authAxios.post(`posts/`, data, {
       headers: sessionStorage.getItem("token")

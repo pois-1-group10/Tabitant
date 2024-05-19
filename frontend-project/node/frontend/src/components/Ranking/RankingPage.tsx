@@ -1,16 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppBar, Box, Tab, Tabs, Typography } from '@mui/material';
 import type { Swiper as SwiperCore } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Theme, css } from '@emotion/react'
-import { LatLng, Post, Tanka, User } from '../../models'
-import TankaCard from '../common/TankaCard';
-import UserIcon from '../common/UserIcon';
-import { getDummyPosts, getDummyUsers } from '../../util';
 import NavigationMenu from '../common/NavigationMenu';
+import { Post } from '../../types/post';
+import { PostListContext } from '../../providers/PostListProvider';
+import PostItem from '../common/PostItem';
 
 type TabPanelProps = React.PropsWithChildren<{
     value: number;
@@ -21,28 +20,21 @@ type TabType = "popular" | "latest" | "past";
 const tabTypes: TabType[] = ["popular", "latest", "past"];
 const tabLabels: string[] = ["人気", "新着", "過去の投稿"];
 
-const users = getDummyUsers();
-
-async function getPosts(type: TabType): Promise<Post[]> {
-    // 各タブの投稿を取得する
-    return getDummyPosts({ users: users });
-}
-
 let tabPosts: (Post[] | undefined)[] = new Array(tabTypes.length);
 
 function TabPanel({ value, index }: TabPanelProps) {
-    const [isLoading, setIsLoading] = useState(false);
+    const { posts, loading, fetchPosts } = useContext(PostListContext);
 
-    const isShown = !isLoading && value === index;
+    const isShown = !loading && value === index;
 
-    // 未取得であれば取得する
-    if (isShown && tabPosts[index] === undefined) {
-        setIsLoading(true);
-        getPosts(tabTypes[index]).then(r => {
-            tabPosts[index] = r;
-            setIsLoading(false);
-        });
-    }
+    useEffect(() => {
+        // 未取得であれば取得する
+        if (isShown && tabPosts[index] === undefined) {
+            fetchPosts({}).then(() => {
+                tabPosts[index] = posts;
+            });
+        }
+    }, [value])
 
     return (
         <div
@@ -55,10 +47,7 @@ function TabPanel({ value, index }: TabPanelProps) {
                 {isShown && (
                     tabPosts[index]?.map(p =>
                         <div key={p.id} css={cardStyle}>
-                            <TankaCard icon={UserIcon({ user: p.user })} link>
-                                <div>{p.user?.username}</div>
-                                <div>{p.content.toString()}</div>
-                            </TankaCard>
+                            <PostItem post={p} />
                         </div>
                     )
                 )}
@@ -142,5 +131,9 @@ const containerStyle = css`
 `
 
 const cardStyle = css`
-    margin: 5px;
+    margin: 10px;
+    background-color: white;
+    border: solid 1px black;
+    border-radius: 16px;
+    box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.4);
 `

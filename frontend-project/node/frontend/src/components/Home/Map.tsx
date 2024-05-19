@@ -1,22 +1,14 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useCallback, useEffect, useState } from 'react'
-import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from '@react-google-maps/api';
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { GoogleMap } from '@react-google-maps/api';
 import { css } from '@emotion/react'
-import { Post, User, Tanka, LatLng } from '../../models';
 import Marker from './Marker'
-import { getDummyPosts, getDummyUsers } from '../../util';
-
-const users = getDummyUsers();
-
-async function getPosts(position: google.maps.LatLng): Promise<Post[]> {
-    // 周辺の投稿を取得する
-    return getDummyPosts({ users: users, center: new LatLng(position.lat(), position.lng()) });
-}
+import { PostListContext } from '../../providers/PostListProvider';
 
 function Map(center: google.maps.LatLngLiteral) {
+    const { posts, fetchPosts } = useContext(PostListContext);
     const [map, setMap] = useState<google.maps.Map | null>(null);
-    const [posts, setPosts] = useState<Post[] | null>(null);
 
     const onLoad = useCallback(function callback(map: google.maps.Map) {
         setMap(map);
@@ -27,8 +19,8 @@ function Map(center: google.maps.LatLngLiteral) {
     }, [])
 
     useEffect(() => {
-        getPosts(new google.maps.LatLng(center))
-            .then((res) => setPosts(res));
+        // fetchPosts({ lat: center.lat, lng: center.lng })
+        fetchPosts({});
     }, [])
 
     return (

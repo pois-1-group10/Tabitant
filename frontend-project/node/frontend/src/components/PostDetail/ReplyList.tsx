@@ -6,7 +6,7 @@ import { css } from "@emotion/react";
 import { Comment } from "../../types/comment";
 import { CommentListContext } from "../../providers/CommentListProvider";
 import { CommentAPI } from "../../api/Comment";
-import { BadButton, GoodButton } from "./ReactionButtons";
+import { BadButton, GoodButton } from "../common/ReactionButtons";
 import { Link } from "react-router-dom";
 import CommentInput from "./CommentInput";
 import { dateToStringByMinute } from "../../utils/date";

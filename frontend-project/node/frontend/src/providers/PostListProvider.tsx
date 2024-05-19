@@ -19,14 +19,14 @@ export const PostListProvider = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchPosts = async (params: PostListParams) => {
-	setLoading(true);
+    setLoading(true);
     try {
       const postData = await PostAPI.fetchPostList(params);
-	  setPosts(postData);
+      setPosts(postData);
     } catch (e) {
       console.log(e);
     }
-	setLoading(false);
+    setLoading(false);
   };
 
   return (
