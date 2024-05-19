@@ -2,12 +2,13 @@
 
 import React from 'react'
 import { Theme, css } from '@emotion/react'
-import { Tanka } from '../../models';
+import { Post } from '../../types/post';
+import { postContentArray } from '../../utils/tanka';
 
-export default function TankaContent({ tanka }: { tanka: Tanka }) {
+export default function PostContent({ post }: { post: Post }) {
     return (
         <div css={boxStyle}>
-            {tanka.content.map((s, i) => <div key={i} css={contentStyle}>{s}</div>)}
+            {postContentArray(post).map((s, i) => <div key={i} css={contentStyle}>{s}</div>)}
         </div>
     );
 }

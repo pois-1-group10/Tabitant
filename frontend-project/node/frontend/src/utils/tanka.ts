@@ -1,14 +1,18 @@
 import axios from "axios";
 import { Post } from "../types/post";
 
-export const tankaFromPost = (post: Post) => {
+export const postContentArray = (post: Post): string[] => {
   return [
     post.content_1,
     post.content_2,
     post.content_3,
     post.content_4,
     post.content_5,
-  ].join(" ");
+  ]
+}
+
+export const tankaFromPost = (post: Post): string => {
+  return postContentArray(post).join(" ");
 };
 
 export const convertToHiragana = async (text: string) => {

@@ -11,7 +11,7 @@ import TankaCard from "../common/TankaCard";
 import { PostDetailContext } from "../../providers/PostDetailProvider";
 import { CommentListContext } from "../../providers/CommentListProvider";
 import { useParams } from "react-router-dom";
-import { BadButton, FollowButton, GoodButton } from "./ReactionButtons";
+import { BadButton, FollowButton, GoodButton } from "../common/ReactionButtons";
 import { PostAPI } from "../../api/Post";
 import { UserAPI } from "../../api/User";
 import { AuthUserContext } from "../../providers/AuthUserProvider";
@@ -19,16 +19,16 @@ import { AuthUserContext } from "../../providers/AuthUserProvider";
 export default function PostDetailPage() {
   const { post, fetchPostDetail } = useContext(PostDetailContext);
   const { comments, fetchComments } = useContext(CommentListContext);
-	const { currentUser } = useContext(AuthUserContext);
-  const [goodIsClicked, setGoodIsClicked] = useState<boolean|undefined>();
-  const [badIsClicked, setBadIsClicked] = useState<boolean|undefined>();
+  const { currentUser } = useContext(AuthUserContext);
+  const [goodIsClicked, setGoodIsClicked] = useState<boolean | undefined>();
+  const [badIsClicked, setBadIsClicked] = useState<boolean | undefined>();
   const [goodCount, setGoodCount] = useState<number | undefined>();
   const [badCount, setBadCount] = useState<number | undefined>();
-	const [following, setFollowing] = useState<boolean | undefined>();
+  const [following, setFollowing] = useState<boolean | undefined>();
   const params = useParams();
   const postId = Number(params.id);
 
-	const myPost = currentUser?.id === post?.user.id;
+  const myPost = currentUser?.id === post?.user.id;
 
   useEffect(() => {
     fetchPostDetail();
@@ -36,54 +36,54 @@ export default function PostDetailPage() {
   }, []);
 
   useEffect(() => {
-		if(post?.liked !== undefined) setGoodIsClicked(post.liked);
-		if(post?.disliked !== undefined) setBadIsClicked(post.disliked);
-		if(post?.good_count !== undefined) setGoodCount(post.good_count);
-    if(post?.bad_count !== undefined) setBadCount(post.bad_count);
-		if(post?.user?.followed !== undefined) setFollowing(post.user.followed);
+    if (post?.liked !== undefined) setGoodIsClicked(post.liked);
+    if (post?.disliked !== undefined) setBadIsClicked(post.disliked);
+    if (post?.good_count !== undefined) setGoodCount(post.good_count);
+    if (post?.bad_count !== undefined) setBadCount(post.bad_count);
+    if (post?.user?.followed !== undefined) setFollowing(post.user.followed);
   }, [post]);
 
   const goodClickHandler = async () => {
-		if (goodIsClicked) {
-			await PostAPI.unlike(postId);
-			setGoodIsClicked(false);
-			goodCount !== undefined && setGoodCount(goodCount - 1);
-		} else {
-			await PostAPI.like(postId);
-			setGoodIsClicked(true);
-			goodCount !== undefined && setGoodCount(goodCount + 1);
-		}
-		if (badIsClicked) {
-			setBadIsClicked(false);
-			badCount !== undefined && setBadCount(badCount - 1);
-		}
-	};
+    if (goodIsClicked) {
+      await PostAPI.unlike(postId);
+      setGoodIsClicked(false);
+      goodCount !== undefined && setGoodCount(goodCount - 1);
+    } else {
+      await PostAPI.like(postId);
+      setGoodIsClicked(true);
+      goodCount !== undefined && setGoodCount(goodCount + 1);
+    }
+    if (badIsClicked) {
+      setBadIsClicked(false);
+      badCount !== undefined && setBadCount(badCount - 1);
+    }
+  };
 
   const badClickHandler = async () => {
-		if (goodIsClicked) {
-			setGoodIsClicked(false);
-			goodCount !== undefined && setGoodCount(goodCount - 1);
-		}
-		if (badIsClicked) {
-			await PostAPI.undislike(postId);
-			setBadIsClicked(false);
-			badCount !== undefined && setBadCount(badCount - 1);
-		} else {
-			await PostAPI.dislike(postId);
-			setBadIsClicked(true);
-			badCount !== undefined && setBadCount(badCount + 1);
-		}
-	};
+    if (goodIsClicked) {
+      setGoodIsClicked(false);
+      goodCount !== undefined && setGoodCount(goodCount - 1);
+    }
+    if (badIsClicked) {
+      await PostAPI.undislike(postId);
+      setBadIsClicked(false);
+      badCount !== undefined && setBadCount(badCount - 1);
+    } else {
+      await PostAPI.dislike(postId);
+      setBadIsClicked(true);
+      badCount !== undefined && setBadCount(badCount + 1);
+    }
+  };
 
-	const followClickHandler = async () => {
-		if (following) {
-			post && await UserAPI.unfollow(post?.user.id);
-			setFollowing(false);
-		} else {
-			post && await UserAPI.follow(post?.user.id);
-			setFollowing(true);
-		}
-	}
+  const followClickHandler = async () => {
+    if (following) {
+      post && await UserAPI.unfollow(post?.user.id);
+      setFollowing(false);
+    } else {
+      post && await UserAPI.follow(post?.user.id);
+      setFollowing(true);
+    }
+  }
 
   return (
     <div css={backgroundStyle}>

@@ -13,7 +13,10 @@ export type Post = {
   prefecture?: Prefecture;
   good_count?: number;
   bad_count?: number;
-	created_at: Date;
+  comment_count?: number;
+  liked: boolean;
+  disliked: boolean;
+  created_at: Date;
   tags: string[];
 };
 
@@ -55,10 +58,11 @@ export type DetailPost = {
   emotion_ikari: number;
   good_count?: number;
   bad_count?: number;
+  comment_count?: number;
   tags: string[];
   liked: boolean;
   disliked: boolean;
-	created_at: Date;
+  created_at: Date;
 };
 
 export type PostListParams = {

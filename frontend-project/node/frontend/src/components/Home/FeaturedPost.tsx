@@ -1,26 +1,19 @@
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Theme, css } from '@emotion/react'
 import WhatshotIcon from '@mui/icons-material/Whatshot';
-import { Post, User, Tanka, LatLng } from '../../models';
-import TankaContent from '../common/TankaContent';
+import TankaContent from '../common/PostContent';
 import UserIcon from '../common/UserIcon';
-import { getDummyUsers } from '../../util';
-
-const users = getDummyUsers(1);
-
-async function getPost(): Promise<Post> {
-    return new Post("1", users[0], new Tanka(["雨の日の", "下校のときに", "見た枝は", "くもの巣さえも", "美しきかな"]),
-        new LatLng(35.026244, 135.780822));
-}
+import { PostDetailContext } from '../../providers/PostDetailProvider';
+import PostItem from '../common/PostItem';
 
 export default function FeaturedPost() {
+    const { post, fetchHotPost } = useContext(PostDetailContext);
     const [shown, setShown] = useState(true);
-    const [post, setPost] = useState<Post | null>(null);
 
     useEffect(() => {
-        getPost().then(res => setPost(res));
+        fetchHotPost()
     }, []);
 
     return shown && post ? (
@@ -33,15 +26,7 @@ export default function FeaturedPost() {
                     <div>この近くのホットな短歌</div>
                     <button type="button" css={hideButtonStyle} onClick={() => setShown(false)}>非表示にする</button>
                 </div>
-                <div css={userStyle}>
-                    <div css={userIconStyle}>
-                        <UserIcon user={post.user} />
-                    </div>
-                    <div>{post.user?.username ?? "Unknown"}</div>
-                </div>
-                <div css={contentStyle}>
-                    <TankaContent tanka={post.content} />
-                </div>
+                <PostItem post={post} />
             </div>
         </>
     ) : <></>;
@@ -90,21 +75,4 @@ const hideButtonStyle = (theme: Theme) => css`
     padding: 0;
     margin-left: auto;
     cursor: pointer;
-`
-
-const userStyle = css`
-    display: flex;
-    align-items: center;
-    margin: 6px;
-`
-
-const userIconStyle = css`
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    margin-right: 8px;
-`
-
-const contentStyle = css`
-    margin: 10px;
 `

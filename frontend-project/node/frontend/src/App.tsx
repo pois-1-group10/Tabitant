@@ -33,7 +33,11 @@ function App() {
           index
           element={
             <AuthUserProvider>
-              <Home />
+              <PostListProvider>
+                <PostDetailProvider>
+                  <Home />
+                </PostDetailProvider>
+              </PostListProvider>
             </AuthUserProvider>
           }
         />
@@ -113,7 +117,14 @@ function App() {
               </PostListProvider>
             }
           />
-          <Route path="ranking" element={<RankingPage />} />
+          <Route
+            path="ranking"
+            element={
+              <PostListProvider>
+                <RankingPage />
+              </PostListProvider>
+            }
+          />
           <Route path="password" element={<PasswordPage />} />
         </Route>
       </Routes>

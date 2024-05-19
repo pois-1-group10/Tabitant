@@ -7,7 +7,7 @@ import { Comment } from "../../types/comment";
 import ReplyList from "./ReplyList";
 import { CommentListProvider } from "../../providers/CommentListProvider";
 import { CommentAPI } from "../../api/Comment";
-import { BadButton, GoodButton } from "./ReactionButtons";
+import { BadButton, GoodButton } from "../common/ReactionButtons";
 import { Link } from "react-router-dom";
 import { dateToStringByMinute } from "../../utils/date";
 
