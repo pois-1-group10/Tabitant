@@ -3,6 +3,7 @@ import os
 import random
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from faker import Factory as FakerFactory
 from factory import Iterator
 from tabitant_api.factories import *
 
@@ -33,7 +34,12 @@ class Command(BaseCommand):
         self.stdout.write('Created prefectures.')
 
         # Create Posts
-        lat, lng = zip(*[faker.local_latlng("JP", True) for _ in range(100)])
+        lat, lng = map(list, zip(*[map(float, faker.local_latlng("JP", True)) for _ in range(100)]))
+        for i in range(len(lat)):
+            noise = random.uniform(0.1, 3)
+            lat[i] += random.uniform(-noise, noise)
+            noise = random.uniform(0.1, 3)
+            lng[i] += random.uniform(-noise, noise)
         posts = PostFactory.create_batch(len(lat), user=Iterator(users), latitude=Iterator(lat), longitude=Iterator(lng),
                                          prefecture=Iterator(prefectures))
         self.stdout.write('Created posts.')
@@ -69,7 +75,7 @@ class Command(BaseCommand):
 
         # Create BadComments
         random.shuffle(user_comment_pairs)
-        bad_comment_pairs = user_comment_pairs[:500]
+        bad_comment_pairs = user_comment_pairs[500:1000]
 
         bad_comments = [BadCommentFactory(user=user, comment=comment) for user, comment in bad_comment_pairs]
         self.stdout.write('Created bad comments.')
