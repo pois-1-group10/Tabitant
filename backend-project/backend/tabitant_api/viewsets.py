@@ -172,22 +172,21 @@ class PostViewSet(viewsets.ModelViewSet):
     
     def ranking_order(self, queryset, select_newer: bool):
         queryset = queryset.annotate(
-            comment_count=Count('comments'),
-            good_count=Count('goods'),
+            comment_count=Count('comments', distinct=True),
+            good_count=Count('goods', distinct=True),
+            bad_count=Count('bads', distinct=True),
+            elapsed_seconds=ExpressionWrapper(
+                (timezone.now() - F('created_at')) / 1e6,
+                output_field=IntegerField()
+            )
         )
         if select_newer:
             queryset = queryset.annotate(
-                elapsed_seconds=ExpressionWrapper(
-                    (timezone.now() - F('created_at')) / 1e6,
-                    output_field=IntegerField()
-                )
-            )
-            queryset = queryset.annotate(
-                popularity=F('good_count') + F('comment_count') * 2 - (F('elapsed_seconds') / 86400) ** 2
+                popularity=F('good_count') - F('bad_count') * 0.2 + F('comment_count') * 2 - (F('elapsed_seconds') / 86400) ** 2
             )
         else:
             queryset = queryset.annotate(
-                popularity=F('good_count') + F('comment_count') * 2
+                popularity=F('good_count') - F('bad_count') * 0.2 + F('comment_count') * 2 - (F('elapsed_seconds') / 8640000)
             )
         return queryset.order_by("-popularity")
 
@@ -202,7 +201,6 @@ class PostViewSet(viewsets.ModelViewSet):
         liked_by = request.query_params.get('liked_by', None)
         compe_id = request.query_params.get('compe_id', None)
         ranking = request.query_params.get('ranking', None)
-        latest = request.query_params.get('latest', None)
         if lat:
             queryset = queryset.filter(latitude__range=(float(lat)-0.01,float(lat)+0.01))
         if lng:
@@ -233,8 +231,6 @@ class PostViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(competition=compe_id)
         if ranking:
             queryset = self.ranking_order(queryset, False)
-        if latest:
-            queryset = queryset.order_by("-created_at")
         serializer = self.get_serializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
@@ -250,7 +246,7 @@ class PostViewSet(viewsets.ModelViewSet):
         queryset = self.ranking_order(queryset, True)
         one = queryset.first()
         serializer = self.get_serializer(one, context={'request': request})
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK if one else status.HTTP_204_NO_CONTENT)
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)

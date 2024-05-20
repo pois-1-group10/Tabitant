@@ -15,6 +15,7 @@ import { BadButton, FollowButton, GoodButton } from "../common/ReactionButtons";
 import { PostAPI } from "../../api/Post";
 import { UserAPI } from "../../api/User";
 import { AuthUserContext } from "../../providers/AuthUserProvider";
+import UserIcon from "../common/UserIcon";
 
 export default function PostDetailPage() {
   const { post, fetchPostDetail } = useContext(PostDetailContext);
@@ -90,7 +91,11 @@ export default function PostDetailPage() {
       <BackButton />
       <TankaCard
         post={post}
-        icon={<img src={post?.user.image} alt="" css={iconStyle} />}
+        icon={
+          <div css={iconStyle}>
+            <UserIcon user={post?.user} style={innerIconStyle} />
+          </div>
+        }
         style={cardStyle}
       >
         <div css={reactionButtonWrapperStyle}>
@@ -99,7 +104,9 @@ export default function PostDetailPage() {
           {myPost || <FollowButton following={following} onClick={followClickHandler} />}
         </div>
         <div css={commentInputWrapperStyle}>
-          <img src={currentUser?.image} alt="icon" css={selfIconStyle} />
+          <div css={selfIconStyle}>
+            <UserIcon user={currentUser} />
+          </div>
           {post && <CommentInput postId={post.id} />}
         </div>
       </TankaCard>
@@ -131,17 +138,21 @@ const cardStyle = css`
 `;
 
 const iconStyle = css`
+  display: inline-block;
   height: 40px;
   width: 40px;
-  border-radius: 20px;
-  border: 1px solid #303030;
+  font-size: 30px;
 `;
+
+const innerIconStyle = css`
+  * {
+    font-size: 32px;
+  }
+`
 
 const selfIconStyle = css`
   height: 32px;
   width: 32px;
-  border-radius: 16px;
-  border: 1px solid #303030;
 `;
 
 const reactionButtonWrapperStyle = css`

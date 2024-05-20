@@ -10,6 +10,7 @@ import { PostAPI } from '../../api/Post';
 import { Link } from 'react-router-dom';
 import PlaceIcon from '@mui/icons-material/Place';
 import { MapLocationContext } from '../../providers/MapLocationProvider';
+import { formatRelativeTime } from '../../utils/date';
 
 interface Props {
   post?: Post;
@@ -95,9 +96,12 @@ export default function PostItem(props: Props) {
           </div>
           <div>{post.user?.username ?? "Unknown"}</div>
         </Link>
+        <div css={captionStyle}>
+          {formatRelativeTime(post.created_at)}
+        </div>
         {
           post.prefecture && (
-            <Link css={[normalTextStyle, locationStyle]} to={locationLink} onClick={locationClickHandler}>
+            <Link css={[normalTextStyle, captionStyle]} to={locationLink} onClick={locationClickHandler}>
               <PlaceIcon />
               <span>{post.prefecture?.name}</span>
             </Link>
@@ -140,7 +144,7 @@ const userIconStyle = css`
   margin-right: 8px;
 `;
 
-const locationStyle = (theme: Theme) => css`
+const captionStyle = (theme: Theme) => css`
   font-size: 14px;
   color: ${theme.palette.secondary.dark};
   display: flex;

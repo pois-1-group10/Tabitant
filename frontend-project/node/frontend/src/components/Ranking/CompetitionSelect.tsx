@@ -38,7 +38,7 @@ export default function CompetitionSelect(props: Props) {
     <div>
       <YearMonthPicker endDate={{ year: today.getFullYear(), month: today.getMonth() + 1 }} totalMonths={24} onDateChanged={handleDateChange} />
       <div css={containerStyle}>
-        <span>エリア：</span>
+        <span>エリア:</span>
         <select css={selectStyle} value={selectedIndex.toString()} onChange={handleChange} disabled={competitions.length === 0}>
           {competitions.length ? competitions.map((c, i) => (
             <option key={c.id} value={i}>{c.prefecture.name}</option>
@@ -55,11 +55,12 @@ const containerStyle = css`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: dimgray;
 `
 
 const selectStyle = (theme: Theme) => css`
   background-color: transparent;
-  font-size: 18px;
+  font-size: 16px;
   border-radius: 10px;
   padding: 5px;
   margin: 0 10px;

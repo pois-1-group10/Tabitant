@@ -66,6 +66,7 @@ function Signin() {
     control,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<SigninInputs>();
   const navigate = useNavigate();
@@ -77,6 +78,10 @@ function Signin() {
       navigate("/");
     } catch (e) {
       console.log(e);
+      setError("root", {
+        type: "manual",
+        message: "メールアドレスまたはパスワードが違います。",
+      });
     }
   };
 
@@ -128,6 +133,11 @@ function Signin() {
             )}
           />
         </div>
+        {errors.root && (
+          <div css={errorMessageStyle}>
+            {errors.root.message}
+          </div>
+        )}
         <button type="submit" css={okButtonStyle}>
           ログイン
         </button>
@@ -342,6 +352,8 @@ function Select() {
 export default function Login() {
   const [searchParams] = useSearchParams();
 
+  sessionStorage.removeItem("token");
+
   let comp;
   if (searchParams.has("signin")) {
     comp = <Signin />;
@@ -483,4 +495,9 @@ const selectLinkStyle = (theme: Theme) => css`
 const selectLoginLinkStyle = (theme: Theme) => css`
   color: ${theme.palette.primary.main};
   background-color: ${theme.palette.primary.contrastText};
+`;
+
+const errorMessageStyle = css`
+  font-size: 14px;
+  color: red;
 `;

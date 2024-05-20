@@ -40,7 +40,7 @@ export const PostDetailProvider = ({
         // Google Maps Geocoding APIを使用して緯度経度から住所を取得
         setLoading(true);
         try {
-          const postData = await PostAPI.fetchHotPost({lat: latitude, lng: longitude});
+          const postData = await PostAPI.fetchHotPost({ lat: latitude, lng: longitude });
           setPost(postData);
         } catch (e) {
           console.log(e);

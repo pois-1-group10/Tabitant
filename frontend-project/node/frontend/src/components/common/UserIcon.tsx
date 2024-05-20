@@ -1,12 +1,18 @@
 /** @jsxImportSource @emotion/react */
 
-import { Theme, css } from '@emotion/react'
+import { SerializedStyles, Theme, css } from '@emotion/react'
 import PersonIcon from '@mui/icons-material/Person';
 import { User } from '../../types/user';
 
-export default function UserIcon({ user }: { user?: User }) {
+type Props = {
+    user?: User;
+    style?: SerializedStyles;
+};
+
+export default function UserIcon(props: Props) {
+    const { user, style } = props;
     return (
-        <div css={iconStyle}>
+        <div css={[iconStyle, style, user?.image && borderStyle]}>
             {user?.image ? <img width="100%" height="100%" src={user.image} alt="icon" /> : <PersonIcon htmlColor="white" />}
         </div >
     );
@@ -21,4 +27,8 @@ const iconStyle = (theme: Theme) => css`
     align-items: center;
     border-radius: 50%;
     overflow: hidden;
-`
+`;
+
+const borderStyle = css`
+    border: 1px solid #303030;
+`;
