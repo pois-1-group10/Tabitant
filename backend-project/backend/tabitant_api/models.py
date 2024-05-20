@@ -58,7 +58,7 @@ class Post(models.Model):
     latitude=models.FloatField(blank=True, null=True, default=0.0)
     longitude=models.FloatField(blank=True, null=True, default=0.0)
     prefecture=models.ForeignKey(Prefecture, on_delete=models.CASCADE)
-    detailed_place=models.CharField(max_length=15, blank=True, null=True, default='')
+    detailed_place=models.CharField(max_length=100, blank=True, null=True, default='')
     created_at=models.DateTimeField(auto_now_add=True)
     emotion_ureshii=models.IntegerField(default=0)
     emotion_omoshiroi=models.IntegerField(default=0)

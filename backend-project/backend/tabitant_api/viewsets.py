@@ -1,10 +1,13 @@
+import googlemaps
 import logging
+
 from rest_framework import viewsets
 from .models import *
 from .serializers import *
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
+from django.conf import settings
 from django.db.models import Count, Exists, F, OuterRef, Q, ExpressionWrapper, Value
 from django.db.models.fields import IntegerField
 from rest_framework.decorators import action
@@ -189,7 +192,7 @@ class PostViewSet(viewsets.ModelViewSet):
         return queryset.order_by("-popularity")
 
     def list(self, request):
-        queryset = self.get_queryset()
+        queryset = self.get_queryset().order_by("-created_at")
         lat = request.query_params.get('lat', None)
         lng = request.query_params.get('lng', None)
         search = request.query_params.get('search', None)
@@ -320,6 +323,19 @@ class PostViewSet(viewsets.ModelViewSet):
         bad.delete()
         serializer = self.get_serializer(item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    @action(methods=["get"], detail=False)
+    def place(self, request):
+        key = settings.GOOGLE_API_KEY
+        lat = request.query_params.get('lat', None)
+        lng = request.query_params.get('lng', None)
+        client = googlemaps.Client(key=key)
+        places = client.places_nearby(location=(lat, lng), radius=50, language="ja")
+        place_info = list(map(lambda x: {
+                "name": x["name"], 
+                "place_id": x["place_id"]
+            }, places["results"]))[:10]
+        return Response(place_info, status=status.HTTP_200_OK)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -333,7 +349,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         return CommentDetailSerializer
 
     def list(self, request):
-        queryset = self.get_queryset()
+        queryset = self.get_queryset().order_by("-created_at")
         post_id = request.query_params.get("post_id", None)
         reply_to = request.query_params.get('reply_to', None)
         if post_id is not None:
