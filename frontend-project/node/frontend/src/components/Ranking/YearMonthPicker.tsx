@@ -98,10 +98,11 @@ const containerStyle = css`
   justify-content: space-between;
   align-items: center;
   margin: 10px;
+  color: dimgray;
 
   select {
     background-color: transparent;
-    font-size: 18px;
+    font-size: 16px;
     border-radius: 10px;
     padding: 5px;
     margin: 0 10px;
@@ -113,6 +114,7 @@ const annotationStyle = (theme: Theme) => css`
   background-color: #dddddd;
   padding: 6px 8px;
   border-radius: 10px;
+  font-size: 14px;
 `;
 
 const redTextStyle = css`

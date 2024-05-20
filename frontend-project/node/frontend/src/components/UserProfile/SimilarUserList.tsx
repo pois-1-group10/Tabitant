@@ -8,6 +8,7 @@ import Card from "../common/Card";
 import EmotionRadarChart from "../common/EmotionRadarChart";
 import { SimilarUserContext } from "../../providers/SimilarUserProvider";
 import { UserAPI } from "../../api/User";
+import UserIcon from "../common/UserIcon";
 
 export default function SimilarUserList() {
   const { users, loading, fetchSimilarUsers } = useContext(SimilarUserContext);
@@ -28,25 +29,27 @@ export default function SimilarUserList() {
 }
 
 const UserItem: FC<{ user: User & Emotion }> = ({ user }) => {
-	const [followed, setFollowed] = useState<boolean>(user.followed ?? false);
+  const [followed, setFollowed] = useState<boolean>(user.followed ?? false);
   const onClickFollow = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     await UserAPI.follow(user.id);
-		setFollowed(true);
+    setFollowed(true);
   };
 
   const onClickUnfollow = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     await UserAPI.unfollow(user.id);
-		setFollowed(false);
+    setFollowed(false);
   };
 
   return (
     <Card style={userItemStyle} to={`/user_profile/${user.id}/`}>
       <div css={userHeaderStyle}>
-        <img src={user.image} alt="" css={iconStyle} />
+        <div css={iconStyle}>
+          <UserIcon user={user} style={innerIconStyle} />
+        </div>
         <p>{user.username}</p>
       </div>
       <EmotionRadarChart
@@ -92,7 +95,7 @@ const userListStyle = css`
   width: calc(100vw - 48px);
   padding: 8px 24px;
 	transform: translateX(-24px);
-  overflow: scroll;
+  overflow: auto;
   gap: 8px;
   p {
     width: 100%;
@@ -124,16 +127,20 @@ const userHeaderStyle = css`
     margin: 0;
     font-weight: bold;
     text-align: left;
-    overflow: scroll;
+    overflow: auto;
   }
 `;
 
 const iconStyle = css`
   height: 40px;
   width: 40px;
-  border-radius: 20px;
-  border: 1px solid #303030;
   flex-shrink: 0;
+`;
+
+const innerIconStyle = css`
+  * {
+    font-size: 32px;
+  }
 `;
 
 const followButtonStyle = css`

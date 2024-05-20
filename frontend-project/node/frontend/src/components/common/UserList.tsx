@@ -7,6 +7,7 @@ import { UserAPI } from "../../api/User";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthUserContext } from "../../providers/AuthUserProvider";
+import UserIcon from "./UserIcon";
 
 type Props = {
   users: User[];
@@ -14,7 +15,7 @@ type Props = {
 };
 
 export default function UserList(props: Props) {
-  const { users, loading=false } = props;
+  const { users, loading = false } = props;
   const { currentUser } = useContext(AuthUserContext);
 
   return !loading && users.length === 0 ? (
@@ -62,7 +63,9 @@ const UserItem: FC<UserItemProps> = (props: UserItemProps) => {
 
   return (
     <div css={userItemWrapperStyle} onClick={navigateToUserDetail}>
-      <img src={user.image} alt="" />
+      <div css={iconStyle}>
+        <UserIcon user={user} style={innerIconStyle} />
+      </div>
       <div css={userNameStyle}>{user.username}</div>
       {myself ? (
         <></>
@@ -115,6 +118,18 @@ const userItemWrapperStyle = css`
     width: 36px;
     border: 1px solid #303030;
     border-radius: 20px;
+  }
+`;
+
+const iconStyle = css`
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
+`;
+
+const innerIconStyle = css`
+  * {
+    font-size: 32px;
   }
 `;
 

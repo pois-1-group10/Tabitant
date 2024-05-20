@@ -10,6 +10,7 @@ import { CommentAPI } from "../../api/Comment";
 import { BadButton, GoodButton } from "../common/ReactionButtons";
 import { Link } from "react-router-dom";
 import { dateToStringByMinute } from "../../utils/date";
+import UserIcon from "../common/UserIcon";
 
 interface Props {
   comment: Comment;
@@ -65,7 +66,9 @@ export default function CommentItem({ comment }: Props) {
   return (
     <>
       <div css={wrapperStyle}>
-        <img src={comment.user.image} alt="" css={iconStyle} />
+        <div css={iconStyle}>
+          <UserIcon user={comment.user} />
+        </div>
         <div css={contentWrapperStyle}>
           <div css={commenterNameStyle}>
             <Link to={`/user_profile/${comment.user.id}`}>
@@ -116,9 +119,7 @@ const wrapperStyle = css`
 const iconStyle = css`
   width: 32px;
   height: 32px;
-  border-radius: 20px;
-  border: 1px solid #303030;
-	flex-shrink: 0;
+  flex-shrink: 0;
 `;
 
 const contentWrapperStyle = css`

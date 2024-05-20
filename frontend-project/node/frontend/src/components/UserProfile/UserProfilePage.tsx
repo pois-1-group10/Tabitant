@@ -20,6 +20,7 @@ import { SimilarUserProvider } from "../../providers/SimilarUserProvider";
 import { awardToString } from "../../utils/award";
 import { Award } from "../../types/award";
 import { AnimatePresence } from "framer-motion";
+import UserIcon from "../common/UserIcon";
 
 export default function UserProfilePage() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState<boolean>(false);
@@ -76,7 +77,9 @@ export default function UserProfilePage() {
         {sidebarIsOpen && <Sidebar setSidebarIsOpen={setSidebarIsOpen} />}
       </AnimatePresence>
       <div css={profileHeaderStyle}>
-        <img src={user?.image} alt="" css={userIconStyle} />
+        <div css={userIconStyle}>
+          <UserIcon user={user} style={innerUserIconStyle} />
+        </div>
         <div css={userInfoStyle}>
           <div className="user-name">{user?.username}</div>
           <div css={followDataStyle}>
@@ -195,6 +198,12 @@ const userIconStyle = css`
   border: 1px solid #767878;
   border-radius: 48px;
   flex-shrink: 0;
+`;
+
+const innerUserIconStyle = css`
+  * {
+    font-size: 80px;
+  }
 `;
 
 const userInfoStyle = css`

@@ -67,7 +67,7 @@ function TabPanel({ value, index }: TabPanelProps) {
           posts.length ? (
             posts.map(p =>
               <div key={p.id} css={cardStyle}>
-                <PostItem post={p} />
+                <PostItem post={p} style={itemStyle} />
               </div>
             )) : (
             <div>投稿がありません</div>
@@ -160,4 +160,8 @@ const cardStyle = css`
   border: solid 1px black;
   border-radius: 16px;
   box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.4);
+`
+
+const itemStyle = css`
+  padding: 10px; 
 `
