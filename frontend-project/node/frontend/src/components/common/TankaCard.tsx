@@ -1,13 +1,14 @@
 /** @jsxImportSource @emotion/react */
 
 import React, { ReactElement, ReactNode } from "react";
-import { SerializedStyles, css } from "@emotion/react";
+import { SerializedStyles, Theme, css } from "@emotion/react";
 import Card from "./Card";
 import TagChip from "./TagChip";
 import { DetailPost } from "../../types/post";
 import { Link } from "react-router-dom";
 import EmotionRadarChart from "./EmotionRadarChart";
 import PostContent from "./PostContent";
+import { dateToStringByMinute } from "../../utils/date";
 
 interface Props {
   post?: DetailPost;
@@ -30,12 +31,15 @@ export default function TankaCard(props: Props) {
   return (
     <Card style={concatenatedStyle} {...cardProps}>
       <div css={postCardHeaderStyle}>
-        {icon && (
-          <Link to={`/user_profile/${post?.user.id}`} css={userInfoStyle}>
-            {icon}
-            <p>{post?.user.username}</p>
-          </Link>
-        )}
+        <div css={postCardTopStyle}>
+          {icon && (
+            <Link to={`/user_profile/${post?.user.id}`} css={userInfoStyle}>
+              {icon}
+              <p>{post?.user.username}</p>
+            </Link>
+          )}
+          {post && (<span css={dateStyle}>{dateToStringByMinute(new Date(post.created_at))}</span>)}
+        </div>
         <div css={postCardHeaderContentWrapperStyle}>
           <div css={postCardHeaderContentStyle}>
             <div css={tagsWrapperStyle}>
@@ -76,6 +80,17 @@ const postCardHeaderStyle = css`
   display: flex;
   flex-flow: column;
   gap: 4px;
+`;
+
+const postCardTopStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const dateStyle = (theme: Theme) => css`
+  color: ${theme.palette.secondary.dark};
+  font-size: 12px;
 `;
 
 const tagsWrapperStyle = css`
