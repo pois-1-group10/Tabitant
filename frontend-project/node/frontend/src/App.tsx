@@ -26,6 +26,7 @@ import { CommentListProvider } from "./providers/CommentListProvider";
 import PasswordPage from "./components/Password/PasswordPage";
 import { MapLocationProvider } from "./providers/MapLocationProvider";
 import { DetailedPlaceProvider } from "./providers/DetailedPlaceProvider";
+import { CompetitionListProvider } from "./providers/CompetitionListProvider";
 
 function App() {
   return (
@@ -132,7 +133,9 @@ function App() {
             path="ranking"
             element={
               <PostListProvider>
-                <RankingPage />
+                <CompetitionListProvider>
+                  <RankingPage />
+                </CompetitionListProvider>
               </PostListProvider>
             }
           />
