@@ -16,9 +16,9 @@ type TabPanelProps = React.PropsWithChildren<{
     index: number;
 }>;
 
-type TabType = "popular" | "latest" | "past";
-const tabTypes: TabType[] = ["popular", "latest", "past"];
-const tabLabels: string[] = ["人気", "新着", "過去の投稿"];
+type TabType = "competition" | "popular" | "latest" | "past";
+const tabTypes: TabType[] = ["competition", "popular", "latest", "past"];
+const tabLabels: string[] = ["大会", "人気", "新着", "過去の投稿"];
 
 function TabPanel({ value, index }: TabPanelProps) {
     const { posts, loading, fetchPosts } = useContext(PostListContext);

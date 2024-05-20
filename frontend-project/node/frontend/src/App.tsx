@@ -24,6 +24,7 @@ import { AuthUserProvider } from "./providers/AuthUserProvider";
 import { PostDetailProvider } from "./providers/PostDetailProvider";
 import { CommentListProvider } from "./providers/CommentListProvider";
 import PasswordPage from "./components/Password/PasswordPage";
+import { MapLocationProvider } from "./providers/MapLocationProvider";
 
 function App() {
   return (
@@ -33,11 +34,13 @@ function App() {
           index
           element={
             <AuthUserProvider>
-              <PostListProvider>
-                <PostDetailProvider>
-                  <Home />
-                </PostDetailProvider>
-              </PostListProvider>
+              <MapLocationProvider>
+                <PostListProvider>
+                  <PostDetailProvider>
+                    <Home />
+                  </PostDetailProvider>
+                </PostListProvider>
+              </MapLocationProvider>
             </AuthUserProvider>
           }
         />

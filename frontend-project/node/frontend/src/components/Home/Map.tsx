@@ -5,10 +5,16 @@ import { GoogleMap } from '@react-google-maps/api';
 import { css } from '@emotion/react'
 import Marker from './Marker'
 import { PostListContext } from '../../providers/PostListProvider';
+import { MapLocationContext } from '../../providers/MapLocationProvider';
 
-function Map(center: google.maps.LatLngLiteral) {
+function Map() {
     const { posts, fetchPosts } = useContext(PostListContext);
+    const { center, zoom, setCurrentLocation } = useContext(MapLocationContext);
     const [map, setMap] = useState<google.maps.Map | null>(null);
+
+    if (center.lat === undefined) {
+        setCurrentLocation();
+    }
 
     const onLoad = useCallback(function callback(map: google.maps.Map) {
         setMap(map);
@@ -23,8 +29,8 @@ function Map(center: google.maps.LatLngLiteral) {
             <div css={mapWrapperStyle}>
                 <GoogleMap
                     mapContainerStyle={containerStyle}
-                    center={center}
-                    zoom={16}
+                    center={new google.maps.LatLng(center.lat ?? 35, center.lng ?? 135)}
+                    zoom={zoom}
                     onLoad={onLoad}
                     onUnmount={onUnmount}
                     options={mapOptions()}>
