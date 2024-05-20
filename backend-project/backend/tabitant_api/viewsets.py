@@ -172,22 +172,21 @@ class PostViewSet(viewsets.ModelViewSet):
     
     def ranking_order(self, queryset, select_newer: bool):
         queryset = queryset.annotate(
-            comment_count=Count('comments'),
-            good_count=Count('goods'),
+            comment_count=Count('comments', distinct=True),
+            good_count=Count('goods', distinct=True),
+            bad_count=Count('bads', distinct=True),
+            elapsed_seconds=ExpressionWrapper(
+                (timezone.now() - F('created_at')) / 1e6,
+                output_field=IntegerField()
+            )
         )
         if select_newer:
             queryset = queryset.annotate(
-                elapsed_seconds=ExpressionWrapper(
-                    (timezone.now() - F('created_at')) / 1e6,
-                    output_field=IntegerField()
-                )
-            )
-            queryset = queryset.annotate(
-                popularity=F('good_count') + F('comment_count') * 2 - (F('elapsed_seconds') / 86400) ** 2
+                popularity=F('good_count') - F('bad_count') * 0.2 + F('comment_count') * 2 - (F('elapsed_seconds') / 86400) ** 2
             )
         else:
             queryset = queryset.annotate(
-                popularity=F('good_count') + F('comment_count') * 2
+                popularity=F('good_count') - F('bad_count') * 0.2 + F('comment_count') * 2 - (F('elapsed_seconds') / 8640000)
             )
         return queryset.order_by("-popularity")
 
