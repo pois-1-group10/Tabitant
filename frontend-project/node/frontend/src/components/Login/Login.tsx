@@ -352,6 +352,8 @@ function Select() {
 export default function Login() {
   const [searchParams] = useSearchParams();
 
+  sessionStorage.removeItem("token");
+
   let comp;
   if (searchParams.has("signin")) {
     comp = <Signin />;
