@@ -1,5 +1,8 @@
+import csv
+import os
 import random
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from factory import Iterator
 from tabitant_api.factories import *
 
@@ -22,11 +25,17 @@ class Command(BaseCommand):
         self.stdout.write('Updated user profiles.')
 
         # Create Prefectures
-        prefectures = PrefectureFactory.create_batch(50)
+        prefectures = []
+        with open(os.path.join(settings.BASE_DIR, "tabitant_api", "static", "tabitant_api", "prefectures.csv")) as f:
+            reader = csv.reader(f)
+            for item in reader:
+                prefectures.append(PrefectureFactory(name=item[1]))
         self.stdout.write('Created prefectures.')
 
         # Create Posts
-        posts = PostFactory.create_batch(100, user=Iterator(users), prefecture=Iterator(prefectures))
+        lat, lng = zip(*[faker.local_latlng("JP", True) for _ in range(100)])
+        posts = PostFactory.create_batch(len(lat), user=Iterator(users), latitude=Iterator(lat), longitude=Iterator(lng),
+                                         prefecture=Iterator(prefectures))
         self.stdout.write('Created posts.')
 
         # Create Tags
