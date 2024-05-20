@@ -118,6 +118,7 @@ const iconStyle = css`
   height: 32px;
   border-radius: 20px;
   border: 1px solid #303030;
+	flex-shrink: 0;
 `;
 
 const contentWrapperStyle = css`

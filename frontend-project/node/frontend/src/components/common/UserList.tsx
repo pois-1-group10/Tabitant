@@ -10,13 +10,16 @@ import { AuthUserContext } from "../../providers/AuthUserProvider";
 
 type Props = {
   users: User[];
+  loading?: boolean;
 };
 
 export default function UserList(props: Props) {
-  const { users } = props;
+  const { users, loading=false } = props;
   const { currentUser } = useContext(AuthUserContext);
 
-  return (
+  return !loading && users.length === 0 ? (
+    <div css={noUserStyle}>ユーザーが見つかりませんでした</div>
+  ) : (
     <div css={userListStyle}>
       {users.map((user) => (
         <UserItem
@@ -151,3 +154,8 @@ const followButtonStyle = css`
   color: #fff;
 `;
 
+const noUserStyle = css`
+  text-align: center;
+  font-size: 16px;
+  margin-top: 12px;
+`;
