@@ -43,8 +43,6 @@ function TabPanel({ value, index }: TabPanelProps) {
       let params: PostListParams = {};
       if (tabType === 'popular') {
         params.ranking = true;
-      } else {
-        params.latest = true;
       }
       fetchPosts(params).then(() => {
         setFetched(true);

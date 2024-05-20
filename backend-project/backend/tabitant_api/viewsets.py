@@ -202,7 +202,6 @@ class PostViewSet(viewsets.ModelViewSet):
         liked_by = request.query_params.get('liked_by', None)
         compe_id = request.query_params.get('compe_id', None)
         ranking = request.query_params.get('ranking', None)
-        latest = request.query_params.get('latest', None)
         if lat:
             queryset = queryset.filter(latitude__range=(float(lat)-0.01,float(lat)+0.01))
         if lng:
@@ -233,8 +232,6 @@ class PostViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(competition=compe_id)
         if ranking:
             queryset = self.ranking_order(queryset, False)
-        if latest:
-            queryset = queryset.order_by("-created_at")
         serializer = self.get_serializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
