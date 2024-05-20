@@ -38,6 +38,7 @@ export default function UserProfilePage() {
     height: calc(100vh - 48px);
     width: calc(100vw - 48px);
     overflow: ${sidebarIsOpen ? "hidden" : "scroll"};
+    overflow-x: hidden;
   `;
 
   const onClickFollow = async () => {
@@ -121,12 +122,20 @@ export default function UserProfilePage() {
           />
         </>
       )}
-      <div css={sectionTitleStyle}>受賞歴</div>
-      <Card style={awardCardStyle}>
-        {user?.awards.map((award) => (
-          <AwardItem key={award.id} award={award} />
-        ))}
-      </Card>
+      {user?.awards && (
+        <>
+          <div css={sectionTitleStyle}>受賞歴</div>
+          <Card style={awardCardStyle}>
+            {user.awards.length > 0 ? (
+              user.awards.map((award) => (
+                <AwardItem key={award.id} award={award} />
+              ))
+            ) : (
+              <div css={noAwardStyle}>受賞歴はありません</div>
+            )}
+          </Card>
+        </>
+      )}
     </div>
   );
 }
@@ -236,7 +245,7 @@ const tankaCardStyle = css`
 const awardCardStyle = css`
   background-color: rgba(255, 255, 255, 0.5);
   width: 100%;
-  min-height: 120px;
+  min-height: 60px;
   padding: 12px;
 `;
 
@@ -291,4 +300,9 @@ const awardItemStyle = css`
 const medalIconStyle = css`
   height: 24px;
   width: 24px;
+`;
+
+const noAwardStyle = css`
+  text-align: center;
+  font-size: 14px;
 `;

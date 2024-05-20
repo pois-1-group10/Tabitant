@@ -11,7 +11,7 @@ import { UserListContext } from "../../providers/UserListProvider";
 export default function FollowerListPage() {
 	const params = useParams();
 	const userId = params.id;
-	const { users, fetchUsers } = useContext(UserListContext);
+	const { users, loading, fetchUsers } = useContext(UserListContext);
 
 	useEffect(() => {
 		fetchUsers({ following: userId });
@@ -23,7 +23,7 @@ export default function FollowerListPage() {
 			<SortButton style={sortButtonStyle} onClick={() => null}/>
 			<div css={pageTitleStyle}>フォロワー</div>
 			<div css={userListWrapperStyle}>
-      	<UserList users={users} />
+      	<UserList users={users} loading={loading} />
 			</div>
 		</div>
 	)

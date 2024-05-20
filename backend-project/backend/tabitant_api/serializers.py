@@ -147,7 +147,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5', 
                   'hiragana_1', 'hiragana_2', 'hiragana_3', 'hiragana_4', 'hiragana_5',
-                  'latitude', 'longitude', 'prefecture', 'created_at', 'good_count', 'bad_count', 'comment_count', 'tags',
+                  'latitude', 'longitude', 'prefecture', 'detailed_place', 'created_at', 'good_count', 'bad_count', 'comment_count', 'tags',
                   'emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
                   'emotion_samishii', 'emotion_ikari', 'liked', 'disliked']
 
@@ -170,7 +170,7 @@ class PostUpdateSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'user', 'content_1', 'content_2', 'content_3', 'content_4', 'content_5',
                   'hiragana_1', 'hiragana_2', 'hiragana_3', 'hiragana_4', 'hiragana_5',
-                  'latitude', 'longitude', 'prefecture', 'tag_list',
+                  'latitude', 'longitude', 'prefecture', 'tag_list', 'detailed_place',
                   'emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',
                   'emotion_samishii', 'emotion_ikari']
         read_only_fields = ['emotion_ureshii', 'emotion_omoshiroi', 'emotion_odayaka', 'emotion_shimijimi',

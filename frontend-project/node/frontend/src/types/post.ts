@@ -35,6 +35,7 @@ export type SubmitPost = {
   latitude?: number;
   longitude?: number;
   prefecture?: string | null;
+  detailed_place?: string;
   tag_list?: string[];
 };
 
@@ -49,7 +50,7 @@ export type DetailPost = {
   latitude?: number;
   longitude?: number;
   prefecture?: Prefecture;
-  detailed_place_id?: string;
+  detailed_place?: string;
   emotion_ureshii: number;
   emotion_omoshiroi: number;
   emotion_odayaka: number;
@@ -85,4 +86,14 @@ export type ChartData = {
   emotion: string;
   score: number;
   fullMark: number;
+}
+
+export type DetailPlace = {
+  name: string;
+  place_id: string;
+}
+
+export type GlobalPosition = {
+  lat: number;
+  lng: number;
 }

@@ -116,6 +116,7 @@ export default function PostDetailPage() {
 const backgroundStyle = css`
   background: linear-gradient(to bottom, #ffffff, #ff981f 50%);
   padding: 24px;
+	padding-top: 48px;
   height: calc(100vh - 48px);
   width: calc(100vw - 48px);
   overflow: scroll;

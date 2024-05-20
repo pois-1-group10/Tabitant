@@ -2,6 +2,7 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { css } from "@emotion/react";
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import Card from "../common/Card";
 import TagChoices from "./TagChoices";
 import BackButton from "../common/BackButton";
@@ -11,6 +12,7 @@ import { AuthUserContext } from "../../providers/AuthUserProvider";
 import { convertToHiragana } from "../../utils/tanka";
 import { PostAPI } from "../../api/Post";
 import { useNavigate } from "react-router-dom";
+import { DetailedPlaceContext } from "../../providers/DetailedPlaceProvider";
 
 type Input = {
   prefecture: string | null;
@@ -26,17 +28,9 @@ type Input = {
   hiragana5: string;
 };
 
-type Place = {
-  name: string;
-  place_id: string;
-};
-
 export default function PostPage() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [detailedPlaceIsOn, setDetailedPlaceIsOn] = useState<boolean>(true);
-  const [latitude, setLatitude] = useState<number | null>();
-  const [longitude, setLongitude] = useState<number | null>();
-  const [place, setPlace] = useState<Place | undefined>();
   const [kanji1Length, setKanji1Length] = useState<number>(160);
   const [kanji2Length, setKanji2Length] = useState<number>(264);
   const [kanji3Length, setKanji3Length] = useState<number>(160);
@@ -47,8 +41,11 @@ export default function PostPage() {
   const [hiragana3Length, setHiragana3Length] = useState<number>(160);
   const [hiragana4Length, setHiragana4Length] = useState<number>(264);
   const [hiragana5Length, setHiragana5Length] = useState<number>(264);
+  const [placeIndex, setPlaceIndex] = useState<number>(0);
 
   const { currentUser } = useContext(AuthUserContext);
+  const { places, loading, lat, lng, setLat, setLng } =
+    useContext(DetailedPlaceContext);
   const {
     control,
     handleSubmit,
@@ -62,8 +59,9 @@ export default function PostPage() {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
-        setLatitude(latitude);
-        setLongitude(longitude);
+        setLat(latitude);
+        setLng(longitude);
+        setPlaceIndex(0);
         // Google Maps Geocoding APIを使用して緯度経度から住所を取得
         fetch(
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.REACT_APP_API_KEY}`
@@ -83,8 +81,8 @@ export default function PostPage() {
           .catch((error) => setValue("prefecture", null));
       },
       (error) => {
-        setLatitude(null);
-        setLongitude(null);
+        setLat(null);
+        setLng(null);
         setValue("prefecture", null);
       }
     );
@@ -167,8 +165,8 @@ export default function PostPage() {
   const onSubmit = async (data: Input) => {
     const detailPos = detailedPlaceIsOn
       ? {
-          latitude: latitude ?? undefined,
-          longitude: longitude ?? undefined,
+          latitude: lat ?? undefined,
+          longitude: lng ?? undefined,
         }
       : {};
     await PostAPI.createPost({
@@ -185,6 +183,7 @@ export default function PostPage() {
       hiragana_4: data.hiragana4,
       hiragana_5: data.hiragana5,
       prefecture: data.prefecture,
+      detailed_place: places[placeIndex].name,
       ...detailPos,
     });
     navigate("/");
@@ -235,12 +234,25 @@ export default function PostPage() {
                         : "位置情報取得エラー"}
                     </div>
                     {detailedPlaceIsOn &&
-                      latitude !== undefined &&
-                      longitude !== undefined && (
+                      lat !== undefined &&
+                      lng !== undefined && (
                         <div className="position">
-                          {latitude !== null && longitude !== null
-                            ? `(${latitude}, ${longitude})`
-                            : "詳細位置取得エラー"}
+                          {!loading &&
+                            (places.length > 0 ? (
+                              <div css={detailPlaceWrapperStyle}>
+                                <span>{places[placeIndex].name}</span>
+                                <ChangeCircleIcon
+                                  css={changeCircleIconStyle}
+                                  onClick={() =>
+                                    setPlaceIndex(
+                                      (i) => (i + 1) % places.length
+                                    )
+                                  }
+                                />
+                              </div>
+                            ) : (
+                              "詳細位置取得エラー"
+                            ))}
                         </div>
                       )}
                   </div>
@@ -466,6 +478,7 @@ const postCardHeaderContentStyle = css`
   flex-flow: column;
   flex-grow: 1;
   gap: 8px;
+  max-width: calc(100% - 40px);
 `;
 
 const tankaContentWrapperStyle = css`
@@ -477,7 +490,9 @@ const tankaContentWrapperStyle = css`
 `;
 
 const areaPositionWrapperStyle = css`
-  width: 100%;
+  width: 0;
+  flex-basis: 0;
+  flex-shrink: 1;
   flex-grow: 1;
 `;
 
@@ -516,4 +531,22 @@ const postButtonStyle = css`
   font-weight: bold;
   box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.5);
   color: #fff;
+`;
+
+const detailPlaceWrapperStyle = css`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 20px;
+  span {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+const changeCircleIconStyle = css`
+  height: 20px;
+  width: 20px;
 `;

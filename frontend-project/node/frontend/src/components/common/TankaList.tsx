@@ -17,9 +17,11 @@ type Props = {
 };
 
 export default function TankaList(props: Props) {
-  const { posts } = useContext(PostListContext);
+  const { posts, loading } = useContext(PostListContext);
 
-  return (
+  return (!loading && posts.length === 0) ? (
+    <div css={noPostStyle}>投稿がありません</div>
+  ) : (
     <Card style={cardStyle}>
       {posts.map((post) => (
         <>
@@ -32,7 +34,7 @@ export default function TankaList(props: Props) {
 }
 
 type InnerProps = {
-	post: Post
+  post: Post;
 };
 
 const TankaItem: FC<InnerProps> = ({ post }) => {
@@ -50,7 +52,9 @@ const TankaItem: FC<InnerProps> = ({ post }) => {
             <span>{post.bad_count}</span>
           </div>
         </div>
-        <span css={dateStyle}>{dateToStringByMinute(new Date(post.created_at))}</span>
+        <span css={dateStyle}>
+          {dateToStringByMinute(new Date(post.created_at))}
+        </span>
       </div>
     </Link>
   );
@@ -108,4 +112,10 @@ const reactionBlockStyle = css`
 const dateStyle = css`
   color: #767878;
   font-size: 12px;
+`;
+
+const noPostStyle = css`
+	text-align: center;
+	font-size: 16px;
+	margin-top: 12px;
 `;
