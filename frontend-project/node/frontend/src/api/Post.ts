@@ -5,6 +5,7 @@ export class PostAPI {
   static async fetchPostList(params: PostListParams): Promise<Post[]> {
     const response = await authAxios.get("posts/", {
       params: params,
+      paramsSerializer: { indexes: null },
       headers: sessionStorage.getItem("token")
         ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
         : {},

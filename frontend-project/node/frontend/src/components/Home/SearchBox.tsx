@@ -1,71 +1,86 @@
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState } from 'react'
-import { Theme, css } from '@emotion/react'
+import { MouseEventHandler, useContext, useEffect, useState } from 'react'
+import { Theme, css, keyframes } from '@emotion/react'
 import { AnimatePresence, motion } from 'framer-motion';
-import { Tag } from '../../models';
+import { PostListContext } from '../../providers/PostListProvider';
+import { PostListParams } from '../../types/post';
+import { emotions, tags } from '../../utils/constants';
 
-async function getTags(): Promise<Tag[]> {
-    return [
-        new Tag("1", "日常"),
-        new Tag("2", "人間関係"),
-        new Tag("3", "仕事"),
-        new Tag("4", "人生"),
-        new Tag("5", "家族"),
-        new Tag("6", "恋愛"),
-        new Tag("7", "旅行"),
-        new Tag("8", "自然"),
-        new Tag("9", "時事"),
-        new Tag("11", "emo:穏やか"),
-        new Tag("12", "emo:嬉しい"),
-        new Tag("13", "emo:面白い"),
-        new Tag("14", "emo:しみじみ"),
-        new Tag("15", "emo:寂しい"),
-        new Tag("16", "emo:怒り"),
-    ];
+type TipItemProps = {
+    name: string,
+    value: boolean,
+    onClick: MouseEventHandler<HTMLButtonElement>
 }
 
-function TagItem({ tag }: { tag: Tag }) {
-    const [selected, setSelected] = useState(false);
-
+function TipItem(props: TipItemProps) {
+    const { name, value, onClick } = props;
     return (
-        <button type="button" css={selected ? tagItemSelectedStyle : tagItemStyle} onClick={() => setSelected(!selected)}>
-            {tag.getDisplayName()}
+        <button type="button" css={value ? tagItemSelectedStyle : tagItemStyle} onClick={onClick}>
+            {name}
         </button>
     );
 }
 
 export default function SearchBox() {
+    const { posts, fetchPosts } = useContext(PostListContext);
     const [isExpanded, setIsExpanded] = useState(false);
-    const [tags, setTags] = useState<Tag[] | null>(null);
+    const [text, setText] = useState("");
+    const [tipSelected, setTipSelected] = useState<boolean[]>(Array(tags.length + emotions.length).fill(false));
+
+    function clearAll() {
+        setText("");
+        setTipSelected(Array(tipSelected.length).fill(false));
+    }
+
+    function handleTipClick(index: number) {
+        const next = tipSelected.slice();
+        next[index] = !next[index];
+        setTipSelected(next);
+    }
 
     useEffect(() => {
-        getTags().then(res => setTags(res));
-    }, []);
+        if (!isExpanded) {
+            let params: PostListParams = {};
+            if (text) params["search"] = text;
+            params["tag"] = []
+            params["emotion"] = []
+            for (let i = 0; i < tags.length; i++) {
+                if (tipSelected[i]) params["tag"].push(i + 1);
+            }
+            for (let i = 0; i < emotions.length; i++) {
+                if (tipSelected[tags.length + i]) params["emotion"].push(i + 1);
+            }
+            fetchPosts(params);
+        }
+    }, [isExpanded]);
 
     return (
         <>
             <div css={[boxStyle, isExpanded && frontStyle]} onFocus={() => setIsExpanded(true)}>
-                <input type='text' css={textAreaStyle} placeholder='検索' />
-                <AnimatePresence>
-                    {isExpanded && (
-                        <motion.div css={filterViewStyle}
-                            key="filterView"
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}>
-                            <hr />
-                            <div>
-                                <div css={filterViewHeaderStyle}>タグ</div>
-                                {tags && tags.filter(t => !t.isEmotion()).map(t => <TagItem key={t.id} tag={t} />)}
-                            </div>
-                            <div>
-                                <div css={filterViewHeaderStyle}>感情</div>
-                                {tags && tags.filter(t => t.isEmotion()).map(t => <TagItem key={t.id} tag={t} />)}
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                <input type='search' css={textAreaStyle} placeholder='検索' value={text}
+                    onChange={(event) => setText(event.target.value)}
+                />
+                <motion.div css={filterViewStyle}
+                    key="filterView"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+                >
+                    <hr />
+                    <div>
+                        <div css={filterViewHeaderStyle}>タグ</div>
+                        {tags.map((t, i) => <TipItem key={i} name={t} value={tipSelected[i]} onClick={() => handleTipClick(i)} />)}
+                    </div>
+                    <div>
+                        <div css={filterViewHeaderStyle}>感情</div>
+                        {emotions.map((t, i) => <TipItem key={i} name={t} value={tipSelected[tags.length + i]} onClick={() => handleTipClick(tags.length + i)} />)}
+                    </div>
+                    <div css={clearFilterWrapperStyle}>
+                        <button type="button" onClick={clearAll}>
+                            検索条件をクリア
+                        </button>
+                    </div>
+                </motion.div>
             </div>
             <AnimatePresence>
                 {isExpanded && (
@@ -156,6 +171,25 @@ const tagItemSelectedStyle = (theme: Theme) => css`
     ${tagItemStyle(theme)}
     border: 1px solid ${theme.palette.primary.main};
     color: ${theme.palette.primary.main};
+`
+
+const clearFilterWrapperStyle = (theme: Theme) => css`
+    text-align: right;
+
+    button {
+        background: #f2f2f2;
+        border: 1px solid ${theme.palette.secondary.main};
+        color: ${theme.palette.secondary.main};
+        font-size: 11pt;
+        border-radius: 10px;
+        margin: 4px 3px;
+        padding: 2px 10px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #d9d9d9;
+    }
 `
 
 const overlayStyle = css`
