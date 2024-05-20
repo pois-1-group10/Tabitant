@@ -486,19 +486,18 @@ class CompetitionViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = self.get_queryset()
-        lat = request.query_params.get('lat', None)
-        lng = request.query_params.get('lng', None)
         prefecture_id = request.query_params.get('prefecture_id', None)
         post_id = request.query_params.get('post_id', None)
-        if (lat and not lng) or (not lat and lng):
-            return ErrorResponse("Only one of lat and lng cannot be specified.", status.HTTP_400_BAD_REQUEST)
-        if lat and lng:
-            # TODO
-            pass
+        year = request.query_params.get('year', None)
+        month = request.query_params.get('month', None)
         if prefecture_id:
             queryset = queryset.filter(prefecture=prefecture_id)
         if post_id:
             queryset = queryset.filter(post=post_id)
+        if year:
+            queryset = queryset.filter(year=year)
+        if month:
+            queryset = queryset.filter(month=month)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 

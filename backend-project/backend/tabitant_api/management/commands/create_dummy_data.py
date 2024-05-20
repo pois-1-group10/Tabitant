@@ -3,6 +3,7 @@ import os
 import random
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.utils import timezone
 from faker import Factory as FakerFactory
 from factory import Iterator
 from tabitant_api.factories import *
@@ -45,7 +46,11 @@ class Command(BaseCommand):
         self.stdout.write('Created posts.')
 
         # Create Tags
-        tags = TagFactory.create_batch(10)
+        tags = []
+        with open(os.path.join(settings.BASE_DIR, "tabitant_api", "static", "tabitant_api", "tags.csv")) as f:
+            reader = csv.reader(f)
+            for item in reader:
+                tags.append(TagFactory(name=item[1]))
         for tag in tags:
             tag_posts = random.sample(posts, random.randint(1, 10))  # Each tag gets 1 to 10 random posts
             tag.post.set(tag_posts)
@@ -89,7 +94,9 @@ class Command(BaseCommand):
         self.stdout.write('Created follows.')
 
         # Create Competitions
-        competitions = CompetitionFactory.create_batch(10, prefecture=Iterator(prefectures))
+        now = timezone.now()
+        competitions = [CompetitionFactory(year=now.year, month=month, prefecture=prefecture) \
+                        for prefecture in prefectures for month in range(1, now.month + 1)]
         for competition in competitions:
             competition_posts = random.sample(posts, random.randint(1, 20))  # Each competition gets 1 to 20 random posts
             competition.post.set(competition_posts)
