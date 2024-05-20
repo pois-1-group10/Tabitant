@@ -7,6 +7,7 @@ import TagChip from "./TagChip";
 import { DetailPost } from "../../types/post";
 import { Link } from "react-router-dom";
 import EmotionRadarChart from "./EmotionRadarChart";
+import PostContent from "./PostContent";
 
 interface Props {
   post?: DetailPost;
@@ -58,13 +59,7 @@ export default function TankaCard(props: Props) {
         </div>
       </div>
       <hr />
-      <div css={mainTextWrapperStyle}>
-        <p>{post?.content_1}</p>
-        <p>{post?.content_2}</p>
-        <p>{post?.content_3}</p>
-        <p>{post?.content_4}</p>
-        <p>{post?.content_5}</p>
-      </div>
+      {post && <PostContent post={post} style={mainTextWrapperStyle} />}
       {children}
     </Card>
   );
@@ -113,18 +108,10 @@ const userInfoStyle = css`
 `;
 
 const mainTextWrapperStyle = css`
-  writing-mode: vertical-rl;
-  border: none;
   width: 100%;
-  text-align: left;
-  overflow: scroll;
-  line-height: 40px;
-  letter-spacing: 8px;
-  font-size: 24px;
-  p {
-    margin: 0 20px;
-    white-space: nowrap;
-  }
+  overflow: auto;
+  font-size: 20px;
+  margin-top: 20px;
 `;
 
 const areaPositionWrapperStyle = css`
