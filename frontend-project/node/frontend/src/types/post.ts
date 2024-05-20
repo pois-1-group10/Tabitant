@@ -75,6 +75,8 @@ export type PostListParams = {
   user_id?: number;
   liked_by?: number;
   compe_id?: number;
+  ranking?: boolean;
+  latest?: boolean;
 }
 
 export type Prefecture = {

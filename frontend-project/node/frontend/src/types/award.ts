@@ -11,5 +11,10 @@ export type Competition = {
 export type Award = {
   id: number;
   compe: Competition;
-	rank: number;
+  rank: number;
+};
+
+export type CompetitionListParams = {
+  year?: number;
+  month?: number;
 };
