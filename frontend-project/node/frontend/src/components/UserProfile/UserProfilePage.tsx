@@ -38,6 +38,7 @@ export default function UserProfilePage() {
     height: calc(100vh - 48px);
     width: calc(100vw - 48px);
     overflow: ${sidebarIsOpen ? "hidden" : "scroll"};
+    overflow-x: hidden;
   `;
 
   const onClickFollow = async () => {

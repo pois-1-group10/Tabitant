@@ -89,13 +89,14 @@ const UnfollowButton: FC<InnerProps> = ({ onClick }) => {
 
 const userListStyle = css`
   display: flex;
-  width: 100%;
-  padding: 8px 0;
+  width: calc(100vw - 48px);
+  padding: 8px 24px;
+	transform: translateX(-24px);
   overflow: scroll;
   gap: 8px;
   p {
     width: 100%;
-    text-align: center;
+    text-align: left;
     font-size: 14px;
   }
 `;
