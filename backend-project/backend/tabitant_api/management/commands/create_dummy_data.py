@@ -35,14 +35,25 @@ class Command(BaseCommand):
         self.stdout.write('Created prefectures.')
 
         # Create Posts
-        lat, lng = map(list, zip(*[map(float, faker.local_latlng("JP", True)) for _ in range(100)]))
-        for i in range(len(lat)):
-            noise = random.uniform(0.1, 3)
-            lat[i] += random.uniform(-noise, noise)
-            noise = random.uniform(0.1, 3)
-            lng[i] += random.uniform(-noise, noise)
-        posts = PostFactory.create_batch(len(lat), user=Iterator(users), latitude=Iterator(lat), longitude=Iterator(lng),
-                                         prefecture=Iterator(prefectures))
+        prefecture_dict = { pref.name: pref for pref in prefectures }
+        with open(os.path.join(settings.BASE_DIR, "tabitant_api", "static", "tabitant_api", "cities.csv")) as f:
+            reader = csv.DictReader(f)
+            cities = list(reader)
+        random.shuffle(cities)
+        posts = []
+        for i in range(100):
+            posts.append(PostFactory(user=users[i % len(users)], latitude=float(cities[i]['latitude']),
+                                     longitude=float(cities[i]['longitude']), prefecture=prefecture_dict[cities[i]['prefecture']],
+                                     detailed_place=cities[i]['city']))
+        LAT_CENTER = 35.026244
+        LNG_CENTER = 135.780822
+        RANGE = 0.05
+        for i in range(100):
+            posts.append(PostFactory(user=users[len(posts) % len(users)],
+                                     latitude=LAT_CENTER + random.uniform(-RANGE, RANGE),
+                                     longitude=LNG_CENTER + random.uniform(-RANGE, RANGE),
+                                     prefecture=prefecture_dict["京都府"],
+                                     detailed_place="京都市左京区"))
         self.stdout.write('Created posts.')
 
         # Create Tags
@@ -97,9 +108,11 @@ class Command(BaseCommand):
         now = timezone.now()
         competitions = [CompetitionFactory(year=now.year, month=month, prefecture=prefecture) \
                         for prefecture in prefectures for month in range(1, now.month + 1)]
+        pref_compe = { pref.id: [] for pref in prefectures }
         for competition in competitions:
-            competition_posts = random.sample(posts, random.randint(1, 20))  # Each competition gets 1 to 20 random posts
-            competition.post.set(competition_posts)
+            pref_compe[competition.prefecture.id].append(competition)
+        for post in posts:
+            random.choice(pref_compe[post.prefecture.id]).post.add(post)
         self.stdout.write('Created competitions.')
 
         # Create Awards
