@@ -7,9 +7,11 @@ import TankaContent from '../common/PostContent';
 import UserIcon from '../common/UserIcon';
 import { PostDetailContext } from '../../providers/PostDetailProvider';
 import PostItem from '../common/PostItem';
+import { AuthUserContext } from '../../providers/AuthUserProvider';
 
 export default function FeaturedPost() {
     const { post, fetchHotPost } = useContext(PostDetailContext);
+    const { currentUser } = useContext(AuthUserContext);
     const [shown, setShown] = useState(true);
 
     useEffect(() => {
@@ -26,7 +28,7 @@ export default function FeaturedPost() {
                     <div>この近くのホットな短歌</div>
                     <button type="button" css={hideButtonStyle} onClick={() => setShown(false)}>非表示にする</button>
                 </div>
-                <PostItem post={post} />
+                <PostItem post={post} reaction={Boolean(currentUser)} />
             </div>
         </>
     ) : <></>;

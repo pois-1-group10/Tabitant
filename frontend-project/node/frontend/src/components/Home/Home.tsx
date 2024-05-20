@@ -21,7 +21,7 @@ export default function App() {
             <Map lat={35.026244} lng={135.780822} />
             <SearchBox />
             <FeaturedPost />
-            <NavigationMenu post ranking profile logout />
+            <NavigationMenu post ranking profile logout login />
         </>
     );
 }

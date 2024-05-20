@@ -12,11 +12,12 @@ import { Link } from 'react-router-dom';
 interface Props {
   post?: Post;
   link?: boolean;
-  style?: SerializedStyles
+  reaction?: boolean;
+  style?: SerializedStyles;
 }
 
 export default function PostItem(props: Props) {
-  const { post, link = true, style } = props;
+  const { post, link = true, reaction = true, style } = props;
   const [goodIsClicked, setGoodIsClicked] = useState<boolean | undefined>();
   const [badIsClicked, setBadIsClicked] = useState<boolean | undefined>();
   const [goodCount, setGoodCount] = useState<number | undefined>();
@@ -42,6 +43,7 @@ export default function PostItem(props: Props) {
   }
 
   const goodClickHandler = async () => {
+    if (!reaction) return;
     if (goodIsClicked) {
       await PostAPI.unlike(post.id);
       setGoodIsClicked(false);
@@ -58,6 +60,7 @@ export default function PostItem(props: Props) {
   };
 
   const badClickHandler = async () => {
+    if (!reaction) return;
     if (goodIsClicked) {
       setGoodIsClicked(false);
       goodCount !== undefined && setGoodCount(goodCount - 1);

@@ -1,13 +1,19 @@
 /** @jsxImportSource @emotion/react */
 
 import React from 'react'
-import { Theme, css } from '@emotion/react'
+import { SerializedStyles, Theme, css } from '@emotion/react'
 import { Post } from '../../types/post';
 import { postContentArray } from '../../utils/tanka';
 
-export default function PostContent({ post }: { post: Post }) {
+type Props = {
+    post: Post;
+    style?: SerializedStyles;
+};
+
+export default function PostContent(props: Props) {
+    const { post, style } = props;
     return (
-        <div css={boxStyle}>
+        <div css={[boxStyle, style]}>
             {postContentArray(post).map((s, i) => <div key={i} css={contentStyle}>{s}</div>)}
         </div>
     );

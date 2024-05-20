@@ -69,8 +69,8 @@ export type PostListParams = {
   lat?: number;
   lng?: number;
   search?: string;
-  tag?: string[];
-  emotion?: string;
+  tag?: number[];
+  emotion?: number[];
   user_id?: number;
   liked_by?: number;
   compe_id?: number;

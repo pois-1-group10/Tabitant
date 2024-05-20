@@ -8,7 +8,7 @@ import 'swiper/css';
 import { Theme, css } from '@emotion/react'
 import NavigationMenu from '../common/NavigationMenu';
 import { Post } from '../../types/post';
-import { PostListContext } from '../../providers/PostListProvider';
+import { PostListContext, PostListProvider } from '../../providers/PostListProvider';
 import PostItem from '../common/PostItem';
 
 type TabPanelProps = React.PropsWithChildren<{
@@ -20,18 +20,17 @@ type TabType = "popular" | "latest" | "past";
 const tabTypes: TabType[] = ["popular", "latest", "past"];
 const tabLabels: string[] = ["人気", "新着", "過去の投稿"];
 
-let tabPosts: (Post[] | undefined)[] = new Array(tabTypes.length);
-
 function TabPanel({ value, index }: TabPanelProps) {
     const { posts, loading, fetchPosts } = useContext(PostListContext);
+    const [fetched, setFetched] = useState(false);
 
     const isShown = !loading && value === index;
 
     useEffect(() => {
         // 未取得であれば取得する
-        if (isShown && tabPosts[index] === undefined) {
+        if (isShown && !fetched) {
             fetchPosts({}).then(() => {
-                tabPosts[index] = posts;
+                setFetched(true);
             });
         }
     }, [value])
@@ -45,7 +44,7 @@ function TabPanel({ value, index }: TabPanelProps) {
         >
             <div css={containerStyle}>
                 {isShown && (
-                    tabPosts[index]?.map(p =>
+                    posts.map(p =>
                         <div key={p.id} css={cardStyle}>
                             <PostItem post={p} />
                         </div>
@@ -101,7 +100,9 @@ export default function RankingPage() {
                 >
                     {tabTypes.map((t, i) =>
                         <SwiperSlide key={t}>
-                            <TabPanel value={value} index={i} />
+                            <PostListProvider>
+                                <TabPanel value={value} index={i} />
+                            </PostListProvider>
                         </SwiperSlide>
                     )}
                 </Swiper>

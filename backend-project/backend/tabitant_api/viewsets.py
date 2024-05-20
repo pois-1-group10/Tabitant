@@ -193,8 +193,8 @@ class PostViewSet(viewsets.ModelViewSet):
         lat = request.query_params.get('lat', None)
         lng = request.query_params.get('lng', None)
         search = request.query_params.get('search', None)
-        tag = request.query_params.get('tag', None)
-        emotion = request.query_params.get('emotion', None)
+        tags = request.query_params.getlist('tag', None)
+        emotions = request.query_params.getlist('emotion', None)
         user_id = request.query_params.get('user_id', None)
         liked_by = request.query_params.get('liked_by', None)
         compe_id = request.query_params.get('compe_id', None)
@@ -212,12 +212,15 @@ class PostViewSet(viewsets.ModelViewSet):
                     Q(content_4__contains=word) |
                     Q(content_5__contains=word)
                 )
-        if tag:
-            queryset = queryset.filter(tags=tag)
-        if emotion:
-            if not emotion in ["ureshii", "omoshiroi", "odayaka", "shimijimi", "samishii", "ikari"]:
-                return ErrorResponse("The emotion value is invalid.", status.HTTP_400_BAD_REQUEST)
-            queryset = queryset.filter(**{ f"emotion_{emotion}__gte": 1 }).order_by(f"-emotion_{emotion}")
+        if tags:
+            for tag in tags:
+                queryset = queryset.filter(tags=tag)
+        if emotions:
+            all_emotions = ["ureshii", "omoshiroi", "odayaka", "shimijimi", "samishii", "ikari"]
+            for emotion in emotions:
+                if not emotion.isnumeric() or not 1 <= int(emotion) <= len(all_emotions):
+                    return ErrorResponse("The emotion value is invalid.", status.HTTP_400_BAD_REQUEST)
+                queryset = queryset.filter(**{f"emotion_{all_emotions[int(emotion) - 1]}__gte": 2})
         if user_id:
             queryset = queryset.filter(user=user_id)
         if liked_by:

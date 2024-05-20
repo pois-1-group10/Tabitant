@@ -9,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from '@mui/icons-material/Login';
 import HomeIcon from "@mui/icons-material/Home";
 import { UserAuthAPI } from "../../api/UserAuth";
 import { AuthUserContext } from "../../providers/AuthUserProvider";
@@ -19,10 +20,11 @@ interface Props {
   ranking?: boolean;
   profile?: boolean;
   logout?: boolean;
+  login?: boolean;
 }
 
 export default function NavigationMenu(props: Props) {
-  const { post, home, ranking, profile, logout } = props;
+  const { post, home, ranking, profile, logout, login } = props;
   const [isExpanded, setIsExpanded] = useState(false);
   const { currentUser } = useContext(AuthUserContext);
 
@@ -55,7 +57,7 @@ export default function NavigationMenu(props: Props) {
                   <span>ホーム</span>
                 </Link>
               )}
-              {ranking && (
+              {currentUser && ranking && (
                 <Link to="/ranking">
                   <StarBorderIcon />
                   <span>ランキング</span>
@@ -71,6 +73,12 @@ export default function NavigationMenu(props: Props) {
                 <Link to="/login?signin" onClick={onClickLogout}>
                   <LogoutIcon />
                   <span>ログアウト</span>
+                </Link>
+              )}
+              {!currentUser && login && (
+                <Link to="/login?signin">
+                  <LoginIcon />
+                  <span>ログイン</span>
                 </Link>
               )}
             </motion.div>

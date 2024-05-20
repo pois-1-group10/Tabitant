@@ -18,11 +18,6 @@ function Map(center: google.maps.LatLngLiteral) {
         setMap(null);
     }, [])
 
-    useEffect(() => {
-        // fetchPosts({ lat: center.lat, lng: center.lng })
-        fetchPosts({});
-    }, [])
-
     return (
         <>
             <div css={mapWrapperStyle}>

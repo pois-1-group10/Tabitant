@@ -39,12 +39,12 @@ class PostFactory(DjangoModelFactory):
     longitude = Faker("longitude")
     prefecture = SubFactory(PrefectureFactory)
     detailed_place = LazyFunction(faker.address)
-    emotion_ureshii = Faker("random_int", min=0, max=2)
-    emotion_omoshiroi = Faker("random_int", min=0, max=2)
-    emotion_odayaka = Faker("random_int", min=0, max=2)
-    emotion_shimijimi = Faker("random_int", min=0, max=2)
-    emotion_samishii = Faker("random_int", min=0, max=2)
-    emotion_ikari = Faker("random_int", min=0, max=2)
+    emotion_ureshii = Faker("random_int", min=1, max=3)
+    emotion_omoshiroi = Faker("random_int", min=1, max=3)
+    emotion_odayaka = Faker("random_int", min=1, max=3)
+    emotion_shimijimi = Faker("random_int", min=1, max=3)
+    emotion_samishii = Faker("random_int", min=1, max=3)
+    emotion_ikari = Faker("random_int", min=1, max=3)
 
 class TagFactory(DjangoModelFactory):
     class Meta:

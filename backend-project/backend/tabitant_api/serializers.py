@@ -180,12 +180,12 @@ class PostUpdateSerializer(serializers.ModelSerializer):
         content = "".join([validated_data.get(f"content_{i}") for i in range(1, 6)])
         d = ml.eval(content)
         emotions = {
-            'emotion_ureshii': d["emotion.happy"],
-            'emotion_omoshiroi': d["emotion.funny"],
-            'emotion_odayaka': d["emotion.calm"],
-            'emotion_shimijimi': d["emotion.sad"],
-            'emotion_samishii': d["emotion.lonely"],
-            'emotion_ikari': d["emotion.angry"],
+            'emotion_ureshii': d["emotion.happy"] + 1,
+            'emotion_omoshiroi': d["emotion.funny"] + 1,
+            'emotion_odayaka': d["emotion.calm"] + 1,
+            'emotion_shimijimi': d["emotion.sad"] + 1,
+            'emotion_samishii': d["emotion.lonely"] + 1,
+            'emotion_ikari': d["emotion.angry"] + 1,
         }
         validated_data.update(emotions)
         logger.info("Emotional labels have been attached.")
