@@ -22,14 +22,15 @@ export class PostAPI {
     return response.data;
   }
 
-  static async fetchHotPost(params: GlobalPosition): Promise<DetailPost> {
+  static async fetchHotPost(params: GlobalPosition): Promise<DetailPost | undefined> {
     const response = await authAxios.get(`posts/hot_one/`, {
       params: params,
       headers: sessionStorage.getItem("token")
         ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
         : {},
     });
-    return response.data;
+    if (response.status === 204) return undefined;
+    return response?.data;
   }
 
   static async createPost(data: SubmitPost): Promise<DetailPost> {

@@ -247,7 +247,7 @@ class PostViewSet(viewsets.ModelViewSet):
         queryset = self.ranking_order(queryset, True)
         one = queryset.first()
         serializer = self.get_serializer(one, context={'request': request})
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK if one else status.HTTP_204_NO_CONTENT)
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
