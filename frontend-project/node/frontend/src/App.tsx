@@ -25,6 +25,7 @@ import { PostDetailProvider } from "./providers/PostDetailProvider";
 import { CommentListProvider } from "./providers/CommentListProvider";
 import PasswordPage from "./components/Password/PasswordPage";
 import { MapLocationProvider } from "./providers/MapLocationProvider";
+import { DetailedPlaceProvider } from "./providers/DetailedPlaceProvider";
 
 function App() {
   return (
@@ -57,7 +58,14 @@ function App() {
             )
           }
         >
-          <Route path="post" element={<PostPage />} />
+          <Route
+            path="post"
+            element={
+              <DetailedPlaceProvider>
+                <PostPage />
+              </DetailedPlaceProvider>
+            }
+          />
           <Route
             path="post_detail/:id/"
             element={

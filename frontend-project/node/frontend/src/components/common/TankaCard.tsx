@@ -46,7 +46,7 @@ export default function TankaCard(props: Props) {
             <div css={areaPositionWrapperStyle}>
               <Link to={locationLink} css={areaPositionTextStyle}>
                 <div className="area">{post?.prefecture?.name}</div>
-                <div className="position">詳細位置</div>
+                <div className="position">{post?.detailed_place}</div>
               </Link>
             </div>
           </div>

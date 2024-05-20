@@ -7,7 +7,7 @@ type PostDetailContextType = {
   post?: DetailPost;
   loading: boolean;
   fetchPostDetail: (id?: number) => Promise<void>;
-  fetchHotPost: () => Promise<void>;
+  fetchHotPost: () => void;
 };
 
 export const PostDetailContext = createContext({} as PostDetailContextType);
@@ -33,19 +33,29 @@ export const PostDetailProvider = ({
     setLoading(false);
   };
 
-  const fetchHotPost = async () => {
-    setLoading(true);
-    try {
-      const postData = await PostAPI.fetchHotPost();
-      setPost(postData);
-    } catch (e) {
-      console.log(e);
-    }
-    setLoading(false);
-  }
+  const fetchHotPost = () =>
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        // Google Maps Geocoding APIを使用して緯度経度から住所を取得
+        setLoading(true);
+        try {
+          const postData = await PostAPI.fetchHotPost({lat: latitude, lng: longitude});
+          setPost(postData);
+        } catch (e) {
+          console.log(e);
+        }
+        setLoading(false);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
 
   return (
-    <PostDetailContext.Provider value={{ post, loading, fetchPostDetail, fetchHotPost }}>
+    <PostDetailContext.Provider
+      value={{ post, loading, fetchPostDetail, fetchHotPost }}
+    >
       {children}
     </PostDetailContext.Provider>
   );

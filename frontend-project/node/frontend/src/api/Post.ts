@@ -1,4 +1,4 @@
-import { DetailPost, Post, PostListParams, SubmitPost } from "../types/post";
+import { DetailPost, DetailPlace, Post, PostListParams, SubmitPost, GlobalPosition } from "../types/post";
 import { authAxios } from "./axios";
 
 export class PostAPI {
@@ -22,8 +22,9 @@ export class PostAPI {
     return response.data;
   }
 
-  static async fetchHotPost(): Promise<DetailPost> {
+  static async fetchHotPost(params: GlobalPosition): Promise<DetailPost> {
     const response = await authAxios.get(`posts/hot_one/`, {
+      params: params,
       headers: sessionStorage.getItem("token")
         ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
         : {},
@@ -86,5 +87,15 @@ export class PostAPI {
           : {},
       }
     ).catch(() => { });
+  }
+
+  static async fetchPlaceInfo(params: {lat: number; lng: number;}): Promise<DetailPlace[]> {
+    const response = await authAxios.get(`posts/place/`, {
+      params: params,
+      headers: sessionStorage.getItem("token")
+        ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
+        : {},
+    });
+    return response.data;
   }
 }
