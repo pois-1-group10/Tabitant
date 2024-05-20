@@ -28,7 +28,7 @@ export default function FeaturedPost() {
                     <div>この近くのホットな短歌</div>
                     <button type="button" css={hideButtonStyle} onClick={() => setShown(false)}>非表示にする</button>
                 </div>
-                <PostItem post={post} reaction={Boolean(currentUser)} />
+                <PostItem post={post} reaction={Boolean(currentUser)} useLocationLink={false} />
             </div>
         </>
     ) : <></>;

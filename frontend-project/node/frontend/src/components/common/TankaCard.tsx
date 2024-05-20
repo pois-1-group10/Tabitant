@@ -12,18 +12,20 @@ import PostContent from "./PostContent";
 interface Props {
   post?: DetailPost;
   link?: boolean;
+  useLocationLink?: boolean;
   icon?: ReactElement;
   style?: SerializedStyles;
   children?: ReactNode;
 }
 
 export default function TankaCard(props: Props) {
-  const { post, link = false, icon, style, children } = props;
+  const { post, link = false, useLocationLink = true, icon, style, children } = props;
   const concatenatedStyle = css`
     ${cardStyle}
     ${style}
   `;
   const cardProps = post && link ? { to: `/post_detail/${post?.id}` } : {};
+  const locationLink = post && useLocationLink ? `/?lat=${post.latitude}&lng=${post.longitude}` : "";
 
   return (
     <Card style={concatenatedStyle} {...cardProps}>
@@ -42,18 +44,18 @@ export default function TankaCard(props: Props) {
               ))}
             </div>
             <div css={areaPositionWrapperStyle}>
-              <div css={areaPositionTextStyle}>
+              <Link to={locationLink} css={areaPositionTextStyle}>
                 <div className="area">{post?.prefecture?.name}</div>
                 <div className="position">詳細位置</div>
-              </div>
+              </Link>
             </div>
           </div>
-          <EmotionRadarChart 
-            ureshii={post?.emotion_ureshii ?? 0} 
-            omoshiroi={post?.emotion_omoshiroi ?? 0} 
-            samishii={post?.emotion_samishii ?? 0} 
-            shimijimi={post?.emotion_shimijimi ?? 0} 
-            odayaka={post?.emotion_odayaka ?? 0} 
+          <EmotionRadarChart
+            ureshii={post?.emotion_ureshii ?? 0}
+            omoshiroi={post?.emotion_omoshiroi ?? 0}
+            samishii={post?.emotion_samishii ?? 0}
+            shimijimi={post?.emotion_shimijimi ?? 0}
+            odayaka={post?.emotion_odayaka ?? 0}
             ikari={post?.emotion_ikari ?? 0}
           />
         </div>
@@ -121,6 +123,8 @@ const areaPositionWrapperStyle = css`
 const areaPositionTextStyle = css`
   width: 80%;
   text-align: left;
+  color: initial;
+  text-decoration: none;
   .area {
     font-size: 20px;
     font-weight: bold;

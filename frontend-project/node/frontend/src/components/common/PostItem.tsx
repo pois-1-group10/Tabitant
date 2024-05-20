@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { SerializedStyles, Theme, css } from '@emotion/react'
 import { Post } from '../../types/post';
 import PostContent from './PostContent';
@@ -8,22 +8,27 @@ import UserIcon from './UserIcon';
 import { BadButton, CommentButton, GoodButton } from './ReactionButtons';
 import { PostAPI } from '../../api/Post';
 import { Link } from 'react-router-dom';
+import PlaceIcon from '@mui/icons-material/Place';
+import { MapLocationContext } from '../../providers/MapLocationProvider';
 
 interface Props {
   post?: Post;
   link?: boolean;
+  useLocationLink?: boolean;
   reaction?: boolean;
   style?: SerializedStyles;
 }
 
 export default function PostItem(props: Props) {
-  const { post, link = true, reaction = true, style } = props;
+  const { post, link = true, useLocationLink = true, reaction = true, style } = props;
   const [goodIsClicked, setGoodIsClicked] = useState<boolean | undefined>();
   const [badIsClicked, setBadIsClicked] = useState<boolean | undefined>();
   const [goodCount, setGoodCount] = useState<number | undefined>();
   const [badCount, setBadCount] = useState<number | undefined>();
-  const userLink = { to: post?.user && link ? `/user_profile/${post.user.id}` : "" };
-  const contentLink = { to: post && link ? `/post_detail/${post.id}` : "" };
+  const { setCenter } = useContext(MapLocationContext);
+  const userLink = post?.user && link ? `/user_profile/${post.user.id}` : "";
+  const contentLink = post && link ? `/post_detail/${post.id}` : "";
+  const locationLink = post && link && useLocationLink ? `/?lat=${post.latitude}&lng=${post.longitude}` : "";
 
   useEffect(() => {
     if (post?.liked !== undefined) setGoodIsClicked(post.liked);
@@ -76,15 +81,30 @@ export default function PostItem(props: Props) {
     }
   };
 
+  const locationClickHandler = () => {
+    if (!link || useLocationLink) return;
+    setCenter(post.latitude, post.longitude);
+  }
+
   return (
     <div css={style}>
-      <Link css={[normalTextStyle, userStyle]} {...userLink} >
-        <div css={userIconStyle}>
-          <UserIcon user={post.user} />
-        </div>
-        <div>{post.user?.username ?? "Unknown"}</div>
-      </Link>
-      <Link css={[normalTextStyle, contentStyle]} {...contentLink}>
+      <div css={headerStyle}>
+        <Link css={[normalTextStyle, userStyle]} to={userLink}>
+          <div css={userIconStyle}>
+            <UserIcon user={post.user} />
+          </div>
+          <div>{post.user?.username ?? "Unknown"}</div>
+        </Link>
+        {
+          post.prefecture && (
+            <Link css={[normalTextStyle, locationStyle]} to={locationLink} onClick={locationClickHandler}>
+              <PlaceIcon />
+              <span>{post.prefecture?.name}</span>
+            </Link>
+          )
+        }
+      </div>
+      <Link css={[normalTextStyle, contentStyle]} to={contentLink}>
         <PostContent post={post} />
       </Link>
       <div css={reactionButtonWrapperStyle}>
@@ -96,26 +116,39 @@ export default function PostItem(props: Props) {
   );
 }
 
+const headerStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px;
+`;
+
 const normalTextStyle = css`
   text-decoration: none;
   color: black;
 `;
 
 const userStyle = css`
-    display: flex;
-    align-items: center;
-    margin: 6px;
+  display: flex;
+  align-items: center;
 `;
 
 const userIconStyle = css`
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    margin-right: 8px;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+`;
+
+const locationStyle = (theme: Theme) => css`
+  font-size: 14px;
+  color: ${theme.palette.secondary.dark};
+  display: flex;
+  align-items: center;
 `;
 
 const contentStyle = css`
-    margin: 10px;
+  margin: 10px;
 `;
 
 const reactionButtonWrapperStyle = css`

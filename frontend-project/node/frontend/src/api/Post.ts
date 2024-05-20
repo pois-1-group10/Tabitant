@@ -49,7 +49,7 @@ export class PostAPI {
           ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
           : {},
       }
-    );
+    ).catch(() => { });
   }
 
   static async unlike(id: number): Promise<void> {
@@ -61,7 +61,7 @@ export class PostAPI {
           ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
           : {},
       }
-    );
+    ).catch(() => { });
   }
 
   static async dislike(id: number): Promise<void> {
@@ -73,7 +73,7 @@ export class PostAPI {
           ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
           : {},
       }
-    );
+    ).catch(() => { });
   }
 
   static async undislike(id: number): Promise<void> {
@@ -85,6 +85,6 @@ export class PostAPI {
           ? { Authorization: `Token ${sessionStorage.getItem("token")}` }
           : {},
       }
-    );
+    ).catch(() => { });
   }
 }
