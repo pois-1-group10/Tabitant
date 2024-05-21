@@ -29,6 +29,20 @@ import { DetailedPlaceProvider } from "./providers/DetailedPlaceProvider";
 import { CompetitionListProvider } from "./providers/CompetitionListProvider";
 
 function App() {
+  const RequireAuth = ( props: {children: React.ReactElement} ) => {
+    
+    const token = sessionStorage.getItem('token');
+
+    // 権限が「GENERAL」の場合、渡されたコンポーネントをレンダリング
+    if(token){
+      return props.children;
+    }
+
+    // 権限がない場合、ログインページへリダイレクト
+    document.location = "/login";
+    return <></>;
+
+  }
   return (
     <BrowserRouter>
       <Routes>
@@ -50,13 +64,16 @@ function App() {
         <Route
           path="/"
           element={
-            sessionStorage.getItem("token") ? (
-              <AuthUserProvider>
-                <Outlet />
-              </AuthUserProvider>
-            ) : (
-              <Navigate replace to="/login/" />
-            )
+            // sessionStorage.getItem("token") ? (
+            //   <AuthUserProvider>
+            //     <Outlet />
+            //   </AuthUserProvider>
+            // ) : (
+            //   <Navigate replace to="/login/" />
+            // )
+            <RequireAuth>
+              <Outlet />
+            </RequireAuth>
           }
         >
           <Route
