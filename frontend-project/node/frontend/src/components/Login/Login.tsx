@@ -6,6 +6,8 @@ import { Controller, useForm } from "react-hook-form";
 import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Theme, css, keyframes } from "@emotion/react";
+
+import logo from "../../img/logo.png";
 import { UserAuthAPI } from "../../api/UserAuth";
 import { SignupData } from "../../types/auth";
 
@@ -134,9 +136,7 @@ function Signin() {
           />
         </div>
         {errors.root && (
-          <div css={errorMessageStyle}>
-            {errors.root.message}
-          </div>
+          <div css={errorMessageStyle}>{errors.root.message}</div>
         )}
         <button type="submit" css={okButtonStyle}>
           ログイン
@@ -341,6 +341,7 @@ function Reset() {
 function Select() {
   return (
     <div css={selectLinkStyle}>
+      <img src={logo} alt="" css={logoImageStyle} />
       <Link css={selectLoginLinkStyle} to="/login?signin">
         ログイン
       </Link>
@@ -500,4 +501,13 @@ const selectLoginLinkStyle = (theme: Theme) => css`
 const errorMessageStyle = css`
   font-size: 14px;
   color: red;
+`;
+
+const logoImageStyle = css`
+  width: 256px;
+  height: 344px;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 160px;
+  animation: ${fadeUpAnime} 1s ease forwards;
 `;
