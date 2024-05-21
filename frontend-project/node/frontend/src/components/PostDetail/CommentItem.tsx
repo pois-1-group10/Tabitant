@@ -89,15 +89,21 @@ export default function CommentItem({ comment }: Props) {
               onClick={badClickHandler}
             />
             {!showReplies &&
-              comment.reply_count !== undefined &&
-              comment.reply_count > 0 && (
+              (comment.reply_count !== undefined && comment.reply_count > 0 ? (
                 <div
                   css={replyOpenerStyle}
                   onClick={() => setShowReplies(true)}
                 >
                   {comment.reply_count}件の返信
                 </div>
-              )}
+              ) : (
+                <div
+                  css={replyOpenerStyle}
+                  onClick={() => setShowReplies(true)}
+                >
+                  返信する
+                </div>
+              ))}
           </div>
         </div>
       </div>
