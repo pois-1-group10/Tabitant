@@ -139,7 +139,7 @@ const iconStyle = css`
 
 const innerIconStyle = css`
   * {
-    font-size: 32px;
+    font-size: 32px !important;
   }
 `;
 
