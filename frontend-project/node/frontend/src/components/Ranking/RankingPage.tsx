@@ -19,9 +19,9 @@ type TabPanelProps = React.PropsWithChildren<{
   index: number;
 }>;
 
-type TabType = "competition" | "popular" | "latest";
-const tabTypes: TabType[] = ["competition", "popular", "latest"];
-const tabLabels: string[] = ["大会", "人気", "新着"];
+type TabType = "competition" | "popular" | "latest" | "following";
+const tabTypes: TabType[] = ["competition", "popular", "latest", "following"];
+const tabLabels: string[] = ["大会", "人気", "新着", "フォロー"];
 
 function TabPanel({ value, index }: TabPanelProps) {
   const { posts, loading, fetchPosts } = useContext(PostListContext);
@@ -43,6 +43,8 @@ function TabPanel({ value, index }: TabPanelProps) {
       let params: PostListParams = {};
       if (tabType === 'popular') {
         params.ranking = true;
+      } else if (tabType == 'following') {
+        params.following = true;
       }
       fetchPosts(params).then(() => {
         setFetched(true);

@@ -201,7 +201,7 @@ class PostViewSet(viewsets.ModelViewSet):
         user_id = request.query_params.get('user_id', None)
         liked_by = request.query_params.get('liked_by', None)
         compe_id = request.query_params.get('compe_id', None)
-        following = request.qurey_params.get('following', None)
+        following = request.query_params.get('following', None)
         ranking = request.query_params.get('ranking', None)
         if following is not None and strtobool(following):
             queryset = queryset.filter(Exists(
