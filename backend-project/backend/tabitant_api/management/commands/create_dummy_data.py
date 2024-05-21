@@ -7,6 +7,20 @@ from django.utils import timezone
 from faker import Factory as FakerFactory
 from factory import Iterator
 from tabitant_api.factories import *
+import ml
+
+def get_emotion_labels(contents: list):
+    content = "".join(contents)
+    d = ml.eval(content)
+    emotions = {
+        'emotion_ureshii': d["emotion.happy"] + 1,
+        'emotion_omoshiroi': d["emotion.funny"] + 1,
+        'emotion_odayaka': d["emotion.calm"] + 1,
+        'emotion_shimijimi': d["emotion.sad"] + 1,
+        'emotion_samishii': d["emotion.lonely"] + 1,
+        'emotion_ikari': d["emotion.angry"] + 1,
+    }
+    return emotions
 
 # ダミーデータを作成
 class Command(BaseCommand):
@@ -14,6 +28,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         faker = FakerFactory.create('ja_JP')
+        ml.load()
 
         # Create Users and their Profiles
         usernames = set()
@@ -40,11 +55,17 @@ class Command(BaseCommand):
             reader = csv.DictReader(f)
             cities = list(reader)
         random.shuffle(cities)
+        with open(os.path.join(settings.BASE_DIR, "tabitant_api", "static", "tabitant_api", "tanka.csv")) as f:
+            reader = csv.reader(f)
+            contents = list(reader)
+        random.shuffle(contents)
         posts = []
         for i in range(100):
             posts.append(PostFactory(user=users[i % len(users)], latitude=float(cities[i]['latitude']),
                                      longitude=float(cities[i]['longitude']), prefecture=prefecture_dict[cities[i]['prefecture']],
-                                     detailed_place=cities[i]['city']))
+                                     detailed_place=cities[i]['city'],
+                                     **{f'content_{j + 1}': contents[i][j] for j in range(5)},
+                                     **get_emotion_labels(contents[i])))
         LAT_CENTER = 35.026244
         LNG_CENTER = 135.780822
         RANGE = 0.05
@@ -53,7 +74,9 @@ class Command(BaseCommand):
                                      latitude=LAT_CENTER + random.uniform(-RANGE, RANGE),
                                      longitude=LNG_CENTER + random.uniform(-RANGE, RANGE),
                                      prefecture=prefecture_dict["京都府"],
-                                     detailed_place="京都市左京区"))
+                                     detailed_place="京都市左京区",
+                                     **{f'content_{j + 1}': contents[len(posts)][j] for j in range(5)},
+                                     **get_emotion_labels(contents[len(posts)])))
         self.stdout.write('Created posts.')
 
         # Create Tags
