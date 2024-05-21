@@ -29,20 +29,18 @@ import { DetailedPlaceProvider } from "./providers/DetailedPlaceProvider";
 import { CompetitionListProvider } from "./providers/CompetitionListProvider";
 
 function App() {
-  const RequireAuth = ( props: {children: React.ReactElement} ) => {
-    
-    const token = sessionStorage.getItem('token');
+  const RequireAuth = (props: { children: React.ReactElement }) => {
+    const token = sessionStorage.getItem("token");
 
     // 権限が「GENERAL」の場合、渡されたコンポーネントをレンダリング
-    if(token){
+    if (token) {
       return props.children;
     }
 
     // 権限がない場合、ログインページへリダイレクト
     document.location = "/login";
     return <></>;
-
-  }
+  };
   return (
     <BrowserRouter>
       <Routes>
@@ -72,7 +70,9 @@ function App() {
             //   <Navigate replace to="/login/" />
             // )
             <RequireAuth>
-              <Outlet />
+              <AuthUserProvider>
+                <Outlet />
+              </AuthUserProvider>
             </RequireAuth>
           }
         >
