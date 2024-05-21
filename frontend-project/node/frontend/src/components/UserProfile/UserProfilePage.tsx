@@ -202,7 +202,7 @@ const userIconStyle = css`
 
 const innerUserIconStyle = css`
   * {
-    font-size: 80px;
+    font-size: 80px !important;
   }
 `;
 
