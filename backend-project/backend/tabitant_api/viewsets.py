@@ -1,3 +1,4 @@
+from distutils.util import strtobool
 import googlemaps
 import logging
 
@@ -200,7 +201,12 @@ class PostViewSet(viewsets.ModelViewSet):
         user_id = request.query_params.get('user_id', None)
         liked_by = request.query_params.get('liked_by', None)
         compe_id = request.query_params.get('compe_id', None)
+        following = request.qurey_params.get('following', None)
         ranking = request.query_params.get('ranking', None)
+        if following is not None and strtobool(following):
+            queryset = queryset.filter(Exists(
+                Follow.objects.filter(follower=request.user, followee=OuterRef('user'))
+            ))
         if lat:
             queryset = queryset.filter(latitude__range=(float(lat)-0.01,float(lat)+0.01))
         if lng:
