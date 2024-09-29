@@ -8,13 +8,11 @@ import sortIcon from "../../img/hamburger.svg";
 
 interface Props {
   style?: SerializedStyles;
-  onClick: (event: React.MouseEvent) =>  void;
+  onClick: (event: React.MouseEvent) => void;
 }
 
 export default function HamburgerButton(props: Props) {
-	const { style, onClick } = props;
+  const { style, onClick } = props;
 
-	return (
-		<BaseButton iconPath={sortIcon} style={style} onClick={onClick} />
-	);
+  return <BaseButton iconPath={sortIcon} style={style} onClick={onClick} />;
 }

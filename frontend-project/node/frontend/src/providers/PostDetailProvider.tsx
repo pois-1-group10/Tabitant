@@ -26,7 +26,7 @@ export const PostDetailProvider = ({
     setLoading(true);
     try {
       const postData = await PostAPI.fetchPostDetail(id ?? userId);
-      setPost(postData);
+      setPost({...postData, created_at: new Date(postData.created_at)});
     } catch (e) {
       console.log(e);
     }
@@ -41,7 +41,11 @@ export const PostDetailProvider = ({
         setLoading(true);
         try {
           const postData = await PostAPI.fetchHotPost({ lat: latitude, lng: longitude });
-          setPost(postData);
+          if (!postData) {
+            setPost(undefined);
+          } else {
+            setPost({...postData, created_at: new Date(postData.created_at)});
+          }
         } catch (e) {
           console.log(e);
         }

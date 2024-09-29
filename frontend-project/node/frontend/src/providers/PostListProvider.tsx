@@ -22,7 +22,12 @@ export const PostListProvider = ({
     setLoading(true);
     try {
       const postData = await PostAPI.fetchPostList(params);
-      setPosts(postData);
+      setPosts(
+        postData.map((post: Post) => ({
+          ...post,
+          created_at: new Date(post.created_at),
+        }))
+      );
     } catch (e) {
       console.log(e);
     }
