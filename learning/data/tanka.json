@@ -1,0 +1,3280 @@
+[
+    {
+        "content": "雨の日の下校のときに見た枝はくもの巣さえも美しきかな",
+        "emotion": {
+            "happy": 4.0,
+            "funny": 1.75,
+            "calm": 7.75,
+            "sad": 7.0,
+            "lonely": 2.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "また今日もいつものようにけんかだね姉妹みたいだ母と私と",
+        "emotion": {
+            "happy": 3.25,
+            "funny": 3.25,
+            "calm": 3.0,
+            "sad": 2.75,
+            "lonely": 1.0,
+            "angry": 2.75
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "ウイルスの記事ひとつなき一枚を選りて折りたり端午の兜",
+        "emotion": {
+            "happy": 4.25,
+            "funny": 1.25,
+            "calm": 4.25,
+            "sad": 5.75,
+            "lonely": 3.0,
+            "angry": 1.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "あまりりす平泳ぎならどこまでもゆけると言ったひとの踏む水",
+        "emotion": {
+            "happy": 2.5,
+            "funny": 2.5,
+            "calm": 7.5,
+            "sad": 7.0,
+            "lonely": 3.25,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "五匙しか食べない夫に粥を炊き行平鍋の窪みを磨く",
+        "emotion": {
+            "happy": 1.75,
+            "funny": 1.75,
+            "calm": 4.75,
+            "sad": 5.5,
+            "lonely": 5.25,
+            "angry": 4.5
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "原発の汚染処理水受け入れて太平洋は少しふくらむ",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.25,
+            "calm": 1.75,
+            "sad": 4.75,
+            "lonely": 3.5,
+            "angry": 6.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 1
+        }
+    },
+    {
+        "content": "大事なこと俺が決め何が大事かは妻が決めてる平らかな日々",
+        "emotion": {
+            "happy": 3.25,
+            "funny": 2.0,
+            "calm": 6.25,
+            "sad": 5.5,
+            "lonely": 2.0,
+            "angry": 3.25
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "人生は均せば平らと言い聞かす谷底の日も春陽は温し",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 1.0,
+            "calm": 4.0,
+            "sad": 6.25,
+            "lonely": 4.75,
+            "angry": 4.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "Ｉ・Ｈのキッチン退きたる行平鍋が庭に働く柄杓となりて",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 6.0,
+            "calm": 7.0,
+            "sad": 7.0,
+            "lonely": 5.5,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "水のドア何度も開ける平泳ぎ別の私がいそうな気がして",
+        "emotion": {
+            "happy": 4.75,
+            "funny": 6.0,
+            "calm": 4.75,
+            "sad": 3.75,
+            "lonely": 1.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "まっしろの金平糖を黒髪におとすぼくらは神話になれる",
+        "emotion": {
+            "happy": 6.75,
+            "funny": 7.75,
+            "calm": 3.75,
+            "sad": 3.25,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "仁丹の銀の光の謎めけり病弱なりし父の手の平",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 4.25,
+            "sad": 7.5,
+            "lonely": 7.75,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "平然と「知らない人だ」と言う母の娘になれず面会終える",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 2.75,
+            "sad": 5.5,
+            "lonely": 10.0,
+            "angry": 4.75
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "わたしには確かにきみとわかるから目玉おやぢで帰つておいで",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 2.75,
+            "calm": 3.0,
+            "sad": 3.25,
+            "lonely": 6.5,
+            "angry": 1.5
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "夫と手を繫ぐ事多くなりてゆく手摺途切れれば差し伸べられて",
+        "emotion": {
+            "happy": 8.25,
+            "funny": 3.0,
+            "calm": 7.5,
+            "sad": 8.0,
+            "lonely": 1.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "歩くたび鈴は鳴るなりポケットにわたしがわたしをわすれぬやうに",
+        "emotion": {
+            "happy": 3.0,
+            "funny": 3.75,
+            "calm": 6.25,
+            "sad": 5.75,
+            "lonely": 4.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "うめ、さくら、ばら、チューリップくらいしか知らない僕の「あの花」が咲く",
+        "emotion": {
+            "happy": 8.5,
+            "funny": 4.75,
+            "calm": 5.5,
+            "sad": 5.5,
+            "lonely": 1.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "泣き声がロビーに響く嗚呼これは私を父にするファンファーレ",
+        "emotion": {
+            "happy": 10.0,
+            "funny": 6.25,
+            "calm": 5.0,
+            "sad": 8.5,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "新三田行きに乗れども新三田見ることはなし未来のごとく",
+        "emotion": {
+            "happy": 2.25,
+            "funny": 5.25,
+            "calm": 6.0,
+            "sad": 3.25,
+            "lonely": 4.75,
+            "angry": 1.5
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 1,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "故郷でも郷里でもなく「ふるさと」と和語で呼びたき町のありけり",
+        "emotion": {
+            "happy": 6.75,
+            "funny": 3.0,
+            "calm": 9.0,
+            "sad": 9.5,
+            "lonely": 4.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 1,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "つめたいもあったかいも出る自販機の灯みていた病院の夜",
+        "emotion": {
+            "happy": 2.0,
+            "funny": 1.5,
+            "calm": 5.0,
+            "sad": 7.75,
+            "lonely": 8.75,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "スーパーの帰りの橋に妻といて小魚に照るこの世のひかり",
+        "emotion": {
+            "happy": 6.0,
+            "funny": 4.0,
+            "calm": 7.25,
+            "sad": 6.25,
+            "lonely": 1.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "食卓で待つ者もなしざるの目に詰まったひじきぽちぽちと抜く",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 2.25,
+            "calm": 5.75,
+            "sad": 6.5,
+            "lonely": 6.5,
+            "angry": 4.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "三度目鶏インフルの報せあり明日より緊急動員という",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 1.25,
+            "sad": 1.0,
+            "lonely": 1.0,
+            "angry": 5.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 1
+        }
+    },
+    {
+        "content": "わずかなる餌を啄むにわとりの百万羽の音あすは消えなん",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 1.0,
+            "calm": 3.25,
+            "sad": 5.25,
+            "lonely": 6.5,
+            "angry": 5.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 1
+        }
+    },
+    {
+        "content": "ひたひたと夕闇迫りてのひらの芯につめたき空気まとえり",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 1.25,
+            "calm": 4.0,
+            "sad": 5.5,
+            "lonely": 5.0,
+            "angry": 1.5
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "処分へと向かう途中に零れおり白き羽毛がふわんふわんと",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 1.25,
+            "calm": 3.25,
+            "sad": 6.0,
+            "lonely": 9.0,
+            "angry": 3.5
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 1
+        }
+    },
+    {
+        "content": "数滴の血液混ざり込むような月夜に鶏の処分始まる",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 2.75,
+            "sad": 5.25,
+            "lonely": 8.75,
+            "angry": 4.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 1
+        }
+    },
+    {
+        "content": "水を飲む鶏のあいだを抜けながら鶏を籠めたるケージを運ぶ",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 2.25,
+            "calm": 2.25,
+            "sad": 5.75,
+            "lonely": 5.0,
+            "angry": 1.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "健康な鶏もまとめて殺さるる濃厚接触させし挙げ句に",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 1.0,
+            "sad": 2.75,
+            "lonely": 7.5,
+            "angry": 8.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 1
+        }
+    },
+    {
+        "content": "ガス室を前に鶏らの仰ぐ空生まれてはじめて見る大空か",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 2.5,
+            "sad": 7.0,
+            "lonely": 6.25,
+            "angry": 3.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 1
+        }
+    },
+    {
+        "content": "鶏たちの安楽死とはほど遠しガスを浴びても死ねぬ者居て",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 1.25,
+            "sad": 3.25,
+            "lonely": 4.75,
+            "angry": 5.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 1
+        }
+    },
+    {
+        "content": "出来立ての鶏のなきがら放るとき微かにきゅっと啼き声を聴く",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 2.5,
+            "sad": 4.75,
+            "lonely": 7.5,
+            "angry": 3.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "丹頂は手厚く処置をされていた鶏の処分をしている時も",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 1.25,
+            "calm": 2.25,
+            "sad": 4.25,
+            "lonely": 6.25,
+            "angry": 4.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 1
+        }
+    },
+    {
+        "content": "吐く息が数日鶏の匂いせりひと夜鶏舎に作業ののちの",
+        "emotion": {
+            "happy": 1.75,
+            "funny": 4.25,
+            "calm": 4.5,
+            "sad": 5.0,
+            "lonely": 3.5,
+            "angry": 1.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "朝夕と巨大鶏舎に無精卵生み続けいし生をおもえり",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 2.5,
+            "calm": 3.0,
+            "sad": 7.0,
+            "lonely": 5.75,
+            "angry": 1.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "鶏卵の高値ばかりを世の中は報じていたり梅の散る頃",
+        "emotion": {
+            "happy": 1.75,
+            "funny": 2.25,
+            "calm": 4.5,
+            "sad": 5.0,
+            "lonely": 5.5,
+            "angry": 4.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "からっぽの鶏舎に再度あらたなる鶏の飼われる準備はじまる",
+        "emotion": {
+            "happy": 4.75,
+            "funny": 2.75,
+            "calm": 2.75,
+            "sad": 5.75,
+            "lonely": 3.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "「この味がいいね」と君が言ったから七月六日はサラダ記念日",
+        "emotion": {
+            "happy": 9.25,
+            "funny": 6.0,
+            "calm": 7.0,
+            "sad": 6.0,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "明日まで一緒にいたい心だけホームに置いて乗る終電車",
+        "emotion": {
+            "happy": 2.25,
+            "funny": 1.75,
+            "calm": 4.25,
+            "sad": 7.0,
+            "lonely": 9.75,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "白菜が赤帯しめて店先にうっふんうっふん肩を並べる",
+        "emotion": {
+            "happy": 4.5,
+            "funny": 9.25,
+            "calm": 5.0,
+            "sad": 2.25,
+            "lonely": 1.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "自転車の後ろに乗ってこの街の右側だけを知っていた夏",
+        "emotion": {
+            "happy": 5.0,
+            "funny": 3.5,
+            "calm": 6.25,
+            "sad": 7.5,
+            "lonely": 3.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "ガーベラもダリアも花と呼ぶきみがコスモスだけはコスモスと呼ぶ",
+        "emotion": {
+            "happy": 4.25,
+            "funny": 5.75,
+            "calm": 5.75,
+            "sad": 4.25,
+            "lonely": 1.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "未来とはレモン氷の向こうなるおまえの八重歯に映った花火",
+        "emotion": {
+            "happy": 5.25,
+            "funny": 6.0,
+            "calm": 5.0,
+            "sad": 6.0,
+            "lonely": 1.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "たっぷりと君に抱かれているようなグリンのセーター着て冬になる",
+        "emotion": {
+            "happy": 8.0,
+            "funny": 3.75,
+            "calm": 6.75,
+            "sad": 6.0,
+            "lonely": 2.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "寄せ返す波のしぐさの優しさにいつ言われてもいいさようなら",
+        "emotion": {
+            "happy": 5.5,
+            "funny": 3.5,
+            "calm": 6.25,
+            "sad": 6.25,
+            "lonely": 6.25,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "鮭の死を米で包んでまたさらに海苔で包んだあれが食べたい",
+        "emotion": {
+            "happy": 4.5,
+            "funny": 7.5,
+            "calm": 5.25,
+            "sad": 3.0,
+            "lonely": 1.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "きみとの恋終わりプールに泳ぎおり十メートル地点で悲しみがくる",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.25,
+            "calm": 3.75,
+            "sad": 7.75,
+            "lonely": 9.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "「はなびら」と点字をなぞるああ、これは桜の可能性が大きい",
+        "emotion": {
+            "happy": 6.25,
+            "funny": 4.0,
+            "calm": 7.25,
+            "sad": 6.0,
+            "lonely": 2.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "体温計くわえて窓に額つけ「ゆひら」とさわぐ雪のことかよ",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 3.25,
+            "calm": 6.75,
+            "sad": 5.75,
+            "lonely": 4.75,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "ゼラチンの菓子をすくえば今満ちる雨の匂いに包まれてひとり",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 2.25,
+            "calm": 6.5,
+            "sad": 6.5,
+            "lonely": 8.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "終バスにふたりは眠る紫の ＜降りますランプ＞に取り囲まれて",
+        "emotion": {
+            "happy": 3.75,
+            "funny": 4.0,
+            "calm": 6.75,
+            "sad": 5.75,
+            "lonely": 3.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "目覚めたら息まっしろで、これはもう、ほんかくてきよ、ほんかくてき",
+        "emotion": {
+            "happy": 5.25,
+            "funny": 6.25,
+            "calm": 5.0,
+            "sad": 5.0,
+            "lonely": 1.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "夏の夜のすべての重力受けとめて金魚すくいのポイが破れる",
+        "emotion": {
+            "happy": 3.25,
+            "funny": 7.75,
+            "calm": 4.25,
+            "sad": 5.25,
+            "lonely": 3.25,
+            "angry": 2.5
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "しつけ糸ほどけるように向日葵が遠いひかりにひらかれてゆく",
+        "emotion": {
+            "happy": 4.25,
+            "funny": 3.5,
+            "calm": 7.25,
+            "sad": 6.25,
+            "lonely": 2.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "雪まみれの頭をふってきみはもう絶対泣かない機械となりぬ",
+        "emotion": {
+            "happy": 3.75,
+            "funny": 2.75,
+            "calm": 3.75,
+            "sad": 5.5,
+            "lonely": 4.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "庭先でゆっくり死んでゆくシロがちょっと笑った夏休みです",
+        "emotion": {
+            "happy": 2.0,
+            "funny": 1.0,
+            "calm": 6.0,
+            "sad": 7.25,
+            "lonely": 9.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "ぼくの持つバケツに落ちた 月を食いめだかの腹はふくらんでゆく",
+        "emotion": {
+            "happy": 5.0,
+            "funny": 6.75,
+            "calm": 6.0,
+            "sad": 6.0,
+            "lonely": 1.666666667,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "とぶために四階に来てはつなつの明るいベランダに靴を脱ぐ",
+        "emotion": {
+            "happy": 6.75,
+            "funny": 4.75,
+            "calm": 5.5,
+            "sad": 4.5,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "十七の春に自分の一生に嫌気がさして二十年経つ",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.75,
+            "calm": 2.5,
+            "sad": 4.75,
+            "lonely": 5.0,
+            "angry": 4.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "全員がサラダバーに行ってる時に全部のカバン見てる役割",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 5.5,
+            "calm": 4.0,
+            "sad": 1.75,
+            "lonely": 7.25,
+            "angry": 6.25
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "ハムレタスサンドは床に落ちパンとレタスとハムとパンに分かれた",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 7.0,
+            "calm": 4.25,
+            "sad": 1.75,
+            "lonely": 3.5,
+            "angry": 4.25
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "もういやだ死にたいそしてほとぼりが冷めたあたりで生き返りたい",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 3.0,
+            "calm": 2.0,
+            "sad": 2.25,
+            "lonely": 3.75,
+            "angry": 7.5
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "青空へわたしはろくろっくび伸びてくちづけしたし野鳥のきみと",
+        "emotion": {
+            "happy": 4.5,
+            "funny": 5.5,
+            "calm": 5.5,
+            "sad": 3.75,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "ついてないびっくりするほどついてないほんとにあるの？  あたしにあした",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 4.0,
+            "calm": 1.75,
+            "sad": 1.25,
+            "lonely": 4.0,
+            "angry": 7.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "この煙草あくまであなた吸ったのねそのとき口紅つけていたのね",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 2.25,
+            "calm": 2.25,
+            "sad": 1.25,
+            "lonely": 5.5,
+            "angry": 9.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "目が合ったあなたは去った軽蔑に致死量があることがわかった",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 1.0,
+            "sad": 2.0,
+            "lonely": 9.75,
+            "angry": 3.5
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "覇気のないドラえもんには適当な悩みを言ってあげたりしなきゃ",
+        "emotion": {
+            "happy": 2.25,
+            "funny": 4.75,
+            "calm": 4.75,
+            "sad": 2.25,
+            "lonely": 4.25,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "子には子の電車来るべし「白菜の内側でお待ち下さい」と言ふ",
+        "emotion": {
+            "happy": 3.5,
+            "funny": 6.25,
+            "calm": 6.5,
+            "sad": 2.75,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 1,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "誤植あり。中野駅徒歩十二年。それでいいかもしれないけれど",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 9.25,
+            "calm": 6.75,
+            "sad": 4.0,
+            "lonely": 1.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "「凍る、燃える、凍る、燃える」と占いの花びら毟る宇宙飛行士",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 5.5,
+            "calm": 1.75,
+            "sad": 2.5,
+            "lonely": 4.5,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "あの虹を無視したら撃てあの虹に立ち止まったら撃つなゴジラを",
+        "emotion": {
+            "happy": 2.0,
+            "funny": 6.25,
+            "calm": 1.5,
+            "sad": 1.5,
+            "lonely": 1.25,
+            "angry": 2.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "Ｂ型の不足を叫ぶ青年が血のいれものとして僕を見る",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 5.5,
+            "calm": 2.5,
+            "sad": 2.5,
+            "lonely": 5.0,
+            "angry": 4.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "つむじ風、ここにあります菓子パンの袋がそっと教えてくれる",
+        "emotion": {
+            "happy": 5.5,
+            "funny": 6.25,
+            "calm": 7.75,
+            "sad": 4.25,
+            "lonely": 1.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "モノクロの写真でいつか見た人がわれに微笑むお盆の夜に",
+        "emotion": {
+            "happy": 6.25,
+            "funny": 2.75,
+            "calm": 6.75,
+            "sad": 7.25,
+            "lonely": 6.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "ごろごろと石の貨幣をころがして君に届けた前前前……世",
+        "emotion": {
+            "happy": 4.75,
+            "funny": 4.0,
+            "calm": 5.25,
+            "sad": 6.25,
+            "lonely": 3.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "グリズリーに跳ねあげられた紅鮭の片方の眼に 映る夕虹",
+        "emotion": {
+            "happy": 2.0,
+            "funny": 1.5,
+            "calm": 5.0,
+            "sad": 5.25,
+            "lonely": 4.75,
+            "angry": 1.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "だいじょうぶ急ぐ旅ではないのだし急いでないし旅でもないし",
+        "emotion": {
+            "happy": 3.5,
+            "funny": 4.75,
+            "calm": 8.75,
+            "sad": 4.5,
+            "lonely": 2.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "牛乳が逆からあいていて笑うふつうの女のコをふつうに好きだ",
+        "emotion": {
+            "happy": 7.5,
+            "funny": 8.5,
+            "calm": 6.75,
+            "sad": 2.0,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "海に来れば海の向こうに恋人がいるようにみな海を見ている",
+        "emotion": {
+            "happy": 4.75,
+            "funny": 5.5,
+            "calm": 7.0,
+            "sad": 8.0,
+            "lonely": 6.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "突然にコーラを吸って生き絶えたティッシュの死骸を抱えて走る",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 8.75,
+            "calm": 2.0,
+            "sad": 1.25,
+            "lonely": 1.25,
+            "angry": 3.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "友達と遊んでいると何でかな盛り上がるほどなんか悲しい",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 3.0,
+            "calm": 4.5,
+            "sad": 7.75,
+            "lonely": 8.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "君からのありがとうの一言で僕の心は お祭り騒ぎ",
+        "emotion": {
+            "happy": 10.0,
+            "funny": 4.5,
+            "calm": 3.75,
+            "sad": 1.75,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "自転車のサドルについた水滴が引き留めてくるまだ行かないでと",
+        "emotion": {
+            "happy": 2.5,
+            "funny": 7.25,
+            "calm": 6.0,
+            "sad": 4.75,
+            "lonely": 3.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "君の背で風にたなびくゼッケンがギリシャ彫刻みたいな朝",
+        "emotion": {
+            "happy": 4.5,
+            "funny": 5.5,
+            "calm": 7.0,
+            "sad": 4.5,
+            "lonely": 1.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "授業中方程式を解きながらノートの隅に 記す君の名",
+        "emotion": {
+            "happy": 6.0,
+            "funny": 3.5,
+            "calm": 6.0,
+            "sad": 4.75,
+            "lonely": 1.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "君といた、十三ヶ月に  ｢あの頃｣と題名つけて壁に飾る日",
+        "emotion": {
+            "happy": 3.0,
+            "funny": 1.5,
+            "calm": 7.0,
+            "sad": 9.25,
+            "lonely": 8.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "忘れ物取りに戻った教室はいつもと違う無音の空間",
+        "emotion": {
+            "happy": 3.0,
+            "funny": 3.25,
+            "calm": 6.5,
+            "sad": 8.0,
+            "lonely": 9.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "レギュラーを外れた僕に温かい母のシチューが湯気たてている",
+        "emotion": {
+            "happy": 7.0,
+            "funny": 3.25,
+            "calm": 7.25,
+            "sad": 8.0,
+            "lonely": 3.75,
+            "angry": 1.5
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "ねえ桜、なんで隠れていたんだい君の季節は去ったというのに",
+        "emotion": {
+            "happy": 4.25,
+            "funny": 3.75,
+            "calm": 8.0,
+            "sad": 8.5,
+            "lonely": 5.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 1,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "祖母よりも包丁うまく使えても桃を切ってと祖母に甘える",
+        "emotion": {
+            "happy": 5.5,
+            "funny": 5.25,
+            "calm": 8.25,
+            "sad": 5.25,
+            "lonely": 3.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "車窓から夜景を見ている帰り道自分も誰かの夜景の一部で",
+        "emotion": {
+            "happy": 4.5,
+            "funny": 5.0,
+            "calm": 7.5,
+            "sad": 7.5,
+            "lonely": 3.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 1,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "あの曲を聞けばあの頃思い出す今の私はどの曲だろう",
+        "emotion": {
+            "happy": 4.0,
+            "funny": 4.75,
+            "calm": 7.5,
+            "sad": 8.25,
+            "lonely": 3.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "コンパスを1周回しぴったりと線合う時の軽い快感",
+        "emotion": {
+            "happy": 8.75,
+            "funny": 7.25,
+            "calm": 6.0,
+            "sad": 2.0,
+            "lonely": 1.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "団結と縛る鎖の端持ってぷらんぷらんと縄跳び跳ぼう",
+        "emotion": {
+            "happy": 3.0,
+            "funny": 4.25,
+            "calm": 3.5,
+            "sad": 2.5,
+            "lonely": 2.5,
+            "angry": 2.5
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "「久しぶりちっちゃくなった？」は 常套句さん付けはもう懐かしい春",
+        "emotion": {
+            "happy": 5.5,
+            "funny": 5.25,
+            "calm": 8.25,
+            "sad": 8.0,
+            "lonely": 4.5,
+            "angry": 1.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "怠いからやめてしまった告白をソーダに混ぜて空に流した",
+        "emotion": {
+            "happy": 1.75,
+            "funny": 1.5,
+            "calm": 4.5,
+            "sad": 7.0,
+            "lonely": 7.0,
+            "angry": 2.5
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "何色に染まればいいかわからない私を置いていく空の青さよ",
+        "emotion": {
+            "happy": 2.5,
+            "funny": 2.5,
+            "calm": 7.0,
+            "sad": 6.75,
+            "lonely": 6.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "目が合ってニコッとされて目をそらすそらしたことを後悔してる",
+        "emotion": {
+            "happy": 6.25,
+            "funny": 2.5,
+            "calm": 4.75,
+            "sad": 5.0,
+            "lonely": 4.75,
+            "angry": 3.75
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "背伸びして届かなかった身長も今では見える母の白い髪",
+        "emotion": {
+            "happy": 5.75,
+            "funny": 3.5,
+            "calm": 6.25,
+            "sad": 8.25,
+            "lonely": 3.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 1,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "知ってるよあなたが誰に対しても優しかったりすることぐらい",
+        "emotion": {
+            "happy": 4.75,
+            "funny": 1.0,
+            "calm": 3.0,
+            "sad": 3.25,
+            "lonely": 8.25,
+            "angry": 4.5
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "君からの「会いたい」だけでモノクロな僕の世界はすぐに色づく",
+        "emotion": {
+            "happy": 9.25,
+            "funny": 2.25,
+            "calm": 5.0,
+            "sad": 3.75,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "ぴこんぴこんいらない通知は響くのに今日も鳴らない君のアイコン",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 1.0,
+            "calm": 2.75,
+            "sad": 5.0,
+            "lonely": 9.75,
+            "angry": 2.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "なんでだよデートも旅行も雨ばっかフラれたときだけ真っ青な空",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 1.75,
+            "sad": 3.25,
+            "lonely": 8.25,
+            "angry": 9.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "もう知らない二度と彼氏は作らない」 「おんなじセリフ聞いたの四度目",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 6.75,
+            "calm": 4.0,
+            "sad": 1.75,
+            "lonely": 2.25,
+            "angry": 2.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "振り返り笑顔のあなたと目があったこの一瞬が続けばいいのに",
+        "emotion": {
+            "happy": 8.5,
+            "funny": 3.0,
+            "calm": 6.25,
+            "sad": 3.75,
+            "lonely": 4.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "赤い糸旅立つ朝に結んだの何処へ行ってもほどけないよう",
+        "emotion": {
+            "happy": 5.5,
+            "funny": 2.5,
+            "calm": 6.0,
+            "sad": 5.25,
+            "lonely": 5.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "無我夢中ジグソーパズル千ピースあいつを忘れ徹夜で完成",
+        "emotion": {
+            "happy": 7.0,
+            "funny": 6.5,
+            "calm": 2.5,
+            "sad": 2.75,
+            "lonely": 3.75,
+            "angry": 4.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "楽しげに金魚を掬う君の目の灯りゆらゆら心も揺れて",
+        "emotion": {
+            "happy": 7.0,
+            "funny": 4.0,
+            "calm": 7.5,
+            "sad": 5.75,
+            "lonely": 2.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "授業中ただ眺めてる横顔をノート真っ白いままチャイム鳴る",
+        "emotion": {
+            "happy": 4.5,
+            "funny": 4.25,
+            "calm": 7.0,
+            "sad": 5.0,
+            "lonely": 4.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "送られて傘を外れた別れ際あなたの肩が右だけ濡れてた",
+        "emotion": {
+            "happy": 7.25,
+            "funny": 2.5,
+            "calm": 6.0,
+            "sad": 7.25,
+            "lonely": 2.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "好きなのに好きだと言えぬもどかしさいつになったらいえるのかな",
+        "emotion": {
+            "happy": 3.75,
+            "funny": 2.5,
+            "calm": 4.5,
+            "sad": 6.75,
+            "lonely": 5.0,
+            "angry": 2.75
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "〝落ちてたよ〟 君が拾ってくれたから文字も記憶も 消せない消しゴム",
+        "emotion": {
+            "happy": 8.25,
+            "funny": 4.0,
+            "calm": 6.0,
+            "sad": 7.25,
+            "lonely": 3.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "左手を独り占めする帰り道赤くなってるあなたを見ながら",
+        "emotion": {
+            "happy": 9.25,
+            "funny": 3.5,
+            "calm": 7.25,
+            "sad": 4.75,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "バレンタイン後輩たちから 囲まれるあいつを私は見てるだけ",
+        "emotion": {
+            "happy": 1.75,
+            "funny": 2.0,
+            "calm": 2.75,
+            "sad": 3.75,
+            "lonely": 7.0,
+            "angry": 5.25
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "黄昏時二人を照らす影一つ二つの心すきま風",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 1.25,
+            "calm": 4.5,
+            "sad": 6.5,
+            "lonely": 8.5,
+            "angry": 3.25
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "あなたの目映っているのは あの子の笑顔そこに私はいないから",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 1.0,
+            "calm": 3.5,
+            "sad": 7.0,
+            "lonely": 9.0,
+            "angry": 2.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "距離だけは近づいたのに遠いままあなたの心と私の心",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 1.75,
+            "calm": 2.75,
+            "sad": 6.5,
+            "lonely": 8.75,
+            "angry": 2.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "隣席の「忘れ物した」心の中でガッツポーズしたのばれてないよね？",
+        "emotion": {
+            "happy": 9.5,
+            "funny": 5.75,
+            "calm": 3.5,
+            "sad": 1.5,
+            "lonely": 1.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "反対のホームに立ったキミとボク時の電車がいま引き裂いた",
+        "emotion": {
+            "happy": 1.75,
+            "funny": 1.5,
+            "calm": 2.75,
+            "sad": 3.5,
+            "lonely": 8.25,
+            "angry": 4.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 1,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "千回を越えて通いし老人ホームひなたぼっこの思い出ばかり",
+        "emotion": {
+            "happy": 4.0,
+            "funny": 4.25,
+            "calm": 8.75,
+            "sad": 8.5,
+            "lonely": 6.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "千年も万年も生くこの亀に優しい人と記憶されたい",
+        "emotion": {
+            "happy": 3.75,
+            "funny": 5.25,
+            "calm": 7.5,
+            "sad": 6.5,
+            "lonely": 3.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "千冊の哲学書よりなほわれを大人にしたり君との別れ",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 3.25,
+            "calm": 4.25,
+            "sad": 8.0,
+            "lonely": 9.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "夕光を使ひ切るまで影を連れ一人刈り行く千枚田かな",
+        "emotion": {
+            "happy": 1.75,
+            "funny": 2.5,
+            "calm": 6.25,
+            "sad": 8.0,
+            "lonely": 9.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 1,
+            "life": 1,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "千年後夢のかけらの宇宙ゴミが土星のように輪になる地球",
+        "emotion": {
+            "happy": 3.0,
+            "funny": 4.75,
+            "calm": 2.25,
+            "sad": 5.75,
+            "lonely": 4.25,
+            "angry": 3.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "千年を越えて私をかき乱す期末テストの光源氏よ",
+        "emotion": {
+            "happy": 1.75,
+            "funny": 8.75,
+            "calm": 4.75,
+            "sad": 2.5,
+            "lonely": 1.25,
+            "angry": 7.75
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "千羽鶴、千人針も役立たぬそんな事皆わかっていたのだ",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 3.25,
+            "calm": 2.75,
+            "sad": 5.0,
+            "lonely": 5.5,
+            "angry": 3.75
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 1
+        }
+    },
+    {
+        "content": "海へ行くみたいに自転車こいでゆくドラッグストアにもちょっとある海",
+        "emotion": {
+            "happy": 4.5,
+            "funny": 3.5,
+            "calm": 7.75,
+            "sad": 4.5,
+            "lonely": 2.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 1,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "あきまへん、大型店に囲まれて店を閉じます、親父よ御免",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 3.75,
+            "calm": 1.5,
+            "sad": 5.25,
+            "lonely": 8.75,
+            "angry": 6.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "玄関を閉めた閉めない閉めたはず動詞活用みたいな朝",
+        "emotion": {
+            "happy": 2.25,
+            "funny": 9.0,
+            "calm": 3.75,
+            "sad": 1.75,
+            "lonely": 1.0,
+            "angry": 2.75
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "再婚の意味を知る子と知らぬ子が砂のトンネル開通させる",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 7.0,
+            "calm": 2.75,
+            "sad": 3.5,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "嫁ぐ朝父にもらいし花鋏五十年たち今朝萩を切る",
+        "emotion": {
+            "happy": 6.75,
+            "funny": 3.25,
+            "calm": 6.75,
+            "sad": 8.25,
+            "lonely": 2.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 1,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "真空のパックに鋏を入れし時切り身は大きく深呼吸なす",
+        "emotion": {
+            "happy": 1.75,
+            "funny": 5.5,
+            "calm": 3.0,
+            "sad": 2.25,
+            "lonely": 1.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "「用務員さんに挨拶を」新任校へ向かはむわれに父はひとこと",
+        "emotion": {
+            "happy": 4.25,
+            "funny": 3.0,
+            "calm": 5.75,
+            "sad": 3.75,
+            "lonely": 2.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 1,
+            "work": 1,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "最期まで一人称は『ママ』なりき「ママは幸せだつた」とわたしに",
+        "emotion": {
+            "happy": 8.5,
+            "funny": 2.75,
+            "calm": 4.5,
+            "sad": 7.0,
+            "lonely": 7.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 1,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "隣室のラジオが聞こえてくる夕べこれから眠る町がふくらむ",
+        "emotion": {
+            "happy": 3.25,
+            "funny": 3.25,
+            "calm": 7.0,
+            "sad": 4.75,
+            "lonely": 3.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "口コミのぷーすけさんが見た空を私も見てる賃貸の部屋",
+        "emotion": {
+            "happy": 5.0,
+            "funny": 7.25,
+            "calm": 5.75,
+            "sad": 4.5,
+            "lonely": 2.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "野放図な亡父だったけど鮎食めば皿に清しく骨の一本",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 3.5,
+            "calm": 5.0,
+            "sad": 7.75,
+            "lonely": 6.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 1,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "とんぼにも淋しきときのあるらしく立てたる指にまた来てとまる",
+        "emotion": {
+            "happy": 6.5,
+            "funny": 5.75,
+            "calm": 6.75,
+            "sad": 4.75,
+            "lonely": 2.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "春の陽を生け捕りにせむベランダに投網のごとくシーツ干したり",
+        "emotion": {
+            "happy": 4.0,
+            "funny": 7.25,
+            "calm": 6.25,
+            "sad": 3.75,
+            "lonely": 1.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "子の部屋の四畳半に間借りする甕の梅干し木箱の林檎",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 5.75,
+            "calm": 7.25,
+            "sad": 3.5,
+            "lonely": 1.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "電線の影をいくつも跳び越えて海へと走るわたしは夏だ",
+        "emotion": {
+            "happy": 8.75,
+            "funny": 5.0,
+            "calm": 4.0,
+            "sad": 2.25,
+            "lonely": 1.0,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 1,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "夕暮れはなぜかさびしい身のうちのネアンデルタール人がそう言う",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 5.0,
+            "calm": 3.75,
+            "sad": 7.0,
+            "lonely": 9.75,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "道端に落としたようなカギ括弧雨の降り方少し気にして",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 4.0,
+            "calm": 5.75,
+            "sad": 5.5,
+            "lonely": 3.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 1,
+            "current": 0
+        }
+    },
+    {
+        "content": "通勤の無言片道一時間聞こえる音だけ拾われている",
+        "emotion": {
+            "happy": 1.0,
+            "funny": 3.5,
+            "calm": 3.75,
+            "sad": 5.0,
+            "lonely": 6.5,
+            "angry": 1.75
+        },
+        "tag": {
+            "daily": 1,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "あの頃の上司の歳になってみて思い出すのは手帳の厚さ",
+        "emotion": {
+            "happy": 2.75,
+            "funny": 2.75,
+            "calm": 4.5,
+            "sad": 8.0,
+            "lonely": 2.5,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "事務職という年月が頼りなく思えた新刊新書コーナー",
+        "emotion": {
+            "happy": 1.5,
+            "funny": 2.0,
+            "calm": 3.5,
+            "sad": 5.75,
+            "lonely": 4.5,
+            "angry": 3.25
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "声高にＤＸが語られた経済雑誌を棚へともどす",
+        "emotion": {
+            "happy": 1.25,
+            "funny": 2.75,
+            "calm": 2.25,
+            "sad": 2.25,
+            "lonely": 3.5,
+            "angry": 5.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 0,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    },
+    {
+        "content": "報告書メールで送りそういえば課長の筆跡見たことがない",
+        "emotion": {
+            "happy": 2.25,
+            "funny": 4.5,
+            "calm": 3.25,
+            "sad": 4.75,
+            "lonely": 2.25,
+            "angry": 1.0
+        },
+        "tag": {
+            "daily": 0,
+            "relationship": 0,
+            "work": 1,
+            "life": 0,
+            "family": 0,
+            "love": 0,
+            "travel": 0,
+            "nature": 0,
+            "current": 0
+        }
+    }
+]
